@@ -16,6 +16,7 @@ function createBreakSheets(array)
             return;
 
         createBreakSheet(array, date);
+        createBreakSheetByArea(array, date, "Guest Services");
     });
 }
 
@@ -35,6 +36,59 @@ function createBreakSheet(array, date)
     formattedArr.forEach((data) =>
     {        
         if(data["date"] != date)
+        {
+            return;
+        }
+
+        var row = addRowToBreakSheet(sheet);
+        setRowValuesFromObject(row, data);
+
+        if(data["break1"] == "X")
+        {
+            setChildNodeClass(row, "#break1", "breakEmpty")
+        }
+
+        if(data["break2"] == "X")
+        {
+            setChildNodeClass(row, "#break2", "breakEmpty")
+        }
+
+        if(data["break3"] == "X")
+        {
+            setChildNodeClass(row, "#break3", "breakEmpty")
+        }
+
+        count++;
+
+        if(data["closing"] != "")
+        {
+            closingCount++;
+        }
+    });
+
+    setChildNodeValue(sheet, "#total-tms", "Total TMs: ".concat(count));
+    setChildNodeValue(sheet, "#closing-tms", "Closing TMs: ".concat(closingCount));
+    
+
+    document.body.appendChild(sheet);
+}
+
+function createBreakSheetByArea(array, date, area)
+{
+    const node = document.getElementById("templates");
+    const sheet = getNewBreakSheet();
+    
+    setChildNodeValue(sheet, "#date", getFormattedDate(date));
+    setChildNodeValue(sheet, "#up-to-date", "Up to date as of: ".concat(array[0]["LOAD DATE"]));
+
+    var formattedArr = getFormattedArray(array);
+
+    var count = 0;
+    var closingCount = 0;
+
+    formattedArr.forEach((data) =>
+    {        
+        if(data["date"] != date || data["area"] != area)
         {
             return;
         }
@@ -118,6 +172,7 @@ function getFormattedArray(array)
         } 
 
         singleObj["date"] = String(row["SCHEDULED DATE"]);
+        singleObj["area"] = String(row["JOB AREA"]);
         singleObj["closing"] = (timeToHourValue(endTime) >= timeToHourValue("09:45 PM")) ? "*" : "";
 
         if(singleObj["name"].length == 0 || singleObj["job"].length == 0)
