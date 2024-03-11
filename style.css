@@ -1,0 +1,122 @@
+*{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+table
+{
+    margin: 0px;
+    border: none;
+    border-collapse: collapse;
+    font-size: 1.75vw;    
+    width: 100%;    
+}
+
+table td
+{                       
+    vertical-align: top;      
+}
+
+table td.comm
+{
+    font-size: 1.5vw;
+    text-wrap: balance;
+    padding-bottom: 1vw;
+    padding-left: 0.5vw;
+}
+
+table td.bullet
+{
+    font-size: 1.5vw;
+    width: 5%; 
+    padding: 0.15vw 0vw 0.1vw 0.1vw; 
+    text-align: right; 
+    vertical-align: top
+}
+
+table.breakTable
+{
+    margin: 0px;
+    border: none;
+    border-collapse: collapse;        
+    white-space: nowrap;                
+    width: 100%;
+}
+
+table.breakTable th
+{        
+    background-color: lightgray;
+    border: none;
+    border-top: solid 0.2vw;
+    font-weight: normal;   
+    text-align: left;    
+}
+
+table.breakTable td
+{
+    font-size: 1.5vw;
+    border: 1px solid;
+    padding: 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+}        
+
+table.breakTable td.names
+{             
+    padding-left: 5px;
+    padding-right: 10px;        
+}
+
+table.breakTable td.breaks
+{
+    text-align: center;             
+}
+
+table.breakTable td.breakEmpty
+{
+    text-align: center; 
+    background-color: lightgray;            
+}
+
+table.breakTable th.hours
+{
+    text-align: right; 
+    padding-right: 1px; 
+}
+
+table.breakTable td.hours
+{
+    text-align: right; 
+    padding-right: 1px;       
+}
+
+table.breakTable td.closing-flag
+{
+    text-align: left; 
+    padding-left: 0.25vw; 
+    font-weight: bolder; 
+    border: none;           
+}
+
+.breakSheet
+{        
+    margin: 0px;    
+}
+
+.hidden
+{
+    display: none;
+}
+
+@media print 
+{
+    .pagebreak
+    {
+        clear:both;
+        page-break-after: always;                    
+    }  
+
+    .breakSheet
+    {        
+        border: none;      
+    }
+}

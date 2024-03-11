@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Break Schedules</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <script type="text/javascript" src="js/csvHelpers.js"></script>
+    <script type="text/javascript" src="js/timeConversionHelpers.js"></script>
+    <script type="text/javascript" src="js/breakSheetLoader.js"></script>
+    
+    <form id="myForm">
+        <input type="file" id="csvFile" accept=".csv" />
+        <br />
+        <input type="submit" value="Create Schedules" />
+     </form>
+  
+     <!--Handles input and running functions to create schedules-->
+     <script>      
+  
+        const myForm = document.getElementById("myForm");
+        const csvFile = document.getElementById("csvFile");
+        myForm.addEventListener("submit", function (e) 
+        {
+            console.log("Submit");
+           //Hide input buttons
+           document.getElementById("myForm").style.display = 'none';
+
+           e.preventDefault();
+           const input = csvFile.files[0];
+           const reader = new FileReader();
+
+           reader.onload = function (e) 
+           {
+                const csvArray = csvToArr(e.target.result);
+                createBreakSheets(csvArray);
+           };
+           reader.readAsText(input);           
+        });
+     </script>
+    
+</body>
+
+<div id="templates", class="hidden">
+
+    <div id="breakSheetHolder" class="pagebreak">
+        <table class="breakSheet;", id="breakSheet">
+
+            <tr>
+                <td id="title", style="padding: 0px; font-size: 2vw; padding-top: 1vw;">
+                    Daily Break Schedule
+                    <span style="padding-left: 10vw; font-size: 1.25vw;">Weekly Goal/Focus: < 5 red orders and < 10 skipped orders</span>
+                </td>            
+
+                <td></td>
+
+                <td id="date", style="padding: 0px; font-size: 2vw; text-align: right; padding-right: 1px; vertical-align: bottom;">
+                    Saturday 3/3
+                </td>
+            </tr>
+
+            <tr style="border-top: solid 0.2vw;">
+                <td id="location", style="padding: 0px; font-size: 1.25vw; padding-top: 0.5vw;">
+                    Location: T1061
+                    <span style="padding-left: 10vw; font-size: 1vw;">T:X indicates X training due soon</span>
+                    <span style="padding-left: 5vw; font-size: 1vw;">Big SCO: Open 12p-8p, Small SCO: Open Fri-Sun 2p-7p</span>                
+                </td>            
+
+                <td></td>
+
+                <td id="total-tms", style="padding: 0px; font-size: 1.25vw; text-align: right; padding-right: 1px; vertical-align: bottom;">
+                    Total TMs: 9
+                </td>
+            </tr>
+
+            <tr style="border-top: solid 0.2vw;">
+                <td id="notes", style="padding: 0px; font-size: 1.25vw;">
+                    Notes:
+                </td>
+
+                <td></td>
+
+                <td id="closing-tms" style="padding: 0px; font-size: 1.25vw; text-align: right; padding-right: 1px;">
+                    Closing TMs: 9
+                </td>
+            </tr>
+
+            <tr id="comm-header-row;">
+                <td></td>
+                <td style="width: 0.75%;"></td>
+
+                <td style="width: 100%; padding: 0px; border: none;">
+                    <table style="width: 100%">
+                        <td style="text-align: left; border: none; padding: 0px; vertical-align: bottom;">Communication</td>
+                
+                        <td id="up-to-date" style="font-size: 1vw; text-align: right; padding: 0px; padding-left: 10px; vertical-align: bottom;">Up to date as of: 3/3/2024</td>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+
+                    <table id="breakTable", class="breakTable">
+                
+                        <tr id="header-row">
+                            <th>
+                                TM Name
+                            </th>
+                
+                            <th>
+                                Job
+                            </th>
+                
+                            <th>
+                                Schedule
+                            </th>
+                
+                            <th>
+                                1st Break
+                            </th>
+                
+                            <th>
+                                Meal
+                            </th>
+                
+                            <th>
+                                2nd Break
+                            </th>
+                
+                            <th class="hours">
+                                Hours
+                            </th>
+                        </tr>
+
+                        <tr id="data-row">
+                            <td id="name" class="names">
+                                Las, FirstName (####) T:#
+                            </td>
+                
+                            <td id="job">
+                                S&E TL
+                            </td>
+                
+                            <td id="schedule" class="schedule">
+                                07:00 AM - 03:30 PM
+                            </td>
+                
+                            <td id="break1" class="breaks">
+                                09:00 AM
+                            </td>
+                
+                            <td id="break2" class="breaks">
+                                11:00 AM
+                            </td>
+                
+                            <td id="break3" class="breaks">
+                                01:00 PM
+                            </td>
+                
+                            <td id="hours" class="hours">
+                                8.5
+                            </td>
+
+                            <td id="closing-flag" class="closing-flag">
+                                *
+                            </td>
+
+                        </tr>                                                
+
+                    </table>
+
+                </td>
+
+                <td></td>
+
+                <td>
+                    <table>
+                        <tr style="border-top: 0.2vw solid;">
+                            <td class="bullet">•</td>
+                            <td class="comm">
+                                All items should be defected, labeled, and sorted 
+                                <span style="font-weight: bold;">before helping the next guest.</span> 
+                                Online only items should be defected only if the package is unfit for the shelf (damaged, has no description or picture, etc..)
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="bullet">•</td>
+                            <td class="comm">
+                                Shipt Audits must be done at checklane 12. 
+                                Count all items and verify total items and total $ amount match, if they don't match hit "extra item". 	
+                                <span style="font-weight: bold;">Never confront a Shipt shopper for stealing</span>
+                                as it can escalate the situation.	
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="bullet">•</td>
+                            <td class="comm">
+                                We must <span style="font-weight: bold;">open ALL tech items</span> when returning them to 
+                                verify serial numbers match the receipt and box. Most items must be defected once opened.	
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="bullet">•</td>
+                            <td class="comm">
+                                Any returns or purchases made with large amounts of cash 
+                                (<span style="font-weight: bold;">over $200</span>) must be verified by a leader before processing.					
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="bullet">•</td>
+                            <td class="comm">
+                                Going forward <span style="font-weight: bold;">do not prep cold items early</span>
+                                for DU orders, wait until the guest arrives.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="bullet">•</td>
+                            <td class="comm">
+                                Giftcard scams have been going around again. Get with a leader if guests attempt 
+                                to purchase large amounts of giftcards (more than $500). 
+                                <span style="font-weight: bold;">Never split giftcards into separate transactions</span> to get around purchase limits.
+                            </td>
+                        </tr>
+
+
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+</html>
