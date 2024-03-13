@@ -1,0 +1,153 @@
+*
+{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+table
+{
+    border-collapse: collapse; 
+    width: 100%;   
+    font-size: 100%;            
+}
+
+span
+{
+    font-size: 100%;
+}
+
+.containerDiv
+{
+    margin-left: 10%; 
+    margin-right: 10%; 
+    font-size: 100%;
+    min-width: 600px;        
+}
+
+.left
+{
+    text-align: left;
+}
+
+.right
+{
+    text-align: right;
+}
+
+.center
+{
+    text-align: center;
+}
+
+.top
+{
+    vertical-align: top;
+}
+
+.bottom
+{
+    vertical-align: bottom;
+}
+
+.bold
+{
+    font-weight: bold;    
+}
+
+.largeFont
+{
+    font-size: 100%;
+}
+
+.mediumFont
+{
+    font-size: 60%;
+}
+
+.smallFont
+{
+    font-size: 40%;
+}
+
+.dataFont
+{
+    font-size: 70%;
+}
+
+.commFont
+{
+    font-size: 70%;
+}
+
+.solidBackground
+{
+    background-color: lightgray;
+}
+
+.topBorder
+{
+    border-top: solid 0.2em;
+}
+
+.bottomBorder
+{
+    border-bottom: solid 0.15em;
+}
+
+.noBorder
+{
+    border: none;
+}
+
+.paddingRight
+{
+    padding-right: 1%;
+}
+
+.paddingBottom
+{
+    padding-bottom: 3%;
+}
+
+.allBorders
+{
+    border: solid 0.1em;
+}
+
+.noWrap
+{
+    white-space: nowrap;
+}
+
+.commWidth
+{
+    width: 25%;
+}
+
+.commPanel
+{
+    display: table-cell;
+}
+
+.commPanelHidden
+{
+    display: none;
+}
+
+.hidden
+{
+    display: none;
+}
+
+@media print 
+{
+    .pagebreak
+    {
+        clear:both;
+        page-break-after: always;                    
+    }  
+
+    .main-menu
+    {
+        display: none;                 
+    } 
+}

@@ -15,7 +15,10 @@
     <form id="myForm">
         <input type="file" id="csvFile" accept=".csv" />
         <br />
+        <input type="file" id="csvFile2" accept=".csv" />
+        <br>
         <input type="submit" value="Create Schedules" />
+        <output id="breaksOutput"></output>
      </form>
   
      <!--Handles input and running functions to create schedules-->
@@ -26,20 +29,28 @@
         myForm.addEventListener("submit", function (e) 
         {
             console.log("Submit");
-           //Hide input buttons
-           document.getElementById("myForm").style.display = 'none';
+            //Hide input buttons
+            document.getElementById("myForm").style.display = 'none';
 
-           e.preventDefault();
-           const input = csvFile.files[0];
-           const reader = new FileReader();
+            e.preventDefault();
+            const input = csvFile.files[0];
+            const reader = new FileReader();
 
-           reader.onload = function (e) 
-           {
+            reader.onload = function (e) 
+            {
                 const csvArray = csvToArr(e.target.result);
                 createBreakSheets(csvArray);
-           };
-           reader.readAsText(input);           
+            };
+            reader.readAsText(input);           
         });
+     </script>
+        
+
+     <script>
+
+        document.getElementById('csvFile').addEventListener('change', readFile, false);   
+        document.getElementById('csvFile2').addEventListener('change', readFile, false);        
+
      </script>
     
 </body>

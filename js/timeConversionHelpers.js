@@ -1,6 +1,12 @@
 
 function getFormattedDate(date)
 {
+    if(date === undefined)
+    {
+        console.log("Date is undefined");
+        return "Sunday 1/1";
+    }
+
     var dt = new Date(date);
     var dayStrings = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
