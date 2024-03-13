@@ -41,7 +41,7 @@ function createBreakSheet(parent, array, date)
     var count = 0;
     var closingCount = 0;
 
-    const breakEmptyClassName = "solidBackground";
+    const breakEmptyClassName = "solidBackground";    
 
     array.forEach((data) =>
     {        
@@ -76,8 +76,11 @@ function createBreakSheet(parent, array, date)
         }
     });
 
-    setChildNodeValue(sheet, "#total-tms", "Total TMs: ".concat(count));
-    setChildNodeValue(sheet, "#closing-tms", "Closing TMs: ".concat(closingCount));
+    const store = document.getElementById("store-dropdown").value;
+
+    setChildNodeValue(sheet, "#total-tms", count);
+    setChildNodeValue(sheet, "#closing-tms", closingCount);
+    setChildNodeValue(sheet, "#store", store);
     
     if(count == 0)
     {
@@ -130,8 +133,9 @@ function createBreakSheetByArea(parent, array, date, area)
         }
     });
 
-    setChildNodeValue(sheet, "#total-tms", "Total TMs: ".concat(count));
-    setChildNodeValue(sheet, "#closing-tms", "Closing TMs: ".concat(closingCount));
+    setChildNodeValue(sheet, "#total-tms", count);
+    setChildNodeValue(sheet, "#closing-tms", closingCount);
+    setChildNodeValue(sheet, "#store", closingCount);
     
     if(count == 0)
     {
