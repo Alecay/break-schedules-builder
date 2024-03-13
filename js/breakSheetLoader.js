@@ -25,7 +25,7 @@ function createBreakSheets(parent, array)
         if(date === null || date === undefined || String(date) == "undefined")
             return;
         
-        //createBreakSheetByArea(parent, array, date, "Guest Services");
+        createBreakSheetByArea(parent, array, date, "Guest Services");
     });
 }
 
@@ -41,7 +41,7 @@ function createBreakSheet(parent, array, date)
     var count = 0;
     var closingCount = 0;
 
-    const breakEmptyClassName = "solidBackground";    
+    const solidClassName = "solidBackground";    
 
     array.forEach((data) =>
     {        
@@ -55,22 +55,22 @@ function createBreakSheet(parent, array, date)
 
         if(data["break1"] == "X")
         {
-            setChildNodeClass(row, "#break1", breakEmptyClassName);
+            setChildNodeClass(row, "#break1", solidClassName);
         }
 
         if(data["break2"] == "X")
         {
-            setChildNodeClass(row, "#break2", breakEmptyClassName);
+            setChildNodeClass(row, "#break2", solidClassName);
         }
 
         if(data["break3"] == "X")
         {
-            setChildNodeClass(row, "#break3", breakEmptyClassName);
+            setChildNodeClass(row, "#break3", solidClassName);
         }
 
         if(data["job"] == "Service")
         {
-            setChildNodeClass(row, "#job", breakEmptyClassName);
+            setChildNodeClass(row, "#job", solidClassName);
         }
 
         count++;
@@ -105,6 +105,8 @@ function createBreakSheetByArea(parent, array, date, area)
     var count = 0;
     var closingCount = 0;
 
+    const solidClassName = "solidBackground";  
+
     array.forEach((data) =>
     {        
         if(data["date"] != date || data["area"] != area)
@@ -117,17 +119,22 @@ function createBreakSheetByArea(parent, array, date, area)
 
         if(data["break1"] == "X")
         {
-            setChildNodeClass(row, "#break1", "breakEmpty")
+            setChildNodeClass(row, "#break1", solidClassName);
         }
 
         if(data["break2"] == "X")
         {
-            setChildNodeClass(row, "#break2", "breakEmpty")
+            setChildNodeClass(row, "#break2", solidClassName);
         }
 
         if(data["break3"] == "X")
         {
-            setChildNodeClass(row, "#break3", "breakEmpty")
+            setChildNodeClass(row, "#break3", solidClassName);
+        }
+
+        if(data["job"] == "Service")
+        {
+            setChildNodeClass(row, "#job", solidClassName);
         }
 
         count++;
