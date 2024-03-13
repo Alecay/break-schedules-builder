@@ -55,17 +55,22 @@ function createBreakSheet(parent, array, date)
 
         if(data["break1"] == "X")
         {
-            setChildNodeClass(row, "#break1", breakEmptyClassName)
+            setChildNodeClass(row, "#break1", breakEmptyClassName);
         }
 
         if(data["break2"] == "X")
         {
-            setChildNodeClass(row, "#break2", breakEmptyClassName)
+            setChildNodeClass(row, "#break2", breakEmptyClassName);
         }
 
         if(data["break3"] == "X")
         {
-            setChildNodeClass(row, "#break3", breakEmptyClassName)
+            setChildNodeClass(row, "#break3", breakEmptyClassName);
+        }
+
+        if(data["job"] == "Service")
+        {
+            setChildNodeClass(row, "#job", breakEmptyClassName);
         }
 
         count++;
