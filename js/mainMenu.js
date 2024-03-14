@@ -80,6 +80,17 @@ function updatePreviewPage()
     const district = document.getElementById("district-dropdown").value;
     const store = document.getElementById("store-dropdown").value;
 
+    const length = getSelectedDates().length;
+
+    if(previewPageIndex < 0)
+    {
+        previewPageIndex = 0;
+    }       
+    else if(previewPageIndex >= length)
+    {
+        previewPageIndex = length - 1;
+    }
+
     createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], "Front Lanes", [getSelectedDates()[previewPageIndex]]));
 }
 
@@ -116,6 +127,8 @@ function startDateSelected()
         endSelector.value = startSelector.value;
     }
 
+    previewPageIndex = 0;
+
     updatePreviewPage();
 }
 
@@ -132,6 +145,8 @@ function endDateSelected()
     {
         startSelector.value = endSelector.value;
     }
+
+    previewPageIndex = 0;
 
     updatePreviewPage();
 }
@@ -158,10 +173,6 @@ function getSelectedDates()
 function selectPreviousPreviewPage()
 {
     previewPageIndex--;
-    const length = getSelectedDates().length;
-
-    if(previewPageIndex < 0)
-        previewPageIndex = length - 1;
 
     updatePreviewPage();
 }
@@ -169,9 +180,6 @@ function selectPreviousPreviewPage()
 function selectNextPreviewPage()
 {
     previewPageIndex++;
-    const length = getSelectedDates().length;
-
-    previewPageIndex %= length;
 
     updatePreviewPage();
 }

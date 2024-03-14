@@ -145,9 +145,11 @@ function createBreakSheetByArea(parent, array, date, area)
         }
     });
 
+    const store = document.getElementById("store-dropdown").value;
+
     setChildNodeValue(sheet, "#total-tms", count);
     setChildNodeValue(sheet, "#closing-tms", closingCount);
-    setChildNodeValue(sheet, "#store", closingCount);
+    setChildNodeValue(sheet, "#store", store);
     
     if(count == 0)
     {
