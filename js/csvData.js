@@ -39,7 +39,7 @@ function getTrainingCounts(tmNumber)
 
 function getScheduleDataArray(districts, stores, areas, dates)
 {
-    return getFilteredArray(scheduleArray, "district", districts, "store", stores, "date", dates);
+    return getFilteredArray(scheduleArray, "district", districts, "store", stores, "area", areas, "date", dates);
 }
 
 function readScheduleDataFile(event) {

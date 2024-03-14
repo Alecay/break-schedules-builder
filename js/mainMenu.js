@@ -30,7 +30,10 @@ function setupMainMenu()
     districtSelector.onchange = (event) => { updateStoresDropDown(); updatePreviewPage(); };
 
     const storeSelector = document.getElementById("store-dropdown");
-    storeSelector.onchange = (event) => { updatePreviewPage() };
+    storeSelector.onchange = (event) => { updatePreviewPage(); };
+
+    const areaSelector = document.getElementById("area-dropdown");
+    areaSelector.onchange = (event) => { updatePreviewPage(); };
 
     var csvText = loadFile("csvData/scheduleData.csv");
     storeScheduleArray(csvText);
@@ -66,7 +69,7 @@ function updateMainMenu()
     // console.log(areasArray);      
 
     setDropdownOptions("district-dropdown", districtsArray); 
-    updateStoresDropDown();   
+    updateStoresDropDown();       
 
     setDropdownOptions("area-dropdown", areasArray);
 
@@ -76,13 +79,8 @@ function updateMainMenu()
     const endSelector = document.getElementById("end-date-dropdown");
     endSelector.value = datesArray[datesArray.length - 1];
 
-    //Set Defulat store to T1061
-    const districtSelector = document.getElementById("district-dropdown");
-    const storeSelector = document.getElementById("store-dropdown");
 
-    districtSelector.value = "D322";
-    updateStoresDropDown();
-    storeSelector.value = "T1061";
+    setDefaultDropdowns();
 
     updatePreviewPage();
 }
@@ -103,6 +101,16 @@ function updatePreviewPage()
 
     const district = document.getElementById("district-dropdown").value;
     const store = document.getElementById("store-dropdown").value;
+    const areas = getSelectedAreas();
+    const startDate = document.getElementById("start-date-dropdown").value;
+    const endDate = document.getElementById("end-date-dropdown").value;
+
+
+    sessionStorage.selectedDistrict = district;
+    sessionStorage.selectedStore = store;
+    sessionStorage.selectedAreas = areas;
+    sessionStorage.startDate = startDate;
+    sessionStorage.endDate = endDate;
 
     const length = getSelectedDates().length;
 
@@ -115,7 +123,9 @@ function updatePreviewPage()
         previewPageIndex = length - 1;
     }
 
-    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], "Front Lanes", [getSelectedDates()[previewPageIndex]]));
+    const date = getSelectedDates()[previewPageIndex];
+
+    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], areas, [date]));
 }
 
 function createPrintableSheets()
@@ -125,8 +135,10 @@ function createPrintableSheets()
 
     const district = document.getElementById("district-dropdown").value;
     const store = document.getElementById("store-dropdown").value;
+    const areas = getSelectedAreas();
+    const dates = getSelectedDates();
 
-    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], "Front Lanes", getSelectedDates()));
+    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], areas, dates));
 }
 
 function printSelectedPages()
@@ -187,11 +199,14 @@ function getSelectedDates()
     var newArr = new Array();
     for (let index = startIndex; index <= endIndex; index++) {
         newArr.push(dates[index]);        
-    }    
-
-    //console.log("Dates selected: ", newArr);
+    }        
 
     return newArr;
+}
+
+function getSelectedAreas()
+{
+    return getSelectedOptions(document.getElementById("area-dropdown"));
 }
 
 function selectPreviousPreviewPage()
@@ -206,4 +221,53 @@ function selectNextPreviewPage()
     previewPageIndex++;
 
     updatePreviewPage();
+}
+
+function setDefaultDropdowns()
+{
+    //Set Defulat store to T1061
+    const districtSelector = document.getElementById("district-dropdown");
+    const storeSelector = document.getElementById("store-dropdown");
+    const areaSelector = document.getElementById("area-dropdown");
+    const startSelector = document.getElementById("start-date-dropdown");
+    const endSelector = document.getElementById("end-date-dropdown");
+
+    if(sessionStorage.selectedDistrict)
+    {
+        districtSelector.value = sessionStorage.selectedDistrict;
+    }
+    else
+    {
+        districtSelector.value = "D322";
+    }
+
+    updateStoresDropDown();
+
+    if(sessionStorage.selectedStore)
+    {
+        storeSelector.value = sessionStorage.selectedStore;
+    }
+    else
+    {
+        storeSelector.value = "T1061";
+    }
+
+    if(sessionStorage.selectedAreas)
+    {
+        setSelectedOptions(areaSelector, sessionStorage.selectedAreas);
+    }
+    else
+    {
+        setSelectedOptions(areaSelector, ["Front Lanes", "Guest Services"]);
+    }
+
+    if(sessionStorage.startDate)
+    {
+        startSelector.value = sessionStorage.startDate;
+    }
+
+    if(sessionStorage.endDate)
+    {
+        endSelector.value = sessionStorage.endDate;
+    }
 }

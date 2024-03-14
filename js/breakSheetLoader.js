@@ -20,13 +20,13 @@ function createBreakSheets(parent, array)
         createBreakSheet(parent, array, date);        
     });
 
-    allDates.forEach(date => 
-    {
-        if(date === null || date === undefined || String(date) == "undefined")
-            return;
+    // allDates.forEach(date => 
+    // {
+    //     if(date === null || date === undefined || String(date) == "undefined")
+    //         return;
         
-        createBreakSheetByArea(parent, array, date, "Guest Services");
-    });
+    //     createBreakSheetByArea(parent, array, date, "Guest Services");
+    // });
 }
 
 function createBreakSheet(parent, array, date)

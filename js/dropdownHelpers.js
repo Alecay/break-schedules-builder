@@ -33,3 +33,32 @@ function setDropdownOptions(id, options)
         selectList.appendChild(option);
     }
 }
+
+function getSelectedOptions(select)
+{
+    var result = [];
+    var options = select && select.options;
+    var opt;
+  
+    for (var i = 0, length = options.length; i < length; i++) 
+    {
+      opt = options[i]; 
+
+      if (opt.selected) 
+      {
+        result.push(opt.value || opt.text);
+      }
+    }
+
+    return result;
+}
+
+function setSelectedOptions(select, values)
+{    
+    var options = select && select.options;    
+  
+    for (var i = 0, length = options.length; i < length; i++) 
+    {
+      select.options[i].selected = values.indexOf(select.options[i].value) >= 0 || values.indexOf(select.options[i].text) >= 0;
+    }    
+}
