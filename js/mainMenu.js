@@ -1,8 +1,12 @@
 let previewPageIndex = 0;
 
+//New link
+//https://greenfield.target.com/l/card/1732305/m8zjhh4
+//https://greenfield.target.com/l/card/1732305/n122hwz
+
 function setupMainMenu()
 {
-    console.log("Loading Main Menu");
+    //console.log("Loading Main Menu");
 
     //Loading Templates
     const templatesElem = document.createElement("div");    
@@ -23,7 +27,7 @@ function setupMainMenu()
     endSelector.onchange = (event) => { endDateSelected(); };
 
     const districtSelector = document.getElementById("district-dropdown");
-    districtSelector.onchange = (event) => { updatePreviewPage() };
+    districtSelector.onchange = (event) => { updateStoresDropDown(); updatePreviewPage(); };
 
     const storeSelector = document.getElementById("store-dropdown");
     storeSelector.onchange = (event) => { updatePreviewPage() };
@@ -33,6 +37,9 @@ function setupMainMenu()
 
     var csvTextTraining = loadFile("csvData/trainingData.csv");
     storeTrainingArray(csvTextTraining);
+
+    districtSelector.value = "D322";
+    storeSelector.value = "T1061";
 
     updateMainMenu();
 }
@@ -56,10 +63,10 @@ function updateMainMenu()
     // console.log(districtsArray);
     // console.log(storesArray);
     // console.log(datesArray);
-    // console.log(areasArray);
+    // console.log(areasArray);      
 
-    setDropdownOptions("district-dropdown", districtsArray);
-    setDropdownOptions("store-dropdown", storesArray);
+    setDropdownOptions("district-dropdown", districtsArray); 
+    updateStoresDropDown();   
 
     setDropdownOptions("area-dropdown", areasArray);
 
@@ -69,7 +76,24 @@ function updateMainMenu()
     const endSelector = document.getElementById("end-date-dropdown");
     endSelector.value = datesArray[datesArray.length - 1];
 
+    //Set Defulat store to T1061
+    const districtSelector = document.getElementById("district-dropdown");
+    const storeSelector = document.getElementById("store-dropdown");
+
+    districtSelector.value = "D322";
+    updateStoresDropDown();
+    storeSelector.value = "T1061";
+
     updatePreviewPage();
+}
+
+function updateStoresDropDown()
+{
+    var districtSelector = document.getElementById("district-dropdown");
+
+    var districtSArray = getFilteredArray(scheduleArray, "district", [districtSelector.value]);
+    var selectedStoresArray = getUniqueElements(districtSArray, "store");    
+    setDropdownOptions("store-dropdown", selectedStoresArray);
 }
 
 function updatePreviewPage()

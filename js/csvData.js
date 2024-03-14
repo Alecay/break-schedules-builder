@@ -108,20 +108,29 @@ function storeTrainingArray(data)
 {    
     trainingArray = csvToArr(data);
     trainingArray.sort(dynamicSortMultiple("TM NUMBER"));
-    console.log("Loaded ", trainingArray.length, " rows of training data");
+    //console.log("Loaded ", trainingArray.length, " rows of training data");
 
     trainingLookup = {};
 
+    var count = 0;
+
     trainingArray.forEach(person => 
     {        
+        if(person["TM NUMBER"].length <= 0)
+        {
+            return;
+        }
+
         trainingLookup[person["TM NUMBER"]] = 
         {   
             count: person["PERSONAL COUNT"],
             overdue: person["OVERDUE COUNT"]
         };
-    });
 
-    document.getElementById("training-count").innerHTML = trainingArray.length;
+        count++;
+    });    
+
+    document.getElementById("training-count").innerHTML = count;
 
     updateTrainingNames();
     updateMainMenu();
@@ -162,17 +171,6 @@ function getFormattedScheduleArray(array)
 
         singleObj["name"] = String(row["TM NAME (NUM)"]).replace(/"/g, "");
         singleObj["trainingName"] = singleObj["name"];
-        
-        // var training = getTrainingCounts(row["TM NUMBER"]);
-        // if(!(training === undefined) && training["count"] > 0)
-        // {
-        //     singleObj["trainingName"] = singleObj["trainingName"].concat(" T:", training["count"]);
-
-        //     if(training["overdue"] > 0)
-        //     {
-        //         singleObj["trainingName"] = singleObj["trainingName"].concat("*");
-        //     }
-        // }
 
         singleObj["job"] = String(row["JOB NAME"]);
         singleObj["schedule"] = String(row["SCHEDULE"]);

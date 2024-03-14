@@ -149,6 +149,11 @@ span
     margin-right: 1%;    
 } 
 
+.printPages
+{
+    display: none;
+}
+
 @media print 
 {
     .pagebreak
@@ -161,4 +166,9 @@ span
     {
         display: none;                 
     } 
+
+    .printPages
+    {
+        display: block;
+    }
 }

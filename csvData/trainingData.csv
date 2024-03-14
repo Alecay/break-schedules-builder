@@ -50,23 +50,3 @@ Lucy Bi,76693825,2,0
 Porter Hilton,76700774,1,0
 Noel Saldana Gomez,76710925,3,0
 Anja Thomsen,76745327,2,0
-
-
-Exported at: 03/13/2024 2:18:58 pm
-Card ID: 1732386
-Card Name: Training Data Export
-
-Are all rows displayed: yes
-Number of rows: 51
-Time Period: All Time
-Data Time Window:
-Begin: 2019-06-16
-End: 2099-12-31
-
-
-Filters: 
-
-Name: Job
-Type: in
-Pattern: On Demand Guest Advocate,Guest Advocate,Front of Store Attendant
-

@@ -66,6 +66,11 @@ function hourValueToTime(hourValue)
     var hoursStr = hours.toString().padStart(2, '0');
     var minutesStr = minutes.toString().padStart(2, '0');
 
+    if(minutesStr == "49")
+    {
+        minutesStr = "50";
+    }
+
     if(isAM)
         return hoursStr.concat(":",minutesStr, " AM");
     else
