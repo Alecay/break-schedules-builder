@@ -146,8 +146,15 @@ span
 .main-menu
 {
     margin-left: 1%;
-    margin-right: 1%;    
+    margin-right: 1%;  
+    display: none;  
 } 
+
+.login-page
+{
+    margin-left: 1%;
+    margin-right: 1%; 
+}
 
 .printPages
 {

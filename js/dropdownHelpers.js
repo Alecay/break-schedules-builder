@@ -20,7 +20,7 @@ function createDropdown(parent, labelText, id, options)
     }
 }
 
-function setDropdownOptions(id, options)
+function setDropdownOptions(id, options, style)
 {
     var selectList = document.getElementById(id);
     selectList.innerHTML="";
@@ -28,6 +28,7 @@ function setDropdownOptions(id, options)
     for (var i = 0; i < options.length; i++)
     {
         var option = document.createElement("option");
+        option.setAttribute("style", style);
         option.value = options[i];
         option.text = options[i];
         selectList.appendChild(option);

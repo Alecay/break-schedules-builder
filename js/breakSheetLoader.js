@@ -1,4 +1,4 @@
-function createBreakSheets(parent, array)
+function createBreakSheets(parent, array, useCommTemplate)
 {
     //console.log("Creating sheets");
     var allDates = new Array();
@@ -17,21 +17,13 @@ function createBreakSheets(parent, array)
         if(date === null || date === undefined || String(date) == "undefined")
             return;
 
-        createBreakSheet(parent, array, date);        
+        createBreakSheet(parent, array, date, useCommTemplate);        
     });
-
-    // allDates.forEach(date => 
-    // {
-    //     if(date === null || date === undefined || String(date) == "undefined")
-    //         return;
-        
-    //     createBreakSheetByArea(parent, array, date, "Guest Services");
-    // });
 }
 
-function createBreakSheet(parent, array, date)
+function createBreakSheet(parent, array, date, useCommTemplate)
 {    
-    const sheet = getNewBreakSheet();
+    const sheet = getNewBreakSheet(useCommTemplate);
     
     setChildNodeValue(sheet, "#date", getFormattedDate(date));
     //setChildNodeValue(sheet, "#up-to-date", "Up to date as of: ".concat(array[0]["load"]));
@@ -159,10 +151,10 @@ function createBreakSheetByArea(parent, array, date, area)
     parent.appendChild(sheet);
 }
 
-function getNewBreakSheet()
+function getNewBreakSheet(useCommTemplate)
 {
     const node = document.getElementById("templates");
-    const sheet = node.querySelector("#breakSheetHolder").cloneNode(true);    
+    const sheet = node.querySelector(useCommTemplate ? "#breakSheetHolder" : "#breakSheetHolderNoComm").cloneNode(true);    
     const table = sheet.querySelector("#breakTable");    
     
     //Remove header and data row

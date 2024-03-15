@@ -15,9 +15,10 @@ function setupMainMenu()
 
     document.body.appendChild(templatesElem);
 
-    var template = loadFile("breakSheet.html");
-    var noCommTemplate = loadFile("breakSheetNoComm.html");        
-    templatesElem.innerHTML = template.concat(noCommTemplate);
+    var template = loadFile("templates/breakSheet.html");
+    var noCommTemplate = loadFile("templates/breakSheetNoComm.html");        
+    var treeTemplate = loadFile("templates/checkboxTree.html");
+    templatesElem.innerHTML = template.concat(noCommTemplate, treeTemplate);
 
     const startSelector = document.getElementById("start-date-dropdown");
     startSelector.onchange = (event) => { startDateSelected(); };
@@ -32,9 +33,6 @@ function setupMainMenu()
     const storeSelector = document.getElementById("store-dropdown");
     storeSelector.onchange = (event) => { updatePreviewPage(); };
 
-    const areaSelector = document.getElementById("area-dropdown");
-    areaSelector.onchange = (event) => { updatePreviewPage(); };
-
     var csvText = loadFile("csvData/scheduleData.csv");
     storeScheduleArray(csvText);
 
@@ -44,21 +42,26 @@ function setupMainMenu()
     districtSelector.value = "D322";
     storeSelector.value = "T1061";
 
+    createCheckboxTree(document.getElementById("areas-tree-holder"), departmentTree, "test-tree");
+
     updateMainMenu();
 }
 
 function updateMainMenu()
 {
+    console.log("Updated main menu");
     const  districtsArray = getDistricts();
     const storesArray = getStores();
     const datesArray = getDates();
-    const areasArray = getAreas();
+    const jobsArray = getJobs();
+    const jobs = getTreeSelectedValues("areas-tree-holder");
+    //console.log(jobs);
 
     document.getElementById("data-load-date").innerHTML = scheduleArray[0]["load"];
 
     document.getElementById("district-count").innerHTML = districtsArray.length;
     document.getElementById("store-count").innerHTML = storesArray.length;
-    document.getElementById("area-count").innerHTML = areasArray.length;
+    document.getElementById("job-count").innerHTML = jobsArray.length;
 
     document.getElementById("dates-range").innerHTML = datesArray[0].concat(" - ", datesArray[datesArray.length - 1]);
 
@@ -69,9 +72,7 @@ function updateMainMenu()
     // console.log(areasArray);      
 
     setDropdownOptions("district-dropdown", districtsArray); 
-    updateStoresDropDown();       
-
-    setDropdownOptions("area-dropdown", areasArray);
+    updateStoresDropDown();        
 
     setDropdownOptions("start-date-dropdown", datesArray);
     setDropdownOptions("end-date-dropdown", datesArray);
@@ -101,14 +102,16 @@ function updatePreviewPage()
 
     const district = document.getElementById("district-dropdown").value;
     const store = document.getElementById("store-dropdown").value;
-    const areas = getSelectedAreas();
+    const jobs = getTreeSelectedValues("areas-tree-holder");
     const startDate = document.getElementById("start-date-dropdown").value;
     const endDate = document.getElementById("end-date-dropdown").value;
+
+    document.getElementById("custom-link").setAttribute("href", getScheduleDataLink(store));
 
 
     sessionStorage.selectedDistrict = district;
     sessionStorage.selectedStore = store;
-    sessionStorage.selectedAreas = areas;
+    sessionStorage.selectedJobs = jobs;
     sessionStorage.startDate = startDate;
     sessionStorage.endDate = endDate;
 
@@ -125,7 +128,7 @@ function updatePreviewPage()
 
     const date = getSelectedDates()[previewPageIndex];
 
-    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], areas, [date]));
+    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], jobs, [date]), store == "T1061");
 }
 
 function createPrintableSheets()
@@ -135,10 +138,10 @@ function createPrintableSheets()
 
     const district = document.getElementById("district-dropdown").value;
     const store = document.getElementById("store-dropdown").value;
-    const areas = getSelectedAreas();
+    const jobs = getTreeSelectedValues("areas-tree-holder");
     const dates = getSelectedDates();
 
-    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], areas, dates));
+    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], jobs, dates), store == "T1061");
 }
 
 function printSelectedPages()
@@ -204,11 +207,6 @@ function getSelectedDates()
     return newArr;
 }
 
-function getSelectedAreas()
-{
-    return getSelectedOptions(document.getElementById("area-dropdown"));
-}
-
 function selectPreviousPreviewPage()
 {
     previewPageIndex--;
@@ -227,8 +225,7 @@ function setDefaultDropdowns()
 {
     //Set Defulat store to T1061
     const districtSelector = document.getElementById("district-dropdown");
-    const storeSelector = document.getElementById("store-dropdown");
-    const areaSelector = document.getElementById("area-dropdown");
+    const storeSelector = document.getElementById("store-dropdown");    
     const startSelector = document.getElementById("start-date-dropdown");
     const endSelector = document.getElementById("end-date-dropdown");
 
@@ -252,14 +249,14 @@ function setDefaultDropdowns()
         storeSelector.value = "T1061";
     }
 
-    if(sessionStorage.selectedAreas)
-    {
-        setSelectedOptions(areaSelector, sessionStorage.selectedAreas);
-    }
-    else
-    {
-        setSelectedOptions(areaSelector, ["Front Lanes", "Guest Services"]);
-    }
+    // if(sessionStorage.selectedAreas)
+    // {
+    //     setSelectedOptions(areaSelector, sessionStorage.selectedAreas);
+    // }
+    // else
+    // {
+    //     setSelectedOptions(areaSelector, ["Front Lanes", "Guest Services"]);
+    // }
 
     if(sessionStorage.startDate)
     {
@@ -269,5 +266,34 @@ function setDefaultDropdowns()
     if(sessionStorage.endDate)
     {
         endSelector.value = sessionStorage.endDate;
+    }
+}
+
+function setMainMenuDropDowns(district, store)
+{
+    sessionStorage.selectedStore = store;
+    sessionStorage.selectedDistrict = district;
+
+    setDefaultDropdowns();
+}
+
+function disableMainMenuDropDowns()
+{
+    const districtSelector = document.getElementById("district-dropdown");
+    const storeSelector = document.getElementById("store-dropdown");
+
+    districtSelector.disabled = true;
+    storeSelector.disabled = true;
+}
+
+function setMainMenuVisible(value)
+{
+    if(value)
+    {
+        document.getElementById("main-menu").style.display = "block";
+    }
+    else
+    {
+        document.getElementById("main-menu").style.display = "none";
     }
 }

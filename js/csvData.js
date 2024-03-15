@@ -6,11 +6,20 @@ let trainingLookup = {};
 let storesArray = new Array();
 let districtsArray = new Array();
 let datesArray = new Array();
-let areasArray = new Array();
+
+let departmentsArray = new Array();
+let rollupDepartmentsArray = new Array();
+let jobsArray = new Array();
+
+let departmentTree = {};
 
 //https://greenfield.target.com/l/card/1732386/fi0bldv
 
 //https://greenfield.target.com/l/card/1732305/wrrjw43
+
+//https://greenfield.target.com/card/1732305?$filters@$ref_id=rjavftcxo5&field_name=job_area_a&obj_type=column&type=in&pattern@=Front%20Lanes&=Guest%20Services;&display_name=Job%20Area&dimension=job_area_a;&$type=in&dimension=region_format_short_n&display_name=Region&ref_id=rzhn4vt26l1&obj_type=column&pattern@=R300;;&$type=in&dimension=district_format_short_n&display_name=District&ref_id=r4uedak5j76&obj_type=column&pattern@=D322;;;&timePeriod$calendar_type=Fiscal&granularity=All&interval=(this.day.begin,%20this.week.end%20%3E%3E%201%20week)&type=relative
+
+//https://greenfield.target.com/card/1732305?$filters@$ref_id=rjavftcxo5&field_name=job_area_a&obj_type=column&type=in&pattern@=Front%20Lanes;&display_name=Job%20Area&dimension=job_area_a;&$type=in&dimension=home_location&display_name=Store&ref_id=rxdxp8x5pcc&obj_type=column&pattern@=T1061;;;&timePeriod$calendar_type=Fiscal&granularity=All&interval=(this.day.begin,%20this.week.end%20%3E%3E%201%20week)&type=relative
 
 function getStores()
 {
@@ -27,9 +36,19 @@ function getDates()
     return datesArray;
 }
 
-function getAreas()
+function getRollupDepartments()
 {
-    return areasArray;
+    return rollupDepartmentsArray;
+}
+
+function getDepartments()
+{
+    return departmentsArray;
+}
+
+function getJobs()
+{
+    return jobsArray;
 }
 
 function getTrainingCounts(tmNumber)
@@ -37,9 +56,42 @@ function getTrainingCounts(tmNumber)
     return trainingLookup[tmNumber];
 }
 
-function getScheduleDataArray(districts, stores, areas, dates)
+function getScheduleDataArray(districts, stores, jobs, dates)
 {
-    return getFilteredArray(scheduleArray, "district", districts, "store", stores, "area", areas, "date", dates);
+    var filtered = getFilteredArray(scheduleArray, "district", districts, "store", stores, "job", jobs, "date", dates);
+    filtered.sort(dynamicSortMultiple("district", "store", "date", "rollupDepartment",  "department", "START TIME"));
+    return filtered;
+}
+
+function getDepartmentsTree()
+{
+    const tree = {};
+
+    rollupDepartmentsArray.forEach(rollup => 
+    {
+        if(rollup == null || rollup == undefined)
+        {
+            return;
+        }
+
+        const holder = {};
+
+        var filtered = getFilteredArray(scheduleArray, "rollupDepartment", [rollup]);
+
+        const departments = getUniqueElements(filtered, "department");;
+        //holder["departments"] = 
+
+        departments.forEach(department => 
+        {
+            var filteredD = getFilteredArray(filtered, "department", [department]);
+            const jobs = getUniqueElements(filteredD, "job");
+            holder[department] = jobs;
+        });        
+
+        tree[rollup] = holder;
+    });
+
+    return tree;
 }
 
 function readScheduleDataFile(event) {
@@ -67,7 +119,7 @@ function readScheduleDataFile(event) {
 function storeScheduleArray(data) 
 {    
     scheduleArray = csvToArr(data);
-    scheduleArray.sort(dynamicSortMultiple("DISTRICT", "STORE", "SCHEDULED DATE", "JOB AREA", "START TIME"));
+    scheduleArray.sort(dynamicSortMultiple("DISTRICT", "STORE", "SCHEDULED DATE", "ROLLUP DEPARTMENT",  "DEPARTMENT", "START TIME"));
 
 
     scheduleArray = getFormattedScheduleArray(scheduleArray);  
@@ -76,7 +128,20 @@ function storeScheduleArray(data)
     districtsArray = getUniqueElements(scheduleArray, "district");
     storesArray = getUniqueElements(scheduleArray, "store");
     datesArray = getUniqueElements(scheduleArray, "date");
-    areasArray = getUniqueElements(scheduleArray, "area");
+
+    rollupDepartmentsArray = getUniqueElements(scheduleArray, "rollupDepartment");
+    departmentsArray = getUniqueElements(scheduleArray, "department");
+    jobsArray = getUniqueElements(scheduleArray, "job");    
+
+    rollupDepartmentsArray.sort();
+    departmentsArray.sort();
+    jobsArray.sort();
+
+    departmentTree = getDepartmentsTree();
+
+    // console.log(rollupDepartmentsArray);
+    // console.log(departmentsArray);
+    // console.log(jobsArray);
 
     updateMainMenu();
 }
@@ -116,7 +181,8 @@ function storeTrainingArray(data)
 
     trainingArray.forEach(person => 
     {        
-        if(person["TM NUMBER"].length <= 0)
+
+        if(person["TM NUMBER"] == undefined || person["TM NUMBER"].length <= 0)
         {
             return;
         }
@@ -159,8 +225,8 @@ function getFormattedScheduleArray(array)
     var newArr = new Array();
     array.forEach((row) =>
     {        
-
-        if(row["TM NAME (NUM)"].length == 0)
+        //To do: remove this check and update csvToArray to remove rows missing data
+        if(row["TM NAME (NUM)"].length == 0 || row["LOAD DATE"] == undefined || row["LOAD DATE"].length != 8)
             return;
 
         var singleObj = {};
@@ -168,13 +234,18 @@ function getFormattedScheduleArray(array)
         singleObj["district"] = String(row["DISTRICT"]);
         singleObj["store"] = String(row["STORE"]);
 
+        singleObj["area"] = String(row["JOB AREA"]);
+
+        singleObj["department"] = String(row["DEPARTMENT"]);
+        singleObj["rollupDepartment"] = String(row["ROLLUP DEPARTMENT"]);
+
 
         singleObj["name"] = String(row["TM NAME (NUM)"]).replace(/"/g, "");
         singleObj["trainingName"] = singleObj["name"];
 
         singleObj["job"] = String(row["JOB NAME"]);
         singleObj["schedule"] = String(row["SCHEDULE"]);
-        singleObj["area"] = String(row["JOB AREA"]);
+        
         singleObj["load"] = String(row["LOAD DATE"]);
         singleObj["tmNumber"] = String(row["TM NUMBER"]);
         singleObj["startTime"] = String(row["START TIME"]);
@@ -182,7 +253,7 @@ function getFormattedScheduleArray(array)
         var startTime = String(row["SCHEDULE"]).substring(0, 8);
         var endTime = String(row["SCHEDULE"]).substring(11, 19);
 
-        singleObj["hours"] = (timeToHourValue(endTime) - timeToHourValue(startTime)).toFixed(1);
+        singleObj["hours"] = timeDifference(endTime, startTime).toFixed(1);
         
         const break1Threshold = 4;
         const break2Threshold = 6;
@@ -229,9 +300,28 @@ function getFormattedScheduleArray(array)
         singleObj["closing"] = (timeToHourValue(endTime) >= timeToHourValue("09:45 PM")) ? "*" : "";
 
 
+        if(singleObj["department"] == "Service and Engagement")
+        {
+            if(singleObj["job"] == "Service" || singleObj["job"] == "Order Pickup")
+            {
+                singleObj["department"] = "Guest Services";
+            }
+            else
+            {
+                singleObj["department"] = "Front Lanes";
+            }
+        }
+
+        if(singleObj["job"] == "Order Pickup")
+        {
+            singleObj["department"] = "Fulfillment";
+            singleObj["rollupDepartment"] = "Fulfillment";
+        }
 
         newArr.push(singleObj);
     });
+
+    newArr.sort(dynamicSortMultiple("district", "store", "date", "rollupDepartment",  "department", "startTime"));
 
     return newArr;
 }

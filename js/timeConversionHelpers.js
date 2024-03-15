@@ -77,6 +77,18 @@ function hourValueToTime(hourValue)
         return hoursStr.concat(":",minutesStr, " PM");
 }
 
+function timeDifference(time1, time2)
+{
+    var diff = (timeToHourValue(time1) - timeToHourValue(time2));
+
+    if(diff < 0)
+    {
+        diff = (24.0 - timeToHourValue(time2)) + timeToHourValue(time1);
+    }
+
+    return diff;
+}
+
 function shiftTime(time, hours)
 {
     var hourVal = timeToHourValue(time);

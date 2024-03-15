@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Break Schedule Builder</title>
     <!-- <link rel="stylesheet" href="style.css"> -->
-    <link rel="stylesheet" href="breakSheetStyle.css">
+    <link rel="stylesheet" href="styles/breakSheetStyle.css">
+    <link rel="stylesheet" href="styles/treeStyles.css">
     <style>
 
         *
@@ -78,6 +79,9 @@
 
 <body>    
 
+    <script type="text/javascript" src="js/treeSelect.js"></script>
+    <script type="text/javascript" src="js/leaderLogin.js"></script>
+    <script type="text/javascript" src="js/linkCreator.js"></script>
     <script type="text/javascript" src="js/fileReader.js"></script>
     <script type="text/javascript" src="js/dropdownHelpers.js"></script>
     <script type="text/javascript" src="js/csvHelpers.js"></script>
@@ -89,78 +93,47 @@
 
     <div id="main-menu" class="main-menu">
 
+        <div>
+            <button style="float: right;" onclick="signOut()">Sign Out</button>
+            <h3 style="font-weight: normal; font-size: 70%;" id="login-tm-message">TM NAME</h3>
+        </div>
+        <br>
         <div class="sectionDiv">
-            <h1>Main Menu</h1>
+            
+            <h1>Main Menu</h1>            
         </div>
     
         <div class="sectionDiv">
     
         
-            <h2>Data Upload</h2>
-    
-            <label class="dataLoadedLabel">Load Date: <span id="data-load-date"></span></label>
-    
-            <form id="myForm">
-    
-                <label class="fileLabel">Schedule Data:</label>                
-                
-                <input type="file" id="csvFile" accept=".csv" />
-    
-                <br>
-
-    
-                <label class="fileLabel">Training Data:</label>
-                <input type="file" id="csvFile2" accept=".csv" />                    
-                                      
-            </form>   
-            
-            <h2>Links:</h2>
-            <a href="https://greenfield.target.com/l/card/1732305/nm2pek5" target="_blank">Schedule Data Link</a> 
-            <br>
-            <a href="https://greenfield.target.com/l/card/1732386/fi0bldv"  target="_blank">Training Data Link</a> 
-    
-        </div>    
-    
-        <div class="sectionDiv">
             <table style="width: 100%;">
                 <tr>
-                    <td>
-        
-                        <div class="sectionDiv">
-                            <h2 style="text-align: center;">Print Settings</h2>
-                        </div>
-        
-                        <div id="options-holder" style="margin-left: 0.5vw;">
-        
-                            <label for="district-dropdown">District:</label> 
-                            <select name="district-dropdown" id="district-dropdown"></select>
-                            <br>
-        
-                            <label for="store-dropdown">Store:</label> 
-                            <select name="store-dropdown" id="store-dropdown"></select>
-                            <br>
-        
-                            <label for="area-dropdown">Areas (Crtl click to select multiple):</label> 
-                            <br>                            
-                            <select name="area-dropdown" id="area-dropdown" style="vertical-align: top;" multiple>
-                                <option value="all areas">All Areas</option>
-                            </select>
-                                
-                            <br>
-        
-                            <label for="start-date-dropdown">Start Date:</label> 
-                            <select name="start-date-dropdown" id="start-date-dropdown"></select>
-        
-                            <label style="padding-left: 1vw; padding-right: 1vw;">-</label>
-                            
-                            <label for="end-date-dropdown">End Date:</label> 
-                            <select name="end-date-dropdown" id="end-date-dropdown"></select> 
-                        </div>
-        
-                        <div style="text-align: center;">
-                            <button style="width: 98%;" onclick="printSelectedPages()">Print Pages</button>
-                        </div>
+                    <td>                                                  
+                        <h2>Data Upload</h2>
+                
                         
+                
+                        <form id="myForm">
+                
+                            <label class="fileLabel">Schedule Data:</label>                
+                            
+                            <input type="file" id="csvFile" accept=".csv" />
+                
+                            <br>
+
+                
+                            <label class="fileLabel">Training Data:</label>
+                            <input type="file" id="csvFile2" accept=".csv" />                    
+                                                
+                        </form>   
+                        
+                        <h2>Links:</h2>
+                        <a href="https://greenfield.target.com/l/card/1732305/uqrf5it" target="_blank">Schedule Data Link</a> 
+                        <br>
+                        <a href="https://greenfield.target.com/l/card/1732386/ly0bjik"  target="_blank">Training Data Link</a> 
+                        <br>
+                        <a href=""  target="_blank" id="custom-link">Custom Link</a>
+                
                     </td>
         
                     <td style="width: 2%;"></td>
@@ -171,13 +144,55 @@
                             <h2 style="text-align: center;">Loaded Data</h2>
                         </div>
         
+                        <h3 class="dataLabel">Last Load Date: <span id="data-load-date"></span></h3>
                         <h3 class="dataLabel">Districts: <span id="district-count">None</span></h3>                
                         <h3 class="dataLabel">Stores: <span id="store-count">None</span></h3>            
-                        <h3 class="dataLabel">Areas: <span id="area-count">None</span></h3>
+                        <h3 class="dataLabel">Jobs: <span id="job-count">None</span></h3>
                         <h3 class="dataLabel">Dates: <span id="dates-range">None</span></h3> 
                         <h3 class="dataLabel">TMs with training: <span id="training-count">None</span></h3>
                         
                     </td>
+                </tr>
+            </table> 
+
+        </div>    
+    
+        <div class="sectionDiv">
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+        
+                        <h2 style="text-align: center; font-size: 150%;">Print Settings</h2>
+        
+                        <div id="options-holder" style="margin-left: 0.5vw;">
+        
+                            <label for="district-dropdown">District:</label> 
+                            <select name="district-dropdown" id="district-dropdown"></select>
+                            <br>
+        
+                            <label for="store-dropdown">Store:</label> 
+                            <select name="store-dropdown" id="store-dropdown"></select>
+                            <br>
+
+                            <label for="start-date-dropdown">Start Date:</label> 
+                            <select name="start-date-dropdown" id="start-date-dropdown"></select>
+        
+                            <label style="padding-left: 1vw; padding-right: 1vw;">-</label>
+                            
+                            <label for="end-date-dropdown">End Date:</label> 
+                            <select name="end-date-dropdown" id="end-date-dropdown"></select> 
+
+                            <label>Areas:</label>                             
+                            <div id="areas-tree-holder" style="vertical-align: top;"></div>    
+                            <br>        
+
+                        </div>
+        
+                        <div style="text-align: center;">
+                            <button style="width: 98%;" onclick="printSelectedPages()">Print Pages</button>
+                        </div>
+                        
+                    </td>    
                 </tr>
             </table> 
         </div> 
@@ -193,6 +208,26 @@
          
     </div>
 
+    <div id="login-page" class="login-page">
+        <h3 style="font-weight: normal; font-size: 70%; text-align: right;" id="login-tm-message">Made by Alec Groseclose</h3>    
+        <div class="sectionDiv">           
+                 
+            <h1>Break Schedule Builder</h1>            
+        </div>
+
+        <div class="sectionDiv">           
+                 
+            <h2>Login:</h2>
+
+            <form style="text-align: center; margin: 2%;" id="login-form">
+                <label for="tm-number-login" style="font-size: 70%;">TM Number:</label>
+                <input type="text" id="tm-number-login" name="tm-number-login">
+                <input type="submit" id="tm-number-submit" value="LOGIN">
+            </form>
+            <!-- <button style="font-size: 70%;" onclick="validateLogin()">LOGIN</button> -->
+        </div>
+    </div>
+
     <div id="print-sheet-holder" style="width: 100%;" class="printPages"></div>
 
     <script>        
@@ -201,7 +236,9 @@
      </script> 
 
     <script>
+
         setupMainMenu();
+        setupLoginPage();
     </script>
     
 </body>
