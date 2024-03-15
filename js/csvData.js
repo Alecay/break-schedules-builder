@@ -297,7 +297,9 @@ function getFormattedScheduleArray(array)
 
         singleObj["date"] = String(row["SCHEDULED DATE"]);
         singleObj["area"] = String(row["JOB AREA"]);
-        singleObj["closing"] = (timeToHourValue(endTime) >= timeToHourValue("09:45 PM")) ? "*" : "";
+
+        const closingSymbol = "c";//"🌙";//"*"
+        singleObj["closing"] = (timeToHourValue(endTime) >= timeToHourValue("09:45 PM")) ? closingSymbol : "";
 
 
         if(singleObj["department"] == "Service and Engagement")
@@ -314,7 +316,7 @@ function getFormattedScheduleArray(array)
 
         if(singleObj["job"] == "Order Pickup")
         {
-            singleObj["department"] = "Fulfillment";
+            singleObj["department"] = "Order Pickup";
             singleObj["rollupDepartment"] = "Fulfillment";
         }
 

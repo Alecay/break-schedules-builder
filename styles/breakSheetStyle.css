@@ -169,11 +169,6 @@ span
         page-break-after: always;                    
     }  
 
-    .main-menu
-    {
-        display: none;                 
-    } 
-
     .printPages
     {
         display: block;

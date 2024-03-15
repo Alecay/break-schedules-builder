@@ -44,6 +44,11 @@ function setupMainMenu()
 
     createCheckboxTree(document.getElementById("areas-tree-holder"), departmentTree, "test-tree");
 
+    window.onafterprint = function()
+    {
+        setMainMenuVisible(true);
+    };
+
     updateMainMenu();
 }
 
@@ -147,6 +152,7 @@ function createPrintableSheets()
 function printSelectedPages()
 {
     createPrintableSheets();
+    setMainMenuVisible(false);
     print();
 }
 
@@ -291,6 +297,7 @@ function setMainMenuVisible(value)
     if(value)
     {
         document.getElementById("main-menu").style.display = "block";
+        console.log("Setting main menu visible");
     }
     else
     {

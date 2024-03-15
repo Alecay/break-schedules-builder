@@ -28,14 +28,15 @@ function createBreakSheet(parent, array, date, useCommTemplate)
     setChildNodeValue(sheet, "#date", getFormattedDate(date));
     //setChildNodeValue(sheet, "#up-to-date", "Up to date as of: ".concat(array[0]["load"]));
 
-    //var formattedArr = getFormattedArray(array);
+    var filteredArr = getFilteredArray(array, "date", [date]);
+    var departments = getUniqueElements(filteredArr, "department");
 
     var count = 0;
     var closingCount = 0;
 
     const solidClassName = "solidBackground";    
 
-    array.forEach((data) =>
+    filteredArr.forEach((data) =>
     {        
         if(data["date"] != date)
         {
@@ -60,7 +61,7 @@ function createBreakSheet(parent, array, date, useCommTemplate)
             setChildNodeClass(row, "#break3", solidClassName);
         }
 
-        if(data["job"] == "Service")
+        if(departments.indexOf(data["department"]) % 2 == 1)
         {
             setChildNodeClass(row, "#job", solidClassName);
         }

@@ -9,6 +9,9 @@ let leaderLookup = {};
 //Angelina
 //75622062
 
+//Leader Info Link
+//https://greenfield.target.com/l/card/1734371/aoot1gm
+
 function setupLoginPage()
 {
     loadLeaderData();
