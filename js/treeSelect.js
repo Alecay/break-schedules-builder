@@ -78,6 +78,7 @@ function onDepartClicked(event)
     const children = this.parentElement.querySelectorAll(".checkbox");
     if(children.length <= 1)
     {
+        updateMainMenu();
         return;
     }
 
@@ -116,25 +117,6 @@ function getTreeSelectedValues(parentID)
 
     const values = new Array();
 
-    checkboxes.forEach(checkbox => 
-    {
-        if(checkbox.checked == false)
-        {
-            return;
-        }
-
-        var labels = checkbox.parentElement.querySelectorAll("#label");
-
-        labels.forEach(label => 
-        {
-            //console.log(label);
-            if(label.innerText != undefined && label.innerText != "" && !values.includes(label.innerText))
-            {
-                values.push(label.innerText);
-            }
-        });
-    });
-
     var labels = parent.querySelectorAll("#label");
 
     labels.forEach(label => 
@@ -143,6 +125,7 @@ function getTreeSelectedValues(parentID)
         //console.log(label);
         if(checkbox.checked && label.innerText != undefined && label.innerText != "" && !values.includes(label.innerText))
         {
+            console.log("Adding ", label.innerText);
             values.push(label.innerText);
         }
     });

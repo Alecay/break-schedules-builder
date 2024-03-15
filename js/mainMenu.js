@@ -133,7 +133,8 @@ function updatePreviewPage()
 
     const date = getSelectedDates()[previewPageIndex];
 
-    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], jobs, [date]), store == "T1061");
+    const useComm = store == "T1061" && (jobs.includes("Service") || jobs.includes("Checkout"));
+    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], jobs, [date]), useComm);
 }
 
 function createPrintableSheets()
@@ -146,7 +147,8 @@ function createPrintableSheets()
     const jobs = getTreeSelectedValues("areas-tree-holder");
     const dates = getSelectedDates();
 
-    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], jobs, dates), store == "T1061");
+    const useComm = store == "T1061" && (jobs.includes("Service") || jobs.includes("Checkout"));
+    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], jobs, dates), useComm);
 }
 
 function printSelectedPages()
