@@ -332,13 +332,13 @@ function setMainMenuDropDowns(district, store, areas)
     loadStoredFilters();
 }
 
-function disableMainMenuDropDowns()
+function setMainMenuDropdownsActive(value)
 {
     const districtSelector = document.getElementById("district-dropdown");
     const storeSelector = document.getElementById("store-dropdown");
 
-    districtSelector.disabled = true;
-    storeSelector.disabled = true;
+    districtSelector.disabled = value;
+    storeSelector.disabled = value;
 }
 
 function setMainMenuVisible(value)

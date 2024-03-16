@@ -107,21 +107,7 @@ function attemptLogin(tmNumber)
     {
         localStorage.loginID = tmNumber;
 
-        const leaderInfo = leaderLookup[localStorage.loginID];
-
-        //sessionStorage.selectedAreas = leaderInfo["areas"];
-
-        //setMainMenuDropDowns(leaderInfo["district"], leaderInfo["store"], leaderInfo["areas"]);
-        
-        if(localStorage.loginID != "72154057")
-        {
-            disableMainMenuDropDowns();
-            setDevItemsVisible(false);
-        }
-        else
-        {
-            setDevItemsVisible(true);
-        }
+        const leaderInfo = leaderLookup[localStorage.loginID];                
 
         document.getElementById("login-tm-message").innerText = "Welcome back ".concat(leaderInfo["nameFormatted"]); 
         
@@ -130,6 +116,15 @@ function attemptLogin(tmNumber)
         setLoginPageVisible(false);        
         setupMainMenu();        
         setMainMenuVisible(true);
+
+        setMainMenuDropdownsActive(true);
+        setDevItemsVisible(true);
+
+        if(localStorage.loginID != "72154057")
+        {
+            setMainMenuDropdownsActive(false);
+            setDevItemsVisible(false);
+        }
     }
 }
 
