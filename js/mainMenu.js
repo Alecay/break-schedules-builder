@@ -337,8 +337,8 @@ function setMainMenuDropdownsActive(value)
     const districtSelector = document.getElementById("district-dropdown");
     const storeSelector = document.getElementById("store-dropdown");
 
-    districtSelector.disabled = value;
-    storeSelector.disabled = value;
+    districtSelector.disabled = !value;
+    storeSelector.disabled = !value;
 }
 
 function setMainMenuVisible(value)

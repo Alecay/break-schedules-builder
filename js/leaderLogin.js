@@ -79,6 +79,7 @@ function loadLeaderData()
     {
         const holder = {};
         const tmNumber = row["TM NUMBER"];
+        holder["number"] = tmNumber;
         holder["name1"] = row["FIRST NAME"];
         holder["name2"] = row["LAST NAME"];
         holder["job"] = row["JOB"];
@@ -117,13 +118,17 @@ function attemptLogin(tmNumber)
         setupMainMenu();        
         setMainMenuVisible(true);
 
-        setMainMenuDropdownsActive(true);
-        setDevItemsVisible(true);
-
-        if(localStorage.loginID != "72154057")
+        if(leaderInfo["number"] != "72154057")
         {
+            console.log("Not a dev");
             setMainMenuDropdownsActive(false);
             setDevItemsVisible(false);
+        }
+        else
+        {
+            setMainMenuDropdownsActive(true);
+            setDevItemsVisible(true);
+            console.log("A dev");
         }
     }
 }
