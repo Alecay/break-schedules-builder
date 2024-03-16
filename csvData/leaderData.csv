@@ -498,23 +498,3 @@ Jorge,Cumplido,Small Format Team Leader,D352,T3292,70761762
 Kendall,Cole,Closing Team Leader,D352,T3292,76221579
 Nelly,CaceresDuque,Small Format Team Leader,D352,T3292,68970789
 Ruth,Cabezas,Small Format Team Leader,D352,T3292,76487778
-
-
-Exported at: 03/14/2024 12:18:13 pm
-Card ID: 1734371
-Card Name: leaderData
-
-Are all rows displayed: yes
-Number of rows: 499
-Time Period: last segment
-Data Time Window:
-Begin: 2023-12-31T18:00:00
-End: 2024-12-31T18:00:00
-
-
-Filters: 
-
-Name: District
-Type: in
-Pattern: D311,D322,D352
-

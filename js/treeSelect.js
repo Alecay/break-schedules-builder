@@ -1,6 +1,3 @@
-let shouldUpdateMainMenu = true;
-
-
 function createCheckboxTree(parent, tree, id)
 {      
     const treeElement = createNewTree();
@@ -69,36 +66,39 @@ function updateOnClicks()
 
     for (i = 0; i < checkBoxes.length; i++) 
     {
-        checkBoxes[i].addEventListener("click", onDepartClicked, false);
+        checkBoxes[i].removeEventListener("click", onAreaSelectorClicked, false);
+        checkBoxes[i].addEventListener("click", onAreaSelectorClicked, false);
     }
 }
 
-function onDepartClicked(event)
+function onAreaSelectorClicked(event)
 {
     const children = this.parentElement.querySelectorAll(".checkbox");
     if(children.length <= 1)
     {
-        updateMainMenu();
+        storeCurrentFilters();
+        updatePreviewPage();
         return;
     }
 
-    shouldUpdateMainMenu = false;
+    let shouldUpdatePreviewPage = false;
     for (let j = 1; j < children.length; j++) 
     {
         if(children[j].checked != children[0].checked)
         {
-            children[j].removeEventListener("click", onDepartClicked, false);
+            children[j].removeEventListener("click", onAreaSelectorClicked, false);
             children[j].click();
-            children[j].addEventListener("click", onDepartClicked, false);
+            children[j].addEventListener("click", onAreaSelectorClicked, false);
         }
             
     }
 
-    shouldUpdateMainMenu = true;
+    shouldUpdatePreviewPage = true;
 
-    if(shouldUpdateMainMenu)
+    if(shouldUpdatePreviewPage)
     {
-        updateMainMenu();
+        storeCurrentFilters();
+        updatePreviewPage();
     }
 }
 
@@ -111,10 +111,7 @@ function createNewTree()
 
 function getTreeSelectedValues(parentID)
 {
-    const parent = document.getElementById(parentID);
-    var checkboxes = parent.querySelectorAll(".checkbox");
-    
-
+    const parent = document.getElementById(parentID);        
     const values = new Array();
 
     var labels = parent.querySelectorAll("#label");
@@ -124,13 +121,88 @@ function getTreeSelectedValues(parentID)
         const checkbox = label.parentElement.querySelector(".checkbox");        
         //console.log(label);
         if(checkbox.checked && label.innerText != undefined && label.innerText != "" && !values.includes(label.innerText))
-        {
-            console.log("Adding ", label.innerText);
+        {            
             values.push(label.innerText);
         }
     });
 
+    return values;
+}
 
+function setTreeSelectedValues(parentID, values, triggerOnClick)
+{
+    const parent = document.getElementById(parentID);            
+
+    var labels = parent.querySelectorAll("#label");    
+
+    labels.forEach(label => 
+    {
+        const checkbox = label.parentElement.querySelector(".checkbox");        
+
+        if(values.includes(label.innerText))
+        {
+            if(!checkbox.checked)
+            {
+                if(!triggerOnClick)
+                {
+                    checkbox.removeEventListener("click", onAreaSelectorClicked, false);
+                    checkbox.click();
+                    checkbox.addEventListener("click", onAreaSelectorClicked, false);
+                }
+                else
+                {
+                    checkbox.click();
+                }                
+            }                
+        }
+        else
+        {
+            if(checkbox.checked)
+            {
+                if(!triggerOnClick)
+                {
+                    checkbox.removeEventListener("click", onAreaSelectorClicked, false);
+                    checkbox.click();
+                    checkbox.addEventListener("click", onAreaSelectorClicked, false);
+                }
+                else
+                {
+                    checkbox.click();
+                }   
+            }                
+        }
+    });
+}
+
+function getAllTreeChildLabels(parentID, rootLabel, includeRootLabel = true)
+{
+    const parent = document.getElementById(parentID);  
+    var labels = parent.querySelectorAll("#label"); 
+    const values = new Array();
+
+    labels.forEach(label => 
+    {        
+        if(label.innerText != rootLabel)
+        {
+            return;
+        }
+
+        //console.log("Found root");
+
+        const children = label.parentElement.querySelectorAll("#label");        
+        children.forEach(child => 
+        {
+            if(child.innerText != undefined && child.innerText != "" && !values.includes(child.innerText))
+            {
+                if(!includeRootLabel && child.innerText == rootLabel)
+                {
+                    return;                    
+                }
+
+                values.push(child.innerText);
+            }
+        });
+    });  
 
     return values;
 }

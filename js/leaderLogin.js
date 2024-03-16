@@ -1,4 +1,8 @@
+let leaderArr = new Array();
+let leaderJobs = new Array();
 let leaderLookup = {};
+let defaultAreasLookup = {};
+
 
 //Krisit:
 //75580777
@@ -12,6 +16,22 @@ let leaderLookup = {};
 //Leader Info Link
 //https://greenfield.target.com/l/card/1734371/aoot1gm
 
+function isLoggedIn()
+{
+    return localStorage.loginID != undefined && localStorage.loginID != "";
+}
+
+function getCurrentUserInfo()
+{
+    if(localStorage.loginID)
+    {
+        return leaderLookup[localStorage.loginID];
+    }
+    
+    return {areas:"All Areas"};
+}
+
+//Sets up login page buttons and form, attempts login if saved in local storage
 function setupLoginPage()
 {
     loadLeaderData();
@@ -24,16 +44,39 @@ function setupLoginPage()
 
     if(localStorage.loginID && localStorage.loginID != "")
         attemptLogin(localStorage.loginID);
+
+    loadStoredDataFiles();
+    
+    var dString = "";
+    districtsArray.forEach(district => 
+    {
+        dString = dString.concat(district, ", ");
+    });
+
+    dString = dString.substring(0, dString.length - 2);    
+    document.getElementById("supported-districts").innerHTML = dString;    
 }
 
 function loadLeaderData()
 {
     var csvText = loadFile("csvData/leaderData.csv");
-    var csvArray = csvToArr(csvText);
-    csvArray.sort(dynamicSortMultiple("TM NUMBER"));
+    leaderArr = csvToArr(csvText);
+    leaderArr.sort(dynamicSortMultiple("TM NUMBER"));
 
-    csvArray.forEach(row => {
+    leaderJobs = getUniqueElements(leaderArr, "JOB");
+    leaderJobs.sort();    
 
+    csvText = loadFile("csvData/defaultAreas.csv");
+    const defaultAreasArr = csvToArr(csvText);
+
+    defaultAreasLookup = {};
+    defaultAreasArr.forEach(row => 
+    {
+        defaultAreasLookup[row["JOB"]] = row["AREAS"];
+    });
+
+    leaderArr.forEach(row => 
+    {
         const holder = {};
         const tmNumber = row["TM NUMBER"];
         holder["name1"] = row["FIRST NAME"];
@@ -43,9 +86,9 @@ function loadLeaderData()
         holder["store"] = row["STORE"];
 
         holder["nameFormatted"] = row["FIRST NAME"].concat(" ", row["LAST NAME"]);
-
+        holder["areas"] = defaultAreasLookup[row["JOB"]];
         leaderLookup[tmNumber] = holder;
-    });
+    });    
 }
 
 function attemptLogin(tmNumber)
@@ -53,10 +96,12 @@ function attemptLogin(tmNumber)
     if(!isValidLoginFormat(tmNumber))
     {
         console.log("Invalid TM Number");
+        setFailedLoginVisible(true);
     }
     else if(!isAllowedUser(tmNumber))
     {
         console.log("TM is not allowed");
+        setFailedLoginVisible(true);
     }
     else
     {
@@ -64,38 +109,49 @@ function attemptLogin(tmNumber)
 
         const leaderInfo = leaderLookup[localStorage.loginID];
 
-        setMainMenuDropDowns(leaderInfo["district"], leaderInfo["store"]);
+        //sessionStorage.selectedAreas = leaderInfo["areas"];
 
+        //setMainMenuDropDowns(leaderInfo["district"], leaderInfo["store"], leaderInfo["areas"]);
+        
         if(localStorage.loginID != "72154057")
         {
             disableMainMenuDropDowns();
+            setDevItemsVisible(false);
+        }
+        else
+        {
+            setDevItemsVisible(true);
         }
 
-        document.getElementById("login-tm-message").innerText = "Welcome back ".concat(leaderInfo["nameFormatted"]);
+        document.getElementById("login-tm-message").innerText = "Welcome back ".concat(leaderInfo["nameFormatted"]); 
+        
+        console.log("Login Finished");
 
-        setLoginPageVisible(false);
+        setLoginPageVisible(false);        
+        setupMainMenu();        
         setMainMenuVisible(true);
-        updateMainMenu();
     }
 }
 
+function setFailedLoginVisible(value)
+{
+    setElementVisible(document.getElementById("tm-number-login-invalid"), value);
+}
+
+//Also hides invalid login message
 function setLoginPageVisible(value)
 {
-    if(value)
-    {
-        document.getElementById("login-page").style.display = "block";
-    }
-    else
-    {
-        document.getElementById("login-page").style.display = "none";
-    }
+    setElementVisible(document.getElementById("login-page"), value);
+    setFailedLoginVisible(false);
 }
 
 function signOut()
 {
     localStorage.loginID = "";
+    clearStoredFilters();
+
     setMainMenuVisible(false);
-    setLoginPageVisible(true);
+    setLoginPageVisible(true);    
 }
 
 function isValidLoginFormat(tmNumber)

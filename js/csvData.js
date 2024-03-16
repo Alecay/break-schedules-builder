@@ -21,6 +21,16 @@ let departmentTree = {};
 
 //https://greenfield.target.com/card/1732305?$filters@$ref_id=rjavftcxo5&field_name=job_area_a&obj_type=column&type=in&pattern@=Front%20Lanes;&display_name=Job%20Area&dimension=job_area_a;&$type=in&dimension=home_location&display_name=Store&ref_id=rxdxp8x5pcc&obj_type=column&pattern@=T1061;;;&timePeriod$calendar_type=Fiscal&granularity=All&interval=(this.day.begin,%20this.week.end%20%3E%3E%201%20week)&type=relative
 
+function loadStoredDataFiles()
+{
+    console.log("Loaded data files");
+    var csvText = loadFile("csvData/scheduleData.csv");
+    storeScheduleArray(csvText, false);
+
+    var csvTextTraining = loadFile("csvData/trainingData.csv");
+    storeTrainingArray(csvTextTraining, false);    
+}
+
 function getStores()
 {
     return storesArray;
@@ -116,7 +126,7 @@ function readScheduleDataFile(event) {
     }
 }
 
-function storeScheduleArray(data) 
+function storeScheduleArray(data, shouldUpdateMainMenu = true) 
 {    
     scheduleArray = csvToArr(data);
     scheduleArray.sort(dynamicSortMultiple("DISTRICT", "STORE", "SCHEDULED DATE", "ROLLUP DEPARTMENT",  "DEPARTMENT", "START TIME"));
@@ -139,11 +149,10 @@ function storeScheduleArray(data)
 
     departmentTree = getDepartmentsTree();
 
-    // console.log(rollupDepartmentsArray);
-    // console.log(departmentsArray);
-    // console.log(jobsArray);
+    //Set supported ditrctits    
 
-    updateMainMenu();
+    if(shouldUpdateMainMenu)
+        updateMainMenu();
 }
 
 function readTrainingDataFile(event) 
@@ -169,7 +178,7 @@ function readTrainingDataFile(event)
     }
 }
 
-function storeTrainingArray(data) 
+function storeTrainingArray(data, shouldUpdateMainMenu = true) 
 {    
     trainingArray = csvToArr(data);
     trainingArray.sort(dynamicSortMultiple("TM NUMBER"));
@@ -196,10 +205,12 @@ function storeTrainingArray(data)
         count++;
     });    
 
-    document.getElementById("training-count").innerHTML = count;
+    //document.getElementById("training-count").innerHTML = count;
 
     updateTrainingNames();
-    updateMainMenu();
+    
+    if(shouldUpdateMainMenu)
+        updateMainMenu();
 }
 
 function updateTrainingNames()
@@ -218,6 +229,8 @@ function updateTrainingNames()
             }
         } 
     });
+
+    updatePreviewPage();
 }
 
 function getFormattedScheduleArray(array)
@@ -326,4 +339,22 @@ function getFormattedScheduleArray(array)
     newArr.sort(dynamicSortMultiple("district", "store", "date", "rollupDepartment",  "department", "startTime"));
 
     return newArr;
+}
+
+function getTrainingCount(store)
+{    
+    const storeSchedulues = getFilteredArray(scheduleArray, "store", [store]);    
+    const tmNumbers = getUniqueElements(storeSchedulues, "tmNumber");
+
+    var count = 0;
+    tmNumbers.forEach(num => 
+    {
+        if(trainingLookup[num] != undefined && trainingLookup[num]["count"] > 0)
+        {
+            count++;
+        }
+    });
+
+
+    return count;
 }

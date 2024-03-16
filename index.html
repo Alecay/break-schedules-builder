@@ -23,6 +23,7 @@
             margin-top: 1vw;
             margin-bottom: 0.5vw;
             vertical-align: top;
+            font-weight: normal;
         }
 
         h2
@@ -31,7 +32,8 @@
             font-size: 2vw;    
             margin-top: 0px;
             margin-bottom: 0.5vw;  
-            vertical-align: top;                 
+            vertical-align: top;  
+                           
         }
 
         input
@@ -75,7 +77,7 @@
     </style>
 </head>
 
-
+<!-- style="transform: scale(0.5) translateY(-50%);" -->
 
 <body>    
 
@@ -91,7 +93,7 @@
     <script type="text/javascript" src="js/csvData.js"></script>
     <script type="text/javascript" src="js/breakSheetLoader.js"></script>
 
-    <div id="main-menu" class="main-menu">
+    <div id="main-menu" class="main-menu hidden">
 
         <div>
             <button style="float: right;" onclick="signOut()">Sign Out</button>
@@ -128,11 +130,15 @@
                         </form>   
                         
                         <h2>Links:</h2>
-                        <a href="https://greenfield.target.com/l/card/1732305/uqrf5it" target="_blank">Schedule Data Link</a> 
+                        <a href="https://greenfield.target.com/l/card/1732305/uqrf5it" target="_blank" class="dev-visible">District Schedule Data Link</a> 
+                        <br class="dev-visible">
+
+                        <a href="https://greenfield.target.com/l/card/1734371/aoot1gm" target="_blank" class="dev-visible">Leader Data Link</a> 
+                        <br class="dev-visible">
+
+                        <a href=""  target="_blank" id="custom-link">Schedule Data Link</a>
                         <br>
-                        <a href="https://greenfield.target.com/l/card/1732386/ly0bjik"  target="_blank">Training Data Link</a> 
-                        <br>
-                        <a href=""  target="_blank" id="custom-link">Custom Link</a>
+                        <a href="https://greenfield.target.com/l/card/1732386/ly0bjik"  target="_blank">Training Data Link</a>                         
                 
                     </td>
         
@@ -198,12 +204,20 @@
             </table> 
         </div> 
         
-        <div class="sectionDiv">
+        <div class="sectionDiv" id="preview-page-div">
             <button style="float: left;" onclick="selectPreviousPreviewPage()">Previous</button>
             <button style="float: right;" onclick="selectNextPreviewPage()">Next</button>
+            <br>
             <h2 style="text-align: center; padding-bottom: 1%;">Preview Page</h2>            
 
-            <div id="sample-sheet-holder" style="width: 100%; border: solid 1px;"></div>
+            <!-- <div style="display: flex;justify-content: center; transform: scale(0.5); transform-origin: top right;">
+                <div id="sample-sheet-holder" style="border: solid 1px; min-height: 300px; "></div>
+            </div> -->
+
+            <div style="display: flex;justify-content: center;">
+                <div id="sample-sheet-holder" style="width: 100%; border: solid 1px; min-height: 900px; padding: 1%;"></div>
+            </div>
+
         </div>
 
          
@@ -213,19 +227,39 @@
         <h3 style="font-weight: normal; font-size: 70%; text-align: right;" id="login-tm-message">Made by Alec Groseclose</h3>    
         <div class="sectionDiv">           
                  
-            <h1>Break Schedule Builder</h1>            
+            <h1 style="font-weight: normal;">Break Schedule Builder</h1>            
         </div>
 
         <div class="sectionDiv">           
                  
-            <h2>Login:</h2>
+            <h2 style="font-weight: normal;">Login:</h2>
 
-            <form style="text-align: center; margin: 2%;" id="login-form">
+            <form style="text-align: center; margin: 2%;" id="login-form">                                
                 <label for="tm-number-login" style="font-size: 70%;">TM Number:</label>
                 <input type="text" id="tm-number-login" name="tm-number-login">
                 <input type="submit" id="tm-number-submit" value="LOGIN">
-            </form>
-            <!-- <button style="font-size: 70%;" onclick="validateLogin()">LOGIN</button> -->
+                <br>
+                <label id="tm-number-login-invalid" style="font-size: 70%; color: rgb(231, 20, 20);" class="hidden">Invalid Login! Please try again.</label>
+                
+            </form>                       
+
+        </div>
+
+        <div class="sectionDiv" style="height: 500px; display: flex; justify-content:center; align-items: flex-end;">
+
+
+            <div style="display: block; text-align: center;">
+                <h3 style="font-weight: normal; font-size: 70%; text-align: center;">
+                    This site currently directly supports the following Distrcts:
+                </h3>                
+                <h3 style="font-weight: normal; font-size: 70%; text-align: center;" id="supported-districts">
+                    D311, D322, D352
+                </h3>                   
+
+                <h3 style="font-weight: normal; font-size: 60%; text-align: center;">
+                    *Note this site still supports other Districts/Stores you may have to upload your own data using the steps provided in the data upload section
+                </h3>
+            </div>        
         </div>
     </div>
 
@@ -237,8 +271,6 @@
      </script> 
 
     <script>
-
-        setupMainMenu();
         setupLoginPage();
     </script>
     

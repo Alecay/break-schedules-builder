@@ -6,7 +6,7 @@ let previewPageIndex = 0;
 
 function setupMainMenu()
 {
-    //console.log("Loading Main Menu");
+    console.log("Setup Main Menu");
 
     //Loading Templates
     const templatesElem = document.createElement("div");    
@@ -33,23 +33,28 @@ function setupMainMenu()
     const storeSelector = document.getElementById("store-dropdown");
     storeSelector.onchange = (event) => { updatePreviewPage(); };
 
-    var csvText = loadFile("csvData/scheduleData.csv");
-    storeScheduleArray(csvText);
-
-    var csvTextTraining = loadFile("csvData/trainingData.csv");
-    storeTrainingArray(csvTextTraining);
+    loadStoredDataFiles();
 
     districtSelector.value = "D322";
     storeSelector.value = "T1061";
 
-    createCheckboxTree(document.getElementById("areas-tree-holder"), departmentTree, "test-tree");
+    const treeHolder = document.getElementById("areas-tree-holder");
+    treeHolder.innerHTML ="";
+    createCheckboxTree(treeHolder, departmentTree, "test-tree");
 
     window.onafterprint = function()
     {
         setMainMenuVisible(true);
     };
 
-    updateMainMenu();
+    window.addEventListener("load", function() 
+    {
+        if(isLoggedIn())
+            storeCurrentFilters();
+    });
+
+    loadUsersDefaultFilters();
+    updateMainMenu(); 
 }
 
 function updateMainMenu()
@@ -60,7 +65,6 @@ function updateMainMenu()
     const datesArray = getDates();
     const jobsArray = getJobs();
     const jobs = getTreeSelectedValues("areas-tree-holder");
-    //console.log(jobs);
 
     document.getElementById("data-load-date").innerHTML = scheduleArray[0]["load"];
 
@@ -68,13 +72,7 @@ function updateMainMenu()
     document.getElementById("store-count").innerHTML = storesArray.length;
     document.getElementById("job-count").innerHTML = jobsArray.length;
 
-    document.getElementById("dates-range").innerHTML = datesArray[0].concat(" - ", datesArray[datesArray.length - 1]);
-
-    // console.log("Loaded ", scheduleArray.length, " rows of schedule data");
-    // console.log(districtsArray);
-    // console.log(storesArray);
-    // console.log(datesArray);
-    // console.log(areasArray);      
+    document.getElementById("dates-range").innerHTML = datesArray[0].concat(" - ", datesArray[datesArray.length - 1]);     
 
     setDropdownOptions("district-dropdown", districtsArray); 
     updateStoresDropDown();        
@@ -83,12 +81,13 @@ function updateMainMenu()
     setDropdownOptions("end-date-dropdown", datesArray);
 
     const endSelector = document.getElementById("end-date-dropdown");
-    endSelector.value = datesArray[datesArray.length - 1];
+    endSelector.value = datesArray[datesArray.length - 1];    
 
-
-    setDefaultDropdowns();
-
+    loadStoredFilters();
     updatePreviewPage();
+
+    const trainingCount = getTrainingCount(sessionStorage.selectedStore);
+    document.getElementById("training-count").innerText = trainingCount == 0 ? "Not Loaded" : trainingCount;
 }
 
 function updateStoresDropDown()
@@ -102,6 +101,8 @@ function updateStoresDropDown()
 
 function updatePreviewPage()
 {    
+    //console.log("Updating Preview Page");    
+
     const sheetsHolder = document.getElementById("sample-sheet-holder");
     sheetsHolder.innerHTML="";
 
@@ -116,7 +117,7 @@ function updatePreviewPage()
 
     sessionStorage.selectedDistrict = district;
     sessionStorage.selectedStore = store;
-    sessionStorage.selectedJobs = jobs;
+    sessionStorage.selectedAreas = jobs;
     sessionStorage.startDate = startDate;
     sessionStorage.endDate = endDate;
 
@@ -229,60 +230,106 @@ function selectNextPreviewPage()
     updatePreviewPage();
 }
 
-function setDefaultDropdowns()
+function loadUsersDefaultFilters()
 {
+    console.log("Setting default filters");
+    const leaderInfo = getCurrentUserInfo();
+    const dates = getDates();
+
+    sessionStorage.selectedDistrict = leaderInfo["district"];
+    sessionStorage.selectedStore = leaderInfo["store"];
+
+    const index = dates.indexOf(getTodayDate());
+    sessionStorage.startDate = (index >= 0) ? dates[index] : dates[0];
+
+    sessionStorage.endDate = dates[dates.length - 1];
+    sessionStorage.selectedAreas = leaderInfo["areas"];
+
+    loadStoredFilters();
+}
+
+function loadStoredFilters()
+{
+    console.log("Loading stored filters");
     //Set Defulat store to T1061
     const districtSelector = document.getElementById("district-dropdown");
     const storeSelector = document.getElementById("store-dropdown");    
     const startSelector = document.getElementById("start-date-dropdown");
     const endSelector = document.getElementById("end-date-dropdown");
 
-    if(sessionStorage.selectedDistrict)
+    const stored = 
+    {
+        selectedDistrict:sessionStorage.selectedDistrict,
+        selectedStore:sessionStorage.selectedStore,
+        selectedAreas:sessionStorage.selectedAreas,
+        startDate:sessionStorage.startDate,
+        endDate:sessionStorage.endDate
+    }
+
+    //console.log(stored);
+
+    if(sessionStorage.selectedDistrict != undefined && sessionStorage.selectedDistrict != "")
     {
         districtSelector.value = sessionStorage.selectedDistrict;
-    }
-    else
-    {
-        districtSelector.value = "D322";
     }
 
     updateStoresDropDown();
 
-    if(sessionStorage.selectedStore)
+    if(sessionStorage.selectedStore != undefined && sessionStorage.selectedStore != "")
     {
         storeSelector.value = sessionStorage.selectedStore;
     }
-    else
+
+    if(sessionStorage.selectedAreas != undefined && sessionStorage.selectedAreas != "")
     {
-        storeSelector.value = "T1061";
+        setTreeSelectedValues("areas-tree-holder", getAllTreeChildLabels("areas-tree-holder", sessionStorage.selectedAreas), false);
     }
 
-    // if(sessionStorage.selectedAreas)
-    // {
-    //     setSelectedOptions(areaSelector, sessionStorage.selectedAreas);
-    // }
-    // else
-    // {
-    //     setSelectedOptions(areaSelector, ["Front Lanes", "Guest Services"]);
-    // }
-
-    if(sessionStorage.startDate)
+    if(sessionStorage.startDate != undefined && sessionStorage.startDate != "")
     {
         startSelector.value = sessionStorage.startDate;
     }
 
-    if(sessionStorage.endDate)
+    if(sessionStorage.endDate  != undefined && sessionStorage.endDate != "")
     {
         endSelector.value = sessionStorage.endDate;
     }
 }
 
-function setMainMenuDropDowns(district, store)
+function storeCurrentFilters()
+{
+    console.log("Storing current filters");
+    const districtSelector = document.getElementById("district-dropdown");
+    const storeSelector = document.getElementById("store-dropdown");    
+    const startSelector = document.getElementById("start-date-dropdown");
+    const endSelector = document.getElementById("end-date-dropdown");
+    const areas = getTreeSelectedValues("areas-tree-holder");
+
+    sessionStorage.selectedDistrict = districtSelector.value;
+    sessionStorage.selectedStore = storeSelector.value;
+    sessionStorage.startDate = startSelector.value;
+    sessionStorage.endDate = endSelector.value;
+    sessionStorage.selectedAreas = areas;
+}
+
+function clearStoredFilters()
+{
+    console.log("Clearing stored filters");
+
+    sessionStorage.selectedDistrict = "";
+    sessionStorage.selectedStore = "";
+    sessionStorage.startDate = "";
+    sessionStorage.endDate = "";
+    sessionStorage.selectedAreas = "";
+}
+
+function setMainMenuDropDowns(district, store, areas)
 {
     sessionStorage.selectedStore = store;
     sessionStorage.selectedDistrict = district;
+    sessionStorage.selectedAreas = areas;
 
-    setDefaultDropdowns();
+    loadStoredFilters();
 }
 
 function disableMainMenuDropDowns()
@@ -296,13 +343,26 @@ function disableMainMenuDropDowns()
 
 function setMainMenuVisible(value)
 {
+    setElementVisible(document.getElementById("main-menu"), value);
+}
+
+function setDevItemsVisible(value)
+{
+    const elements = document.getElementsByClassName("dev-visible");
+
+    for (let i = 0; i < elements.length; i++) {        
+        setElementVisible(elements[i], value);
+    }
+}
+
+function setElementVisible(element, value)
+{
     if(value)
     {
-        document.getElementById("main-menu").style.display = "block";
-        console.log("Setting main menu visible");
+        element.classList.remove("hidden");
     }
     else
     {
-        document.getElementById("main-menu").style.display = "none";
+        element.classList.add("hidden");
     }
 }

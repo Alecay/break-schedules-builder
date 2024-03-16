@@ -96,3 +96,15 @@ function shiftTime(time, hours)
 
     return hourValueToTime(hourVal);
 }
+
+function getTodayDate()
+{
+    const dt = new Date();
+
+    const month = String(dt.getMonth() + 1).padStart(2, "0");    
+    const day = String(dt.getDate()).padStart(2, "0");  
+    const year = String(dt.getFullYear()).slice(2, 4).padStart(2, "0"); 
+    const str = "".concat(month, "/", day, "/", year);
+
+    return str;
+}
