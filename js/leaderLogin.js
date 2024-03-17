@@ -4,15 +4,6 @@ let leaderLookup = {};
 let defaultAreasLookup = {};
 
 
-//Krisit:
-//75580777
-
-//Logan:
-//75082592
-
-//Angelina
-//75622062
-
 //Leader Info Link
 //https://greenfield.target.com/l/card/1734371/aoot1gm
 
@@ -176,6 +167,26 @@ function onLoginSubmit()
     if(tmNumber == "davian")
     {
         tmNumber = "72154057";
+    }
+
+    if(tmNumber == "logan")
+    {
+        tmNumber = "75082592";
+    }
+
+    if(tmNumber == "kristi")
+    {
+        tmNumber = "75580777";
+    }
+
+    if(tmNumber == "angelina")
+    {
+        tmNumber = "75622062";
+    }
+
+    if(tmNumber == "victoria")
+    {
+        tmNumber = "76547957";
     }
 
     loginField.value = "";
