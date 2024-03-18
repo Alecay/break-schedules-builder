@@ -24,10 +24,10 @@ let departmentTree = {};
 function loadStoredDataFiles()
 {
     console.log("Loaded data files");
-    var csvText = loadFile("csvData/scheduleData.csv");
+    var csvText = loadFile("/csvData/scheduleData.csv");
     storeScheduleArray(csvText, false);
 
-    var csvTextTraining = loadFile("csvData/trainingData.csv");
+    var csvTextTraining = loadFile("/csvData/trainingData.csv");
     storeTrainingArray(csvTextTraining, false);    
 }
 
@@ -230,7 +230,7 @@ function updateTrainingNames()
         } 
     });
 
-    updatePreviewPage();
+    //updatePreviewPage();
 }
 
 function getFormattedScheduleArray(array)

@@ -6,7 +6,7 @@ let previewPageIndex = 0;
 
 function setupMainMenu()
 {
-    console.log("Setup Main Menu");
+    console.log("Setup Main Menu");    
 
     //Loading Templates
     const templatesElem = document.createElement("div");    
@@ -41,6 +41,21 @@ function setupMainMenu()
     const treeHolder = document.getElementById("areas-tree-holder");
     treeHolder.innerHTML ="";
     createCheckboxTree(treeHolder, departmentTree, "test-tree");
+
+    // document.getElementById('csvFile').addEventListener('change', readScheduleDataFile, false);   
+    // document.getElementById('csvFile2').addEventListener('change', readTrainingDataFile, false); 
+
+    document.getElementById('csvFile').addEventListener('change', (event) =>
+    {
+        readScheduleDataFile(event);
+        updateMainMenu();
+    });
+
+    document.getElementById('csvFile2').addEventListener('change', (event) =>
+    {
+        readTrainingDataFile(event);
+        updateMainMenu();
+    });
 
     window.onafterprint = function()
     {

@@ -108,3 +108,154 @@ function getTodayDate()
 
     return str;
 }
+
+function convertToFormattedTime(inputStr)
+{
+    var timeStr = "";
+    var parts = inputStr.split(":");
+
+
+
+    if(parts.length == 1)
+    {
+        var num = parseInt(parts[0]);
+
+        if(isNaN(num))
+        {
+            return "invalid";
+        }
+
+        if(num > 12)
+        {
+            if(num > 99 && num < 1260)
+            {
+                var numStr = String(num).padStart(4, "0");
+                var num1 = parseInt(numStr.slice(0,2));
+                var num2 = parseInt(numStr.slice(2,4));
+
+                if(isNaN(num1) || isNaN(num2))
+                {
+                    return "invalid";
+                }        
+
+                if(num1 > 12)
+                {
+                    num1 = 12;
+                }
+
+                if(num1 < 1)
+                {
+                    num1 = 1;
+                }
+
+                if(num2 > 60)
+                {
+                    num2 = 59;
+                }
+
+                if(num2 < 0)
+                {
+                    num2 = 0;
+                }
+
+                const isMorning = parts[0].includes("am") || parts[0].includes("AM") || parts[0].includes("Am") || parts[0].includes("aM") || parts[0].includes("a");
+
+                if(isMorning)
+                {
+                    return String(num1).padStart(2, "0").concat(":", String(num2).padStart(2, "0"), " AM");
+                }
+                else
+                {
+                    return String(num1).padStart(2, "0").concat(":", String(num2).padStart(2, "0"), " PM");
+                }
+            }
+
+            num = 12;
+        }
+
+        if(num < 1)
+        {
+            num = 1;
+        }
+
+        const isMorning = parts[0].includes("am") || parts[0].includes("AM") || parts[0].includes("Am") || parts[0].includes("aM") || parts[0].includes("a");
+
+        if(isMorning)
+        {
+            return String(num).padStart(2, "0").concat(":00 AM");
+        }
+        else
+        {
+            return String(num).padStart(2, "0").concat(":00 PM");
+        }
+    }
+    else if(parts.length == 2)
+    {
+        var num1 = parseInt(parts[0]);
+        var num2 = parseInt(parts[1]);
+
+        if(isNaN(num1) || isNaN(num2))
+        {
+            return "invalid";
+        }        
+
+        if(num1 > 12)
+        {
+            num1 = 12;
+        }
+
+        if(num1 < 1)
+        {
+            num1 = 1;
+        }
+
+        if(num2 > 60)
+        {
+            num2 = 59;
+        }
+
+        if(num2 < 0)
+        {
+            num2 = 0;
+        }
+
+        const isMorning = parts[1].includes("am") || parts[1].includes("AM") || parts[1].includes("Am") || parts[1].includes("aM") || parts[1].includes("a");
+
+        if(isMorning)
+        {
+            return String(num1).padStart(2, "0").concat(":", String(num2).padStart(2, "0"), " AM");
+        }
+        else
+        {
+            return String(num1).padStart(2, "0").concat(":", String(num2).padStart(2, "0"), " PM");
+        }
+    }
+    else
+    {
+        timeStr = "invalid";
+    }
+
+    console.log("output", timeStr);
+
+    return timeStr;
+}
+
+function convertToFormattedTimeRange(inputStr)
+{
+    var parts = inputStr.split("-");
+
+    if(parts.length != 2)
+    {
+        return "invalid";
+    }
+
+    const leftConverted = convertToFormattedTime(parts[0]);
+    const rightConverted = convertToFormattedTime(parts[1]);
+
+    if(leftConverted ==  "invalid" || rightConverted ==  "invalid")
+    {
+        return  "invalid";
+    }
+
+    return leftConverted.concat(" - ", rightConverted);
+}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>S&E Assignment Sheet</title>
 </head>
 
 <style>
@@ -20,19 +20,10 @@
         border-collapse: collapse;
         overflow: hidden;
     }
-    
-    /* table th, td
-    {
-        border: solid 1px;               
-    } */
 
-    .headerTable
-    {  
-        width: 100px;             
-        border: solid 1px;
-        border-collapse: collapse;
-        padding: 10%;
-        font-size: clamp(2rem, 6vw, 6rem);
+    table td
+    {
+        vertical-align: top;;
     }
 
     .right
@@ -65,6 +56,12 @@
         font-size: 16px;
     } */
 
+    .smallerText
+    {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 10px;
+    }
+
     .smallText
     {
         font-family: Arial, Helvetica, sans-serif;
@@ -80,7 +77,7 @@
     .largeText
     {
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .boldText
@@ -90,213 +87,348 @@
 
     .spacingDiv
     {
-        height: 14px;
+        height: 8px;
+    }
+
+    .spacingDivSmall
+    {
+        height: 5px;
+    }
+
+    .spacingDivLarge
+    {
+        height: 50px;
+    }
+
+    .editable
+    {
+        font-family: Arial, Helvetica, sans-serif;
+        overflow: hidden;
+        padding: 0.25%;        
+    }
+
+    .shadedEditable
+    {
+        font-family: Arial, Helvetica, sans-serif;
+        overflow: hidden;
+        padding: 0.25%;   
+    }
+
+    .editable:hover
+    {
+        background-color: rgb(234, 251, 146);
+    }
+
+    .shadedEditable:hover
+    {
+        background-color: rgb(234, 251, 146);
+    }
+
+    .rowPadding
+    {
+        padding: 0.25%;
+    }
+
+    .namesHeaderWidth
+    {
+        width: 18%;        
+    }
+
+
+    .shiftHeaderWidth
+    {
+        width: 12%;
+    }
+
+    .breakHeaderWidth
+    {        
+        width: 8%;
+    }
+
+    .tasks
+    {
+        overflow:visible;
+        text-wrap: wrap;
+        word-break: break-all;
+        max-height: 1vh;
+    }
+
+    .onlyVisibleOnPrint
+    {
+        display: none;
+    }
+
+    .invalidTimeColor
+    {
+        font-weight: bold;
+        color:black;
+        background-color: rgb(255, 110, 110);        
+    }
+
+    @media print 
+    {
+        .pagebreak
+        {
+            clear:both;
+            page-break-after: always;                    
+        }  
+        
+        .editable, .editable:hover
+        {
+            background-color: white;
+        }
+
+        .shadedEditable, .shadedEditable:hover, .editable.shaded
+        {
+            background-color: lightgray;
+        }        
+
+        .printHidden
+        {
+            display: none;        
+        }
+
+        .onlyVisibleOnPrint
+        {
+            display: block;
+        }
+
+        .assignmentSheetWidth
+        {
+            width: 1000px;
+            margin: auto;
+        }
     }
 </style>
 <body>
 
     <script type="text/javascript" src="/js/helpers/tableResize.js"></script>
+    <script type="text/javascript" src="/js/seAssignmentSheetLoader.js"></script>
+    <script type="text/javascript" src="/js/fileReader.js"></script>
+    <script type="text/javascript" src="/js/dropdownHelpers.js"></script>
+    <script type="text/javascript" src="/js/csvHelpers.js"></script>
+    <script type="text/javascript" src="/js/timeConversionHelpers.js"></script>
+    <script type="text/javascript" src="/js/sortAndFilter.js"></script>
+    <script type="text/javascript" src="/js/csvData.js"></script>
 
-    <div id="se-assignment-sheet" style="padding: 2%; border: solid 1px; width: 94%">
-        <div id="se-assignment-sheet-front">
+    <div style="margin: 1%;" class="printHidden">
+        <button onclick="loadSuggested()">Load Suggested Data</button>
+    </div>
 
-            <table id="title-table" style="width: 100%;">
-                <tr class="shaded">
-                    
-                    <td id="target-symbol" style="width: 3%; padding: 0.5%;">
-                        <img src="/images/target-logo-square.png" alt="Target Logo" style="width: 100%; vertical-align: middle;">
-                    </td>
-        
-                    <td id="title" class="largeText boldText" style="width: 55%;">
-                        Service & Engagement Daily Team Assignment Sheet
-                    </td>
-        
-                    <td id="leader-label" class="smallText boldText" style="width: 30%;">
-                        Leader(s): <span id="leader-list">Alec, Angelina</span>
-                    </td>
-        
-                    <td id="date-label" class="smallText boldText" style="width: 12%;">
-                        Date: 
-                        <span id="date">3/16</span>
-                    </td>
-        
-                </tr>
-            </table>
+    <div id="se-assignment-sheet" style="width: 99%; margin: 0.5%;" class="assignmentSheetWidth">
+        <div id="se-assignment-sheet-front" class="pagebreak">
+
+            <div id="page-header">                
+                <table id="title-table" style="width: 100%;">
+                    <tr class="shaded">
+                        
+                        <td id="target-symbol" style="width: 3%;" class="rowPadding">
+                            <img src="/images/target-logo-square.png" alt="Target Logo" style="width: 100%; vertical-align: middle;">
+                        </td>
+            
+                        <td id="title" class="largeText boldText" style="width: 60%; vertical-align: middle;">
+                            Service & Engagement Daily Team Assignment Sheet
+                        </td>
+            
+                        <td id="leader-label" class="smallText boldText" style="width: 30%; vertical-align: middle;">
+                            Leader(s): <span id="leader-list" contenteditable="true" class="shadedEditable">Alec, Angelina</span>
+                        </td>
+            
+                        <td id="date-label" class="smallText boldText" style="vertical-align: middle;">
+                            Date: 
+                            <span id="date">3/16</span>
+                        </td>
+            
+                    </tr>
+                </table>
     
-            <table id="instructions-table" style="width: 100%;">
-                <tr>
-                    <td class="smallText">
-                        <span class="boldText">myGuest Metrics Assessment:</span> On Monday, SD or S&E leader should complete myGuest/Metric assessment to inform team of current state and trends.                    
-                    </td>
-                </tr>
-                <tr>
-                    <td class="smallText">                    
-                        Remainder of the week (Tuesday-Sunday), leaders should copy Monday assessment to drive messaging.
-                    </td>
-                </tr>
-    
-                <!-- To Add Space -->
-                <tr><td></td></tr>
-                <tr><td></td></tr>
-            </table>        
+                <div id="spacing-div" style="display: table;" class="tableResize spacingDivSmall">
+                </div>
+        
+                <table id="instructions-table" style="width: 100%;">
+                    <tr>
+                        <td class="smallerText">
+                            <span class="boldText">myGuest Metrics Assessment:</span> On Monday, SD or S&E leader should complete myGuest/Metric assessment to inform team of current state and trends.                    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="smallerText">                    
+                            Remainder of the week (Tuesday-Sunday), leaders should copy Monday assessment to drive messaging.
+                        </td>
+                    </tr>
+                </table>    
+                
+                <div id="spacing-div" style="display: table;" class="tableResize spacingDivSmall">
+                </div>
+            </div>
     
             <table id="metrics-title-table" style="width: 100%;border: 1px solid; border-bottom: none;">
                 <tr>
-                    <td class="normalText boldText shaded" style="padding: 0.5%;">
+                    <td class="normalText boldText shaded rowPadding">
                         myGuest & GUEST Engagement Metrics                    
                     </td>
                 </tr>
             </table>
     
-            <table id="metrics-table" style="width: 100%;" class="borders">
-                <tr>
+            <table id="metrics-table" style="width: 100%; table-layout: fixed;" class="borders">
+                <tr id="header-row">
     
-                    <td class="smallText boldText" style="padding: 0.5%; width: 17%;">
+                    <td class="smallText boldText rowPadding namesHeaderWidth">
                         Area of Ownership               
                     </td>
     
-                    <td class="smallText boldText" style="padding: 0.5%; width: 27%;">
+                    <td class="smallText boldText rowPadding" style="width: 28%;">
                         Metric
                     </td>
     
-                    <td class="smallText boldText" style="padding: 0.5%; width: 14%;">
+                    <td class="smallText boldText rowPadding" style="width: 12%;">
                         Rolling 4 Weeks            
                     </td>
     
-                    <td class="smallText boldText" style="padding: 0.5%;">
+                    <td class="smallText boldText rowPadding">
                         Themes           
                     </td>
                     
                 </tr>
     
                 <tr>
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Checkout Experience
                     </td>
     
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Purchase NPS
                     </td>
     
-                    <td></td><td></td>
+                    <td contenteditable="true" class="editable smallText"></td>
+                    <td contenteditable="true" class="editable smallText"></td>
                 </tr>
     
                 <tr>
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Checkout Experience
                     </td>
     
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Key Driver: Interaction with TM at Checkout
                     </td>
     
-                    <td></td><td></td>
+                    <td contenteditable="true" class="editable smallText"></td>
+                    <td contenteditable="true" class="editable smallText"></td>
                 </tr>
     
                 <tr>
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Checkout Experience
                     </td>
     
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Key Driver: Wait Time at Checkout
                     </td>
     
-                    <td></td><td></td>
+                    <td contenteditable="true" class="editable smallText"></td>
+                    <td contenteditable="true" class="editable smallText"></td>
                 </tr>
     
                 <tr>
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Checkout Experience
                     </td>
     
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         myTime: Schedule to Forecast %
                     </td>
     
-                    <td></td><td></td>
+                    <td contenteditable="true" class="editable smallText"></td>
+                    <td contenteditable="true" class="editable smallText"></td>
                 </tr>
     
                 <tr>
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Checkout Experience
                     </td>
     
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         SCO Utilization %
                     </td>
     
-                    <td></td><td></td>
+                    <td contenteditable="true" class="editable smallText"></td>
+                    <td contenteditable="true" class="editable smallText"></td>
                 </tr>
     
                 <tr>
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Same Day Experience
                     </td>
     
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Drive Up NPS
                     </td>
     
-                    <td></td><td></td>
+                    <td contenteditable="true" class="editable smallText"></td>
+                    <td contenteditable="true" class="editable smallText"></td>
                 </tr>
     
                 <tr>
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         S&E Brand & Cleanliness
                     </td>
     
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Key Driver: Cleanliness
                     </td>
     
-                    <td></td><td></td>
+                    <td contenteditable="true" class="editable smallText"></td>
+                    <td contenteditable="true" class="editable smallText"></td>
                 </tr>
     
                 <tr>
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Loyalty
                     </td>
     
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Loyalty % of Trans
                     </td>
     
-                    <td></td><td></td>
+                    <td contenteditable="true" class="editable smallText"></td>
+                    <td contenteditable="true" class="editable smallText"></td>
                 </tr>
     
                 <tr>
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Guest Engagement
                     </td>
     
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Guest Help Avg. Response Time
                     </td>
     
-                    <td></td><td></td>
+                    <td contenteditable="true" class="editable smallText"></td>
+                    <td contenteditable="true" class="editable smallText"></td>
                 </tr>
     
                 <tr>
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Guest Engagement
                     </td>
     
-                    <td class="smallText" style="padding: 0.5%;">
+                    <td class="smallText rowPadding">
                         Key Driver: Interaction While Shopping
                     </td>
-    
-                    <td></td><td></td>
+                    
+                    <td contenteditable="true" class="editable smallText"></td>
+                    <td contenteditable="true" class="editable smallText"></td>
                 </tr>
     
             </table>
             
-            <div id="spacing-div" style="height: 10px; display: table;" class="tableResize spacingDiv">
+            <div id="spacing-div" style="display: table;" class="tableResize spacingDiv">
             </div>
     
             <table id="service-desk-title-table" style="width: 100%;border: 1px solid; border-bottom: none;">
                 <tr>
-                    <td class="normalText boldText shaded" style="padding: 0.5%;">
+                    <td class="normalText boldText shaded rowPadding">
                         Service Desk (Guest Service, Returns & Exchanges, Registry)
                     </td>
                 </tr>
@@ -304,65 +436,81 @@
     
             <table id="same-day-title-table" style="width: 100%;border: 1px solid; border-bottom: none;">
                 <tr>
-                    <td class="normalText boldText shaded" style="padding: 0.5%;">
+                    <td class="normalText boldText shaded rowPadding">
                         Same Day Experience (OPU, DU, SBUX DU, DU Returns, S&E Brand and Cleanliness)
                     </td>
                 </tr>
             </table>
     
-            <table id="service-table" style="width: 100%;" class="borders">
-                <tr>
+            <table id="service-table" style="width: 100%;  table-layout: fixed;" class="borders">
+                <tr id="header-row">
     
-                    <td class="smallText boldText shaded" style="padding: 0.5%; width: 20%;">
+                    <td class="smallText boldText shaded rowPadding namesHeaderWidth">
                         TM Name
                     </td>
     
-                    <td class="smallText boldText shaded centered" style="padding: 0.5%; width: 14%;">
+                    <td class="smallText boldText shaded centered rowPadding shiftHeaderWidth">
                         Shift
                     </td>
     
-                    <td class="smallText boldText shaded centered" style="padding: 0.5%; width: 10%;">
+                    <td class="smallText boldText shaded centered rowPadding breakHeaderWidth">
                         1st Break          
                     </td>
     
-                    <td class="smallText boldText shaded centered" style="padding: 0.5%; width: 10%;">
+                    <td class="smallText boldText shaded centered rowPadding breakHeaderWidth">
                         Lunch           
                     </td>
     
-                    <td class="smallText boldText shaded centered" style="padding: 0.5%; width: 10%;">
+                    <td class="smallText boldText shaded centered rowPadding breakHeaderWidth">
                         2nd Break           
                     </td>
     
-                    <td class="smallText boldText shaded" style="padding: 0.5%;">
+                    <td class="smallText boldText shaded rowPadding" style="border-right: none;">
                        Task(s)     
                     </td>
+
+                    <td id="remove-button-width" style="width: 2%; border: none;" class="printHidden shaded"></td>
+
+                    <td id="remove-button-width" style="width: 2%; border: none;" class="printHidden shaded"></td>
                     
-                </tr>            
+                </tr>    
+                
+                <tr id="tm-row-template" style="display: none;">
     
-                <tr id="service-row-1">
-    
-                    <td id="name" class="smallText" style="padding: 0.5%;">
+                    <td id="name" class="smallText editable rowPadding" contenteditable="true">
                         Bal, Sherwin (1425) T:5
                     </td>
     
-                    <td id="shift" class="smallText centered" style="padding: 0.5%;">
-                        07:00 AM -03:30 PM
+                    <td id="shift" class="smallText centered editable rowPadding" contenteditable="true" onblur="onShiftTimeChanged(this)" onclick="selectAllOnEdit()">
+                        07:00 AM - 03:30 PM
                     </td>
     
-                    <td id="break1" class="smallText centered" style="padding: 0.5%;">
+                    <td id="break1" class="smallText centered editable rowPadding" contenteditable="true" onblur="onBreakTimeChanged(this)" onclick="selectAllOnEdit()">
                         09:00 AM       
                     </td>
     
-                    <td id="break2" class="smallText centered" style="padding: 0.5%;">
+                    <td id="break2" class="smallText centered editable rowPadding" contenteditable="true"onblur="onBreakTimeChanged(this)" onclick="selectAllOnEdit()">
                         11:00 AM           
                     </td>
     
-                    <td id="break3" class="smallText centered" style="padding: 0.5%;">
+                    <td id="break3" class="smallText centered editable rowPadding" contenteditable="true"onblur="onBreakTimeChanged(this)" onclick="selectAllOnEdit()">
                         01:00 PM          
                     </td>
     
-                    <td id="tasks" class="smallText " style="padding: 0.5%;">
+                    <td id="tasks" class="smallText editable rowPadding tasks" contenteditable="true" style="border-right: none;">
                         Driveup, Pickup, Returns, CRC/Savlage, Sort returns
+                    </td>
+
+                    <td  class="printHidden boldText normalText" style="border-left: none;">
+                        <button style="width: 100%; text-align: center; padding: 0px; color: red;" onclick="removeTMRow(this)" class="tableResize boldText normalText">
+                            X
+                        </button>
+                    </td>
+
+                    <td  class="printHidden boldText normalText" style="border-left: none;">
+                        <button style="width: 100%; text-align: center; padding: 0px; color: green;" onclick="console.log(this)" class="tableResize boldText normalText">
+                            +
+                        </button>
                     </td>
                     
                 </tr>  
@@ -370,203 +518,159 @@
             </table>
         </div>
 
-        <div id="spacing-div" style="height: 10px; display: table;" class="tableResize spacingDiv">
+        <div id="spacing-div" style="display: table;" class="tableResize spacingDiv">
         </div>
     
         <div id="se-assignment-sheet-back">
     
-            <table id="title-table" style="width: 100%;">
-                <tr class="shaded">
-                    
-                    <td id="target-symbol" style="width: 3%;padding: 0.5%;">
-                        <img src="/images/target-logo-square.png" alt="Target Logo" style="width: 100%; vertical-align: middle;">
-                    </td>
-        
-                    <td id="title" class="largeText boldText" style="width: 55%;">
-                        Service & Engagement Daily Team Assignment Sheet
-                    </td>
-        
-                    <td id="leader-label" class="smallText boldText" style="width: 30%;">
-                        Leader(s): <span id="leader-list">Alec, Angelina</span>
-                    </td>
-        
-                    <td id="date-label" class="smallText boldText" style="width: 12%;">
-                        Date: 
-                        <span id="date">3/16</span>
-                    </td>
-        
-                </tr>
-            </table>
+            <div id="page-header" class="onlyVisibleOnPrint">                
+                <table id="title-table" style="width: 100%;">
+                    <tr class="shaded">
+                        
+                        <td id="target-symbol" style="width: 3%;" class="rowPadding">
+                            <img src="/images/target-logo-square.png" alt="Target Logo" style="width: 100%; vertical-align: middle;">
+                        </td>
+            
+                        <td id="title" class="largeText boldText" style="width: 60%; vertical-align: middle;">
+                            Service & Engagement Daily Team Assignment Sheet
+                        </td>
+            
+                        <td id="leader-label" class="smallText boldText" style="width: 30%; vertical-align: middle;">
+                            Leader(s): <span id="leader-list" contenteditable="true" class="shadedEditable">Alec, Angelina</span>
+                        </td>
+            
+                        <td id="date-label" class="smallText boldText" style="vertical-align: middle;">
+                            Date: 
+                            <span id="date">3/16</span>
+                        </td>
+            
+                    </tr>
+                </table>
     
-            <table id="instructions-table" style="width: 100%;">
-                <tr>
-                    <td class="smallText">
-                        <span class="boldText">myGuest Metrics Assessment:</span> On Monday, SD or S&E leader should complete myGuest/Metric assessment to inform team of current state and trends.                    
-                    </td>
-                </tr>
-                <tr>
-                    <td class="smallText">                    
-                        Remainder of the week (Tuesday-Sunday), leaders should copy Monday assessment to drive messaging.
-                    </td>
-                </tr>
-    
-                <!-- To Add Space -->
-                <tr><td></td></tr>
-                <tr><td></td></tr>
-            </table>            
+                <div id="spacing-div" style="display: table;" class="tableResize spacingDivSmall">
+                </div>
+        
+                <table id="instructions-table" style="width: 100%;">
+                    <tr>
+                        <td class="smallerText">
+                            <span class="boldText">myGuest Metrics Assessment:</span> On Monday, SD or S&E leader should complete myGuest/Metric assessment to inform team of current state and trends.                    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="smallerText">                    
+                            Remainder of the week (Tuesday-Sunday), leaders should copy Monday assessment to drive messaging.
+                        </td>
+                    </tr>
+                </table>    
+                
+                <div id="spacing-div" style="display: table;" class="tableResize spacingDivSmall">
+                </div>
+            </div>  
     
             <table id="front-of-store-title-table" style="width: 100%;border: 1px solid; border-bottom: none;">
                 <tr>
-                    <td class="normalText boldText shaded" style="padding: 0.5%;">
+                    <td class="normalText boldText shaded rowPadding">
                         Front of Store Attendant
                     </td>
                 </tr>
             </table>
     
-            <table id="front-of-store-table" style="width: 100%;" class="borders">
-                <tr>
+            <table id="front-of-store-table" style="width: 100%; table-layout: fixed;" class="borders">
+                <tr id="header-row">
     
-                    <td class="smallText boldText shaded" style="padding: 0.5%; width: 20%;">
+                    <td class="smallText boldText shaded rowPadding namesHeaderWidth">
                         TM Name
                     </td>
     
-                    <td class="smallText boldText shaded centered" style="padding: 0.5%; width: 14%;">
+                    <td class="smallText boldText shaded centered rowPadding shiftHeaderWidth">
                         Shift
                     </td>
     
-                    <td class="smallText boldText shaded centered" style="padding: 0.5%; width: 10%;">
+                    <td class="smallText boldText shaded centered rowPadding breakHeaderWidth">
                         1st Break          
                     </td>
     
-                    <td class="smallText boldText shaded centered" style="padding: 0.5%; width: 10%;">
+                    <td class="smallText boldText shaded centered rowPadding breakHeaderWidth">
                         Lunch           
                     </td>
     
-                    <td class="smallText boldText shaded centered" style="padding: 0.5%; width: 10%;">
+                    <td class="smallText boldText shaded centered rowPadding breakHeaderWidth">
                         2nd Break           
                     </td>
     
-                    <td class="smallText boldText shaded" style="padding: 0.5%;">
+                    <td class="smallText boldText shaded rowPadding">
                        Task(s)     
                     </td>
                     
                 </tr>            
     
-                <tr id="front-of-store-row-1">
-    
-                    <td id="name" class="smallText" style="padding: 0.5%;">
-                        Bal, Sherwin (1425) T:5
-                    </td>
-    
-                    <td id="shift" class="smallText centered" style="padding: 0.5%;">
-                        07:00 AM -03:30 PM
-                    </td>
-    
-                    <td id="break1" class="smallText centered" style="padding: 0.5%;">
-                        09:00 AM       
-                    </td>
-    
-                    <td id="break2" class="smallText centered" style="padding: 0.5%;">
-                        11:00 AM           
-                    </td>
-    
-                    <td id="break3" class="smallText centered" style="padding: 0.5%;">
-                        01:00 PM          
-                    </td>
-    
-                    <td id="tasks" class="smallText " style="padding: 0.5%;">
-                        Driveup, Pickup, Returns, CRC/Savlage, Sort returns
-                    </td>
-                    
-                </tr>  
-    
             </table>
     
-            <div id="spacing-div" style="height: 10px; display: table;" class="tableResize spacingDiv">
+            <div id="spacing-div" style="display: table;" class="tableResize spacingDiv">
             </div>
     
             <table id="checkout-title-table" style="width: 100%;border: 1px solid; border-bottom: none;">
                 <tr>
-                    <td class="normalText boldText shaded" style="padding: 0.5%;">
+                    <td class="normalText boldText shaded rowPadding">
                         Checkout Experience (Checklanes, Self-Checkout, Cash Office Trained TMs)
                     </td>
                 </tr>
             </table>
     
-            <table id="checkout-table" style="width: 100%;" class="borders">
-                <tr>
+            <table id="checkout-table" style="width: 100%; table-layout: fixed;" class="borders">
+                <tr id="header-row">
     
-                    <td class="smallText boldText shaded" style="padding: 0.5%; width: 20%;">
+                    <td class="smallText boldText shaded rowPadding namesHeaderWidth">
                         TM Name
                     </td>
     
-                    <td class="smallText boldText shaded centered" style="padding: 0.5%; width: 14%;">
+                    <td class="smallText boldText shaded centered rowPadding shiftHeaderWidth">
                         Shift
                     </td>
     
-                    <td class="smallText boldText shaded centered" style="padding: 0.5%; width: 10%;">
+                    <td class="smallText boldText shaded centered rowPadding breakHeaderWidth">
                         1st Break          
                     </td>
     
-                    <td class="smallText boldText shaded centered" style="padding: 0.5%; width: 10%;">
+                    <td class="smallText boldText shaded centered rowPadding breakHeaderWidth">
                         Lunch           
                     </td>
     
-                    <td class="smallText boldText shaded centered" style="padding: 0.5%; width: 10%;">
+                    <td class="smallText boldText shaded centered rowPadding breakHeaderWidth">
                         2nd Break           
                     </td>
     
-                    <td class="smallText boldText shaded" style="padding: 0.5%;">
+                    <td class="smallText boldText shaded rowPadding">
                        Task(s)     
                     </td>
                     
                 </tr>            
     
-                <tr id="checkout-row-1">
-    
-                    <td id="name" class="smallText" style="padding: 0.5%;">
-                        Bal, Sherwin (1425) T:5
-                    </td>
-    
-                    <td id="shift" class="smallText centered" style="padding: 0.5%;">
-                        07:00 AM -03:30 PM
-                    </td>
-    
-                    <td id="break1" class="smallText centered" style="padding: 0.5%;">
-                        09:00 AM       
-                    </td>
-    
-                    <td id="break2" class="smallText centered" style="padding: 0.5%;">
-                        11:00 AM           
-                    </td>
-    
-                    <td id="break3" class="smallText centered" style="padding: 0.5%;">
-                        01:00 PM          
-                    </td>
-    
-                    <td id="tasks" class="smallText " style="padding: 0.5%;">
-                        Driveup, Pickup, Returns, CRC/Savlage, Sort returns
-                    </td>
-                    
-                </tr>  
-    
             </table>
     
-            <div id="spacing-div" style="height: 10px; display: table;" class="tableResize spacingDiv">
+            <div id="spacing-div" style="display: table;" class="tableResize spacingDiv">
             </div>
 
             <div>
                 <table id="backups-table" style="width: 100%;">
                     <tr>
-                        <td id="checkout-backups" class="borders smallText" style="padding: 0.5%; width: 50%;">
+                        <td class="borders smallText rowPadding boldText" style="width: 46.4%;">
                             Designated Checkout Backups:                          
-                            <div id="spacing-div" style="height: 40px; display: table;" class="tableResize spacingDiv">
-                            </div>
+                            <table id="checkout-backups" style="width: 100%;">
+                                <tr>
+                                    <td class="editable smallText spacingDivLarge" style="font-weight: normal; border:none;" contenteditable="true">                               
+                                    </td>
+                                </tr>
+                            </table>        
                         </td>
-                        <td id="checkout-backups" class="borders smallText" style="padding: 0.5%;">
-                            Designated Guest Service/Drive-Up Backups:                          
-                            <div id="spacing-div" style="height: 40px; display: table;" class="tableResize spacingDiv">
-                            </div>
+                        <td class="borders smallText rowPadding boldText">
+                            Designated Guest Service/Drive-Up Backups:
+                            <table id="service-backups" style="width: 100%;">
+                                <tr>
+                                    <td class="editable smallText spacingDivLarge" style="font-weight: normal; border:none;" contenteditable="true">
+                                    </td>
+                                </tr>
+                            </table>                            
                         </td>
                     </tr>
                 </table>
@@ -575,7 +679,7 @@
     </div>
 
     <script>        
-        setupTableResize(document.getElementById("se-assignment-sheet"));        
+        loadSuggested();        
     </script>
 
     
