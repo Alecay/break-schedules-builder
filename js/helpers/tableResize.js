@@ -6,21 +6,59 @@ function setupTableResize(parent)
 
         window.addEventListener("resize", (event) =>
         {        
-            resizeTable(table);
+            resizeDivTables(parent);
+            //resizeTable(table);
         });
     
         window.addEventListener("load", (event) =>
         {        
-            resizeTable(table);
+            resizeDivTables(parent);
+            //resizeTable(table);
         });        
     }
 
 }
 
-function resizeTable(table)
+function resizeDivTables(container)
 {
-    
+    const pageReferenceWidth = 1000;
+    const windowWidth = document.documentElement.clientWidth;        
+    const isPercent = container.style.width.includes("%");
+    const containerWidth = isPercent ? parseInt(container.style.width) / 100 * windowWidth : parseInt(container.style.width);
+    const containerRatio = containerWidth / pageReferenceWidth;                
 
+    const tableDatas = container.getElementsByTagName("td");    
+    for (let i = 0; i < tableDatas.length; i++) 
+    {
+        const t = tableDatas[i];
+
+        t.style.fontSize = "";
+        
+        const style = getComputedStyle(t);
+        const originalSize = parseInt(style.fontSize);
+        //console.log("fSize:", originalSize, t);
+
+        t.style.fontSize = String(originalSize * containerRatio).concat("px");                    
+    }
+
+    //Also resize any object with the class tableResize
+    const others = container.querySelectorAll(".tableResize"); 
+                          
+    for (let j = 0; j < others.length; j++) 
+    {
+        const oth = others[j];        
+
+        oth.style.height = "";
+        
+        const style = getComputedStyle(oth);
+        const originalSize = parseInt(style.height);                       
+
+        oth.style.height = String(originalSize * containerRatio).concat("px");
+    }
+}
+
+function resizeTable(table)
+{    
     const pageReferenceWidth = 1000;
     const windowWidth = document.documentElement.clientWidth;
     const scaleRatio = windowWidth / pageReferenceWidth;
@@ -31,12 +69,14 @@ function resizeTable(table)
     const containerWidth = isPercent ? parseInt(container.style.width) / 100 * windowWidth : parseInt(container.style.width);
     const containerRatio = containerWidth / windowWidth;            
 
-    const useRatio = scaleRatio * containerRatio;                                                   
+    const useRatio = scaleRatio * containerRatio;      
 
-    const text = document.getElementsByTagName("td");                        
-    for (let i = 0; i < text.length; i++) 
+    const tableDatas = table.getElementsByTagName("td");
+    //const tableDatas = container.querySelectorAll("td");
+    console.log(tableDatas);
+    for (let i = 0; i < tableDatas.length; i++) 
     {
-        const t = text[i];
+        const t = tableDatas[i];
 
         t.style.fontSize = "";
         
@@ -52,8 +92,7 @@ function resizeTable(table)
                           
     for (let j = 0; j < others.length; j++) 
     {
-        const oth = others[j];
-        console.log(oth);
+        const oth = others[j];        
 
         oth.style.height = "";
         
