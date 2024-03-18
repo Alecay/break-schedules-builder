@@ -142,5 +142,12 @@ function removeTMRow(row)
     const parent = row.parentElement.parentElement.parentElement;
     const holder = row.parentElement.parentElement;
     parent.removeChild(holder);
-    console.log(this, parent);
+}
+
+function addCopyOfTMRow(row)
+{    
+    const holder = row.parentElement;
+    const clone = row.cloneNode(true);
+    
+    holder.appendChild(clone);
 }

@@ -212,6 +212,8 @@
     <script type="text/javascript" src="js/csvData.js"></script>
 
     <div style="margin: 1%;" class="printHidden">
+        <h1 class="normalText">This page is still a work in progress and currently only lets you load today's data</h1>
+        <h1 class="normalText">Also all changes made with reset on window refresh/close or when clicking the load suggested button below</h1>
         <button onclick="loadSuggested()">Load Suggested Data</button>
     </div>
 
@@ -471,7 +473,7 @@
 
                     <td id="remove-button-width" style="width: 2%; border: none;" class="printHidden shaded"></td>
 
-                    <td id="remove-button-width" style="width: 2%; border: none;" class="printHidden shaded"></td>
+                    <td id="add-button-width" style="width: 2%; border: none;" class="printHidden shaded"></td>
                     
                 </tr>    
                 
@@ -508,7 +510,7 @@
                     </td>
 
                     <td  class="printHidden boldText normalText" style="border-left: none;">
-                        <button style="width: 100%; text-align: center; padding: 0px; color: green;" onclick="console.log(this)" class="tableResize boldText normalText">
+                        <button style="width: 100%; text-align: center; padding: 0px; color: green;" onclick="addCopyOfTMRow(this.parentElement.parentElement)" class="tableResize boldText normalText">
                             +
                         </button>
                     </td>
@@ -598,9 +600,13 @@
                         2nd Break           
                     </td>
     
-                    <td class="smallText boldText shaded rowPadding">
+                    <td class="smallText boldText shaded rowPadding" style="border-right: none;">
                        Task(s)     
                     </td>
+
+                    <td id="remove-button-width" style="width: 2%; border: none;" class="printHidden shaded"></td>
+
+                    <td id="add-button-width" style="width: 2%; border: none;" class="printHidden shaded"></td>
                     
                 </tr>            
     
@@ -640,9 +646,13 @@
                         2nd Break           
                     </td>
     
-                    <td class="smallText boldText shaded rowPadding">
+                    <td class="smallText boldText shaded rowPadding" style="border-right: none;">
                        Task(s)     
                     </td>
+
+                    <td id="remove-button-width" style="width: 2%; border: none;" class="printHidden shaded"></td>
+
+                    <td id="add-button-width" style="width: 2%; border: none;" class="printHidden shaded"></td>
                     
                 </tr>            
     
