@@ -114,6 +114,11 @@ function attemptLogin(tmNumber)
             console.log("Not a dev");
             setMainMenuDropdownsActive(false);
             setDevItemsVisible(false);
+
+            gtag('event', 'login', 
+            {
+                'method' : leaderInfo["nameFormatted"]
+            });
         }
         else
         {
