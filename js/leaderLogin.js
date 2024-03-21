@@ -106,6 +106,14 @@ function onLoginSuccessful()
 {
     window.location.href = "mainMenu.html";
     console.log("Logged in");
+
+    const leaderInfo = getCurrentUserInfo();
+
+    dataLayer.push({
+        'event' :'userData',
+        'user_id' : leaderInfo["nameFormatted"].concat(" ", leaderInfo["number"])
+
+    });
 }
 
 function setFailedLoginVisible(value)
