@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-48JHW5NBFG"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-48JHW5NBFG');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <style>
+
+        *
+        {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 2vw;
+            margin-bottom: 0.5vw; 
+        }
+
+        h1
+        {
+            text-align: center;
+            font-size: 5vw;
+            margin-top: 1vw;
+            margin-bottom: 0.5vw;
+            vertical-align: top;
+            font-weight: normal;
+        }
+
+        h2
+        {
+            text-align: left;
+            font-size: 2vw;    
+            margin-top: 0px;
+            margin-bottom: 0.5vw;  
+            vertical-align: top;  
+                           
+        }
+
+        input
+        {
+            font-size: 1vw;
+        }
+
+        .fileLabel
+        {
+            font-size: 2vw;
+            padding-right: 0.5vw;
+        }
+
+        .dataLabel
+        {
+            font-size: 2vw;            
+            padding: 0vw 0vw 0vw 0.5vw;
+            margin: 0.5vw 0vw 0.5vw 0vw;
+            font-weight: normal;
+        }
+
+        .dataLoadedLabel
+        {
+            font-size: 2vw;
+            text-align: right;
+            float: right;
+            padding-right: 1vw;            
+        }
+
+        .sectionDiv
+        {
+            border-bottom: 0.3vw solid;
+            margin-bottom: 0.5vw;            
+        }
+
+        table td
+        {
+            vertical-align: top;        
+        }
+
+        body
+        {
+            background-color: white;
+            color: black;
+        }
+
+        .hidden
+        {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <script type="text/javascript" src="js/treeSelect.js"></script>
+    <script type="text/javascript" src="js/leaderLogin.js"></script>
+    <script type="text/javascript" src="js/linkCreator.js"></script>
+    <script type="text/javascript" src="js/fileReader.js"></script>
+    <script type="text/javascript" src="js/dropdownHelpers.js"></script>
+    <script type="text/javascript" src="js/csvHelpers.js"></script>
+    <script type="text/javascript" src="js/timeConversionHelpers.js"></script>
+    <script type="text/javascript" src="js/sortAndFilter.js"></script>
+    <script type="text/javascript" src="js/mainMenu.js"></script>
+    <script type="text/javascript" src="js/csvData.js"></script>
+    <script type="text/javascript" src="js/breakSheetLoader.js"></script>
+
+    <div id="login-page" class="login-page">
+
+        <h3 style="font-weight: normal; font-size: 70%; text-align: right;" id="login-tm-message">Made by Alec Groseclose</h3>    
+        <div class="sectionDiv">           
+                 
+            <h1 style="font-weight: normal;">Break Schedule Builder</h1>            
+        </div>
+
+        <div class="sectionDiv">           
+                 
+            <h2 style="font-weight: normal;">Login:</h2>
+
+            <form style="text-align: center; margin: 2%;" id="login-form">                                
+                <label for="tm-number-login" style="font-size: 70%;">TM Number:</label>
+                <input type="text" id="tm-number-login" name="tm-number-login">
+                <input type="submit" id="tm-number-submit" value="LOGIN">
+                <br>
+                <label id="tm-number-login-invalid" style="font-size: 70%; color: rgb(231, 20, 20);" class="hidden">Invalid Login! Please try again.</label>
+                
+            </form>                       
+
+        </div>
+
+        <div class="sectionDiv" style="height: 420px; display: flex; justify-content:center; align-items: flex-end;">
+
+
+            <div style="display: block; text-align: center;">
+                <h3 style="font-weight: normal; font-size: 70%; text-align: center;">
+                    This site currently directly supports the following Distrcts:
+                </h3>                
+                <h3 style="font-weight: normal; font-size: 70%; text-align: center;" id="supported-districts">
+                    D311, D322, D352
+                </h3>                   
+
+                <h3 style="font-weight: normal; font-size: 60%; text-align: center;">
+                    *Note this site still supports other Districts/Stores you may have to upload your own data using the steps provided in the data upload section
+                </h3>
+            </div>        
+        </div>
+
+        <div style="display: block; text-align: center;">
+            <h3 id="last-updated-text" style="font-weight: normal; font-size: 30%; text-align: left; padding-left: 1%;">
+                Last updated on: 3/18/24
+            </h3>                
+        </div>  
+
+    </div>
+
+    <script>
+        localStorage.loginID = "";
+        setupLoginPage();
+    </script>
+    
+</body>
+</html>

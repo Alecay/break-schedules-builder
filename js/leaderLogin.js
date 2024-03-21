@@ -84,7 +84,7 @@ function loadLeaderData()
 }
 
 function attemptLogin(tmNumber)
-{
+{    
     if(!isValidLoginFormat(tmNumber))
     {
         console.log("Invalid TM Number");
@@ -97,36 +97,15 @@ function attemptLogin(tmNumber)
     }
     else
     {
-        localStorage.loginID = tmNumber;
-
-        const leaderInfo = leaderLookup[localStorage.loginID];                
-
-        document.getElementById("login-tm-message").innerText = "Welcome back ".concat(leaderInfo["nameFormatted"]); 
-        
-        console.log("Login Finished");
-
-        setLoginPageVisible(false);        
-        setupMainMenu();        
-        setMainMenuVisible(true);
-
-        if(leaderInfo["number"] != "72154057")
-        {
-            console.log("Not a dev");
-            setMainMenuDropdownsActive(false);
-            setDevItemsVisible(false);
-
-            gtag('event', 'login', 
-            {
-                'method' : leaderInfo["nameFormatted"]
-            });
-        }
-        else
-        {
-            setMainMenuDropdownsActive(true);
-            setDevItemsVisible(true);
-            console.log("A dev");
-        }
+        localStorage.loginID = tmNumber;        
+        onLoginSuccessful();            
     }
+}
+
+function onLoginSuccessful()
+{
+    window.location.href = "mainMenu.html";
+    console.log("Logged in");
 }
 
 function setFailedLoginVisible(value)
@@ -146,6 +125,8 @@ function signOut()
     localStorage.loginID = "";
     clearStoredFilters();
 
+    window.location.href = "login.html";
+
     setMainMenuVisible(false);
     setLoginPageVisible(true);    
 }
@@ -160,6 +141,17 @@ function isAllowedUser(tmNumber)
 {
     const leaderInfo = leaderLookup[tmNumber];
     return leaderInfo != null && leaderInfo != undefined && leaderInfo != {};
+}
+
+function isDevUser(tmNumber)
+{
+    return tmNumber == "72154057";
+}
+
+function isCurrentUserADev()
+{
+    const leaderInfo = getCurrentUserInfo();
+    return isDevUser(leaderInfo["number"]);
 }
 
 function onLoginSubmit()

@@ -6,7 +6,36 @@ let previewPageIndex = 0;
 
 function setupMainMenu()
 {
-    console.log("Setup Main Menu");    
+    console.log("Setup Main Menu");
+    loadLeaderData();
+    loadStoredDataFiles();
+    
+    if(!isAllowedUser(localStorage.loginID))
+    {
+        signOut();
+    }
+
+    const leaderInfo = getCurrentUserInfo();
+
+    if(!isCurrentUserADev())
+    {        
+        setMainMenuDropdownsActive(false);
+        setDevItemsVisible(false);
+
+        gtag('event', 'login', 
+        {
+            method : leaderInfo["nameFormatted"]
+        });
+    }
+    else
+    {
+        setMainMenuDropdownsActive(true);
+        setDevItemsVisible(true);
+        console.log("Welcome back developer");
+    }
+
+
+    document.getElementById("login-tm-message").innerText = "Welcome back ".concat(leaderInfo["nameFormatted"], ", \n", leaderInfo["job"]);     
 
     //Loading Templates
     const templatesElem = document.createElement("div");    
@@ -31,9 +60,7 @@ function setupMainMenu()
     districtSelector.onchange = (event) => { updateStoresDropDown(); updatePreviewPage(); };
 
     const storeSelector = document.getElementById("store-dropdown");
-    storeSelector.onchange = (event) => { updatePreviewPage(); };
-
-    loadStoredDataFiles();
+    storeSelector.onchange = (event) => { updatePreviewPage(); };    
 
     districtSelector.value = "D322";
     storeSelector.value = "T1061";
