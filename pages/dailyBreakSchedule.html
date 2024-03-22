@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/styles/navBar.css">
+    <link rel="stylesheet" href="/styles/tooltip.css">
+    <link rel="stylesheet" href="/styles/treeStyles.css">
+    <link rel="stylesheet" href="/styles/home.css">
+    <link rel="stylesheet" href="/styles/breakSheetStyle.css">
+
+    <!-- Load font awesome icons -->    
+    <script src="https://kit.fontawesome.com/f0906ef22c.js" crossorigin="anonymous"></script>
+
+</head>
+<body style="background-color: #333;">
+
+    <div id="navHeader">
+        <div class="navbar">
+            <a class="title ignoreHover">Daily Planning Tool</a>
+            <a class="subTitle ignoreHover">by Alec Groseclose</a>
+            <a href="/pages/contact.html" style="float: right;"><i class="fa-solid fa-power-off"></i> Sign Out </a>
+            <a href="/pages/contact.html" style="float: right;"><i class="fa-solid fa-right-to-bracket"></i> Login </a>
+            <a class="ignoreHover" style="float: right;"><i class="fa-solid fa-user"></i> Alec Groseclose</a>
+        </div>
+
+        <!-- The navigation menu -->
+        <div class="navbar">
+        <a href="#home"><i class="fa-solid fa-house"></i> Home</a>
+        <div class="subnav">
+            <button class="subnavbtn"><i class="fa-solid fa-calendar-days"></i> Break Schedules <i class="fa fa-caret-down"></i></button>
+            <div class="subnav-content">
+            <a href="#company">Print Range</a>
+            <a href="#team">Custom</a>
+            </div>
+        </div>
+        <div class="subnav">
+            <button class="subnavbtn"><i class="fa-solid fa-file-signature"></i> Assignment Sheets <i class="fa fa-caret-down"></i></button>
+            <div class="subnav-content">
+            <a href="#bring">Service and Engagement</a>
+            <a href="#bring">More - Coming Soon</a>
+            </div>
+        </div>
+        <div class="subnav">
+            <button class="subnavbtn"><i class="fa-solid fa-database"></i> Greenfield <i class="fa fa-caret-down"></i></button>
+            <div class="subnav-content">
+            <a href="https://greenfield.target.com/l/dashboard/26664/chojpim" target="_blank">Driveup Dashboard</a>
+            <a href="https://greenfield.target.com/l/dashboard/28718/hb5hwvx" target="_blank">Checkout Dashboard</a>
+            <a href="https://greenfield.target.com/l/card/723665/oviscx9" target="_blank">Attendance Insights</a>
+            <a href="https://greenfield.target.com/l/card/1369653/v5gwt92" target="_blank">CRC Unreceived vs Received</a>
+            <a href="https://greenfield.target.com/l/card/1572127/g3l4awb" target="_blank">Checklanes POGs</a>
+            </div>
+        </div>
+        <a href=""><i class="fa-solid fa-upload"></i> Data Upload</a>
+        <a href="/pages/contact.html" style="float: right;"><i class="fa-solid fa-at"></i> Contact</a>
+        <a href="/pages/contact.html" style="float: right;"><i class="fa-solid fa-question"></i> Help</a>
+        
+        </div>
+        <hr style="height: 3px; background-color: lightgray; border-radius: 3px;">        
+        <br>
+
+    </div>
+
+    <div class="previewGrid" style="width: 25%;">
+        <div class="titleBackground">
+            <h3 class="title"><i class="fa-solid fa-filter lightText"></i> Filters</h3>
+            <i class="fa-solid fa-circle-info tooltip title" style="float: right;"><span class="tooltiptext">Used to select what areas or TMs to include on the schedule</span></i>
+        </div>
+
+        <div class="previewWindow">
+            <div id="options-holder" style="margin-left: 0.5vw; border: 0px;">
+        
+                <label for="district-dropdown">District:</label> 
+                <select name="district-dropdown" id="district-dropdown"></select>
+                <br>
+
+                <label for="store-dropdown">Store:</label> 
+                <select name="store-dropdown" id="store-dropdown"></select>
+                <br>
+
+                <label for="start-date-dropdown">Start Date:</label> 
+                <select name="start-date-dropdown" id="start-date-dropdown"></select>
+
+                <label style="padding-left: 1vw; padding-right: 1vw;">-</label>
+                
+                <label for="end-date-dropdown">End Date:</label> 
+                <select name="end-date-dropdown" id="end-date-dropdown"></select> 
+                <br>
+                
+                <label>Areas:</label>                             
+                <div id="areas-tree-holder" style="vertical-align: top;">
+                    <form id="tree-template"><ul style="padding-left: 0%;">
+                        <li>
+                          <input type="checkbox" class="checkbox"><span class="caret caret-down" id="label">All Areas</span>
+                          <ul class="nested active" id="rollup-department-branch">
+                            <li id="rollup-department"><input type="checkbox" class="checkbox"><span class="caret" id="label">Rollup Department</span>
+                              <ul class="nested active" id="department-branch">
+                                <li id="department"><input type="checkbox" class="checkbox"><span class="caret" id="label">Department</span>
+                                  <ul class="nested active" id="job-branch">
+                                    <li id="job"><input type="checkbox" class="checkbox"><span id="label">Job</span></li>              
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul></form>
+                </div>    
+                <br>               
+
+            </div>
+                
+        </div>
+
+        <div id="printDiv" style="position: absolute; bottom: 5px; left: 5px; width: 96%;">
+
+            <button class="innerButton" style="width: 100%; height: 50px;">
+                <i class="fa-solid fa-print" style="font-size: 30px; margin: 5px;"></i>
+                <h3 class="title" style="font-size: 30px;"> Print Selected Pages</h3>
+            </button>
+            
+        </div>
+        
+    </div>
+
+    <div class="previewGrid" style="width: 72%; float: right;">
+        <div class="titleBackground">
+            <h3 class="title">Preview Break Schedule</h3>            
+
+            <button class="titleButton tooltipDelayed leftTooltip" style="float: right;">
+                <span class="tooltiptext">Customize</span>
+                <i class="fa-solid fa-pencil"></i>
+            </button>
+
+            <button class="titleButton nextArrow tooltipDelayed topTooltip">
+                <span class="tooltiptext">Next day</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <button class="titleButton previousArrow tooltipDelayed topTooltip">
+                <span class="tooltiptext">Previous day</span>
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>             
+           
+        </div>
+
+        <div class="previewWindow">
+            <div id="breakSheetHolder" class="pagebreak" style="margin: 10px">
+                <table id="title-row1">
+                    <tr class="bottomBorder">
+                        <td id="title" class="largeFont">
+                            Daily Break Schedule
+                        </td>
+            
+                        <td class="mediumFont center bottom">
+                            Weekly Goal/Focus: <span id="focus"> < 5 red orders and < 10 skipped orders</span>
+                        </td>
+            
+                        <td id="date" class="largeFont right">
+                            Saturday 3/3
+                        </td>
+                    </tr>
+                </table>
+            
+                <table id="title-row2">
+                    <tr class="bottomBorder">
+                        <td class="mediumFont">
+                            Location: <span id="store">T1061</span>
+                        </td>
+            
+                        <td class="mediumFont center">
+                            T:X indicates X training due soon
+                        </td>
+            
+                        <td class="mediumFont center">
+                            <span style="font-weight: bold;">C</span> indicates TM is closing
+                        </td>
+            
+                        <td class="mediumFont right">
+                            Total TMs: <span id="total-tms">9</span>
+                        </td>
+                    </tr>
+                </table>
+            
+                <table id="title-row3">
+                    <tr>
+                        <td class="mediumFont">
+                            Notes:<span id="notes"></span>
+                        </td>
+                        <td class="mediumFont right">
+                            Closing TMs: <span id="closing-tms">9</span>
+                        </td>
+                    </tr>
+                </table>
+            
+                <table id="holder-table">
+                    <tr id="comm-title">
+                        <td>
+                        </td>
+            
+                        <td class="largeFont left commWidth commPanel">
+                            Communication
+                        </td>
+                    </tr>
+            
+                    <tr>
+                        <td class="top">
+            
+                            <table id="breakTable">
+                            
+                                <tr id="header-row">
+                                    <th class="dataFont left solidBackground topBorder">
+                                        TM Name
+                                    </th>
+                        
+                                    <th class="dataFont left solidBackground topBorder">
+                                        Job
+                                    </th>
+                        
+                                    <th class="dataFont left solidBackground topBorder">
+                                        Schedule
+                                    </th>
+                        
+                                    <th class="dataFont center solidBackground topBorder">
+                                        1st Break
+                                    </th>
+                        
+                                    <th class="dataFont center solidBackground topBorder">
+                                        Meal
+                                    </th>
+                        
+                                    <th class="dataFont center solidBackground topBorder">
+                                        2nd Break
+                                    </th>
+                        
+                                    <th class="dataFont right solidBackground topBorder">
+                                        Hours
+                                    </th>
+                                </tr>
+            
+                                <tr id="data-row" class="noWrap">
+                                    <td id="name" class="left dataFont paddingRight allBorders" style="padding-left: 0.5%; padding-right: 0.5%;">
+                                        Las, FirstName (####) T:#
+                                    </td>
+                        
+                                    <td id="job" class="left dataFont allBorders" style="padding-left: 0.5%; padding-right: 0.5%;">
+                                        S&E TL
+                                    </td>
+                        
+                                    <td id="schedule" class="center dataFont allBorders" style="padding-left: 0.5%; padding-right: 0.5%; width: 20%;">
+                                        07:00 AM - 03:30 PM
+                                    </td>
+                        
+                                    <td id="break1" class="center dataFont allBorders">
+                                        09:00 AM
+                                    </td>
+                        
+                                    <td id="break2" class="center dataFont allBorders">
+                                        11:00 AM
+                                    </td>
+                        
+                                    <td id="break3" class="center dataFont allBorders">
+                                        01:00 PM
+                                    </td>
+                        
+                                    <td id="hours" class="right dataFont allBorders" style="padding-left: 0.5%; padding-right: 0.5%;">
+                                        8.5
+                                    </td>
+            
+                                    <td id="closing-flag" class="left dataFont" style="padding-left: 0.5%; padding-right: 0.5%;">
+                                        *
+                                    </td>
+            
+                                </tr>                                                
+            
+                            </table>
+            
+                        </td>
+            
+                        <td class="commWidth commPanel">
+            
+                            <table id="comm-table">
+                                <tr>
+                                    <td class="commFont top topBorder">•</td>
+                                    <td class="commFont left top topBorder paddingBottom">
+                                        All items should be defected, labeled, and sorted 
+                                        <span class="bold">before helping the next guest.</span> 
+                                        Online only items should be defected only if the package is unfit for the shelf (damaged, has no description or picture, etc..)
+                                    </td>
+                                </tr>
+            
+                                <tr>
+                                    <td class="commFont top">•</td>
+                                    <td class="commFont left top paddingBottom">
+                                        Shipt Audits must be done at checklane 12. 
+                                        Count all items and verify total items and total $ amount match, if they don't match hit "extra item". 	
+                                        <span class="bold">Never confront a Shipt shopper for stealing</span>
+                                        as it can escalate the situation.	
+                                    </td>
+                                </tr>
+            
+                                <tr>
+                                    <td class="commFont top">•</td>
+                                    <td class="commFont left top paddingBottom">
+                                        We must <span class="bold">open ALL tech items</span> when returning them to 
+                                        verify serial numbers match the receipt and box. Most items must be defected once opened.	
+                                    </td>
+                                </tr>
+            
+                                <tr>
+                                    <td class="commFont top">•</td>
+                                    <td class="commFont left top paddingBottom">
+                                        Any returns or purchases made with large amounts of cash 
+                                        (<span class="bold">over $200</span>) must be verified by a leader before processing.					
+                                    </td>
+                                </tr>
+            
+                                <tr>
+                                    <td class="commFont top">•</td>
+                                    <td class="commFont left top paddingBottom">
+                                        Going forward <span class="bold">do not prep cold items early</span>
+                                        for DU orders, wait until the guest arrives.
+                                    </td>
+                                </tr>
+            
+                                <tr>
+                                    <td class="commFont top">•</td>
+                                    <td class="commFont left top paddingBottom">
+                                        Giftcard scams have been going around again. Get with a leader if guests attempt 
+                                        to purchase large amounts of giftcards (more than $500). 
+                                        <span class="bold">Never split giftcards into separate transactions</span> to get around purchase limits.
+                                    </td>
+                                </tr>
+            
+            
+                            </table>
+            
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            
+        </div>
+    </div>
+
+    
+</body>
+
+</html>
