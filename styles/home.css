@@ -129,6 +129,12 @@ select
     color: lightgray;
 }
 
+select:disabled
+{
+    opacity: 0.5;
+    background-color: rgb(10, 60, 66);
+}
+
 option
 {
     background-color: #333;

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Break Schedules Printable</title>
+
+    <link rel="stylesheet" href="../styles/breakSheetStyle.css">
+
+    <style>
+        *
+        {
+            font-size: 2vw;
+        }
+        .printPages
+        {
+            display: block;
+        }    
+    </style>
+</head>
+<body>
+
+    <script type="text/javascript" src="../js/treeSelect.js"></script>
+    <script type="text/javascript" src="../js/leaderLogin.js"></script>
+    <script type="text/javascript" src="../js/linkCreator.js"></script>
+    <script type="text/javascript" src="../js/fileReader.js"></script>
+    <script type="text/javascript" src="../js/dropdownHelpers.js"></script>
+    <script type="text/javascript" src="../js/csvHelpers.js"></script>
+    <script type="text/javascript" src="../js/timeConversionHelpers.js"></script>
+    <script type="text/javascript" src="../js/sortAndFilter.js"></script>    
+    <script type="text/javascript" src="../js/csvData.js"></script>
+    <script type="text/javascript" src="../js/breakSheetLoader.js"></script>
+    <script type="text/javascript" src="../js/pageControllers/dailyBreakScheduleController.js"></script>
+
+    <div id="print-sheet-holder" style="width: 100%;" class="printPages"></div>
+    
+    <script>
+        loadLeaderData(true);
+        loadStoredDataFiles(true);
+        loadTemplates();
+        createPrintableSheetsFromStoredFilters();
+
+
+        window.onafterprint = function()
+        {
+            close();
+        };
+
+        print();
+    </script>
+</body>
+</html>

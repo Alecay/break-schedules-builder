@@ -9,8 +9,8 @@ function createBreakSheets(parent, array, useCommTemplate)
             allDates.push(row["date"]);
         }
     });
-
-    //console.log("Creating sheets for dates:", allDates);
+    
+    console.log("Creating sheets for dates:", allDates);
 
     allDates.forEach(date => 
     {
@@ -74,7 +74,7 @@ function createBreakSheet(parent, array, date, useCommTemplate)
         }
     });
 
-    const store = document.getElementById("store-dropdown").value;
+    const store = array[0]["store"];
 
     setChildNodeValue(sheet, "#total-tms", count);
     setChildNodeValue(sheet, "#closing-tms", closingCount);
