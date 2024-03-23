@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>    
+
+    <style>
+        *
+        {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        table
+        {
+            border-collapse: collapse; 
+            width: 100%;   
+            font-size: 100%;            
+        }
+
+        span
+        {
+            font-size: 100%;
+        }
+
+        .containerDiv
+        {
+            margin-left: 10%; 
+            margin-right: 10%; 
+            font-size: 100%;
+            min-width: 600px;        
+        }
+
+        .left
+        {
+            text-align: left;
+        }
+
+        .right
+        {
+            text-align: right;
+        }
+
+        .center
+        {
+            text-align: center;
+        }
+
+        .top
+        {
+            vertical-align: top;
+        }
+
+        .bottom
+        {
+            vertical-align: bottom;
+        }
+
+        .bold
+        {
+            font-weight: bold;    
+        }
+
+        .largeFont
+        {
+            font-size: 100%;
+        }
+
+        .mediumFont
+        {
+            font-size: 60%;
+        }
+
+        .smallFont
+        {
+            font-size: 40%;
+        }
+
+        .dataFont
+        {
+            font-size: 70%;
+        }
+
+        .commFont
+        {
+            font-size: 70%;
+        }
+
+        .solidBackground
+        {
+            background-color: lightgray;
+        }
+
+        .topBorder
+        {
+            border-top: solid 0.2em;
+        }
+
+        .bottomBorder
+        {
+            border-bottom: solid 0.15em;
+        }
+
+        .noBorder
+        {
+            border: none;
+        }
+
+        .paddingLeft
+        {
+            padding-right: 1%;
+        }
+
+        .paddingRight
+        {
+            padding-right: 1%;
+        }
+
+        .paddingBottom
+        {
+            padding-bottom: 3%;
+        }
+
+        .allBorders
+        {
+            border: solid 0.1em;
+        }
+
+        .noWrap
+        {
+            white-space: nowrap;
+        }
+
+        .commWidth
+        {
+            width: 25%;
+        }
+
+        .commPanel
+        {
+            display: table-cell;
+        }
+
+        .commPanelHidden
+        {
+            display: none;
+        }
+
+        .hidden
+        {
+            display: none;
+        }
+
+        .main-menu
+        {
+            margin-left: 1%;
+            margin-right: 1%;  
+        } 
+
+        .login-page
+        {
+            margin-left: 1%;
+            margin-right: 1%; 
+        }
+
+        .printPages
+        {
+            display: none;
+        }
+
+        /* .dev-visible
+        {
+            display: none;
+        } */
+
+        @media print 
+        {
+            .pagebreak
+            {
+                clear:both;
+                page-break-after: always;                    
+            }  
+
+            .printPages
+            {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <script type="text/javascript" src="../js/helpers/tableResize.js"></script>
+
+    <div id="breakSheetHolder" class="pagebreak" style="margin: 10px">
+        <table id="title-row1">
+            <tr class="bottomBorder">
+                <td id="title" class="largeFont">
+                    Daily Break Schedule
+                </td>
+    
+                <td class="mediumFont center bottom">
+                    Weekly Goal/Focus: <span id="focus"> < 5 red orders and < 10 skipped orders</span>
+                </td>
+    
+                <td id="date" class="largeFont right">
+                    Saturday 3/3
+                </td>
+            </tr>
+        </table>
+    
+        <table id="title-row2">
+            <tr class="bottomBorder">
+                <td class="mediumFont">
+                    Location: <span id="store">T1061</span>
+                </td>
+    
+                <td class="mediumFont center">
+                    T:X indicates X training due soon
+                </td>
+    
+                <td class="mediumFont center">
+                    <span style="font-weight: bold;">C</span> indicates TM is closing
+                </td>
+    
+                <td class="mediumFont right">
+                    Total TMs: <span id="total-tms">9</span>
+                </td>
+            </tr>
+        </table>
+    
+        <table id="title-row3">
+            <tr>
+                <td class="mediumFont">
+                    Notes:<span id="notes"></span>
+                </td>
+                <td class="mediumFont right">
+                    Closing TMs: <span id="closing-tms">9</span>
+                </td>
+            </tr>
+        </table>
+    
+        <table id="holder-table">
+            <tr id="comm-title">
+                <td>
+                </td>
+    
+                <td class="largeFont left commWidth commPanel">
+                    Communication
+                </td>
+            </tr>
+    
+            <tr>
+                <td class="top">
+    
+                    <table id="breakTable">
+                    
+                        <tr id="header-row">
+                            <th class="dataFont left solidBackground topBorder">
+                                TM Name
+                            </th>
+                
+                            <th class="dataFont left solidBackground topBorder">
+                                Job
+                            </th>
+                
+                            <th class="dataFont left solidBackground topBorder">
+                                Schedule
+                            </th>
+                
+                            <th class="dataFont center solidBackground topBorder">
+                                1st Break
+                            </th>
+                
+                            <th class="dataFont center solidBackground topBorder">
+                                Meal
+                            </th>
+                
+                            <th class="dataFont center solidBackground topBorder">
+                                2nd Break
+                            </th>
+                
+                            <th class="dataFont right solidBackground topBorder">
+                                Hours
+                            </th>
+                        </tr>
+    
+                        <tr id="data-row" class="noWrap">
+                            <td id="name" class="left dataFont paddingRight allBorders" style="padding-left: 0.5%; padding-right: 0.5%;">
+                                Las, FirstName (####) T:#
+                            </td>
+                
+                            <td id="job" class="left dataFont allBorders" style="padding-left: 0.5%; padding-right: 0.5%;">
+                                S&E TL
+                            </td>
+                
+                            <td id="schedule" class="center dataFont allBorders" style="padding-left: 0.5%; padding-right: 0.5%; width: 20%;">
+                                07:00 AM - 03:30 PM
+                            </td>
+                
+                            <td id="break1" class="center dataFont allBorders">
+                                09:00 AM
+                            </td>
+                
+                            <td id="break2" class="center dataFont allBorders">
+                                11:00 AM
+                            </td>
+                
+                            <td id="break3" class="center dataFont allBorders">
+                                01:00 PM
+                            </td>
+                
+                            <td id="hours" class="right dataFont allBorders" style="padding-left: 0.5%; padding-right: 0.5%;">
+                                8.5
+                            </td>
+    
+                            <td id="closing-flag" class="left dataFont" style="padding-left: 0.5%; padding-right: 0.5%;">
+                                *
+                            </td>
+    
+                        </tr>                                                
+    
+                    </table>
+    
+                </td>
+    
+                <td class="commWidth commPanel" style="vertical-align: top;">
+    
+                    <table id="comm-table">
+                        <tr>
+                            <td class="commFont top topBorder">•</td>
+                            <td class="commFont left top topBorder paddingBottom">
+                                All items should be defected, labeled, and sorted 
+                                <span class="bold">before helping the next guest.</span> 
+                                Online only items should be defected only if the package is unfit for the shelf (damaged, has no description or picture, etc..)
+                            </td>
+                        </tr>
+    
+                        <tr>
+                            <td class="commFont top">•</td>
+                            <td class="commFont left top paddingBottom">
+                                Shipt Audits must be done at checklane 12. 
+                                Count all items and verify total items and total $ amount match, if they don't match hit "extra item". 	
+                                <span class="bold">Never confront a Shipt shopper for stealing</span>
+                                as it can escalate the situation.	
+                            </td>
+                        </tr>
+    
+                        <tr>
+                            <td class="commFont top">•</td>
+                            <td class="commFont left top paddingBottom">
+                                We must <span class="bold">open ALL tech items</span> when returning them to 
+                                verify serial numbers match the receipt and box. Most items must be defected once opened.	
+                            </td>
+                        </tr>
+    
+                        <tr>
+                            <td class="commFont top">•</td>
+                            <td class="commFont left top paddingBottom">
+                                Any returns or purchases made with large amounts of cash 
+                                (<span class="bold">over $200</span>) must be verified by a leader before processing.					
+                            </td>
+                        </tr>
+    
+                        <tr>
+                            <td class="commFont top">•</td>
+                            <td class="commFont left top paddingBottom">
+                                Going forward <span class="bold">do not prep cold items early</span>
+                                for DU orders, wait until the guest arrives.
+                            </td>
+                        </tr>
+    
+                        <tr>
+                            <td class="commFont top">•</td>
+                            <td class="commFont left top paddingBottom">
+                                Giftcard scams have been going around again. Get with a leader if guests attempt 
+                                to purchase large amounts of giftcards (more than $500). 
+                                <span class="bold">Never split giftcards into separate transactions</span> to get around purchase limits.
+                            </td>
+                        </tr>
+    
+    
+                    </table>
+    
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+    <script>
+        const assignmentSheet = document.getElementById("breakSheetHolder");
+        setupTableResize(assignmentSheet);
+    </script>
+    
+</body>
+</html>

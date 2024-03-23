@@ -48,16 +48,16 @@ function setupLoginPage()
     document.getElementById("supported-districts").innerHTML = dString;    
 }
 
-function loadLeaderData()
+function loadLeaderData(fromSubFolder = false)
 {
-    var csvText = loadFile("csvData/leaderData.csv");
+    var csvText = loadFile(fromSubFolder ? "../csvData/leaderData.csv" : "csvData/leaderData.csv");
     leaderArr = csvToArr(csvText);
     leaderArr.sort(dynamicSortMultiple("TM NUMBER"));
 
     leaderJobs = getUniqueElements(leaderArr, "JOB");
     leaderJobs.sort();    
 
-    csvText = loadFile("csvData/defaultAreas.csv");
+    csvText = loadFile(fromSubFolder ? "../csvData/defaultAreas.csv" : "csvData/defaultAreas.csv");
     const defaultAreasArr = csvToArr(csvText);
 
     defaultAreasLookup = {};

@@ -1,14 +1,9 @@
 let previewPageIndex = 0;
 
-//New link
-//https://greenfield.target.com/l/card/1732305/m8zjhh4
-//https://greenfield.target.com/l/card/1732305/n122hwz
-
-function setupMainMenu()
+function setupDailyBreakSchedulePage()
 {
-    console.log("Setup Main Menu");
-    loadLeaderData();
-    loadStoredDataFiles();
+    loadLeaderData(true);
+    loadStoredDataFiles(true);
     
     if(!isAllowedUser(localStorage.loginID))
     {
@@ -19,18 +14,23 @@ function setupMainMenu()
 
     if(!isCurrentUserADev())
     {        
-        setMainMenuDropdownsActive(false);
+        setFilterDropdownsActive(false);
         setDevItemsVisible(false);
+
+        gtag('event', 'login', 
+        {
+            method : leaderInfo["nameFormatted"]
+        });
     }
     else
     {
-        setMainMenuDropdownsActive(true);
-        setDevItemsVisible(true);
+        setFilterDropdownsActive(true);
+        //setDevItemsVisible(true);
         console.log("Welcome back developer");
     }
 
 
-    document.getElementById("login-tm-message").innerText = "Welcome back ".concat(leaderInfo["nameFormatted"], ", \n", leaderInfo["job"]);     
+    document.getElementById("current-user-name").innerText = leaderInfo["nameFormatted"];     
 
     //Loading Templates
     const templatesElem = document.createElement("div");    
@@ -39,9 +39,9 @@ function setupMainMenu()
 
     document.body.appendChild(templatesElem);
 
-    var template = loadFile("templates/breakSheet.html");
-    var noCommTemplate = loadFile("templates/breakSheetNoComm.html");        
-    var treeTemplate = loadFile("templates/checkboxTree.html");
+    var template = loadFile("../templates/breakSheet.html");
+    var noCommTemplate = loadFile("../templates/breakSheetNoComm.html");        
+    var treeTemplate = loadFile("../templates/checkboxTree.html");
     templatesElem.innerHTML = template.concat(noCommTemplate, treeTemplate);
 
     const startSelector = document.getElementById("start-date-dropdown");
@@ -62,26 +62,23 @@ function setupMainMenu()
 
     const treeHolder = document.getElementById("areas-tree-holder");
     treeHolder.innerHTML ="";
-    createCheckboxTree(treeHolder, departmentTree, "test-tree");
+    createCheckboxTree(treeHolder, departmentTree, "areas-tree");
 
-    // document.getElementById('csvFile').addEventListener('change', readScheduleDataFile, false);   
-    // document.getElementById('csvFile2').addEventListener('change', readTrainingDataFile, false); 
+    // document.getElementById('csvFile').addEventListener('change', (event) =>
+    // {
+    //     readScheduleDataFile(event);
+    //     updateMainMenu();
+    // });
 
-    document.getElementById('csvFile').addEventListener('change', (event) =>
-    {
-        readScheduleDataFile(event);
-        updateMainMenu();
-    });
-
-    document.getElementById('csvFile2').addEventListener('change', (event) =>
-    {
-        readTrainingDataFile(event);
-        updateMainMenu();
-    });
+    // document.getElementById('csvFile2').addEventListener('change', (event) =>
+    // {
+    //     readTrainingDataFile(event);
+    //     updateMainMenu();
+    // });
 
     window.onafterprint = function()
     {
-        setMainMenuVisible(true);
+        //setMainMenuVisible(true);
     };
 
     window.addEventListener("load", function() 
@@ -91,25 +88,24 @@ function setupMainMenu()
     });
 
     loadUsersDefaultFilters();
-    updateMainMenu(); 
+    updateDailyBreakSchedulePage(); 
 }
 
-function updateMainMenu()
+function updateDailyBreakSchedulePage()
 {
-    console.log("Updated main menu");
+    console.log("Updated page");
     const  districtsArray = getDistricts();
     const storesArray = getStores();
     const datesArray = getDates();
     const jobsArray = getJobs();
-    const jobs = getTreeSelectedValues("areas-tree-holder");
 
-    document.getElementById("data-load-date").innerHTML = scheduleArray[0]["load"];
+    //document.getElementById("data-load-date").innerHTML = scheduleArray[0]["load"];
 
-    document.getElementById("district-count").innerHTML = districtsArray.length;
-    document.getElementById("store-count").innerHTML = storesArray.length;
-    document.getElementById("job-count").innerHTML = jobsArray.length;
+    //document.getElementById("district-count").innerHTML = districtsArray.length;
+    //document.getElementById("store-count").innerHTML = storesArray.length;
+    //document.getElementById("job-count").innerHTML = jobsArray.length;
 
-    document.getElementById("dates-range").innerHTML = datesArray[0].concat(" - ", datesArray[datesArray.length - 1]);     
+    //document.getElementById("dates-range").innerHTML = datesArray[0].concat(" - ", datesArray[datesArray.length - 1]);     
 
     setDropdownOptions("district-dropdown", districtsArray); 
     updateStoresDropDown();        
@@ -124,8 +120,9 @@ function updateMainMenu()
     updatePreviewPage();
 
     const trainingCount = getTrainingCount(sessionStorage.selectedStore);
-    document.getElementById("training-count").innerText = trainingCount == 0 ? "Not Loaded" : trainingCount;
+    //document.getElementById("training-count").innerText = trainingCount == 0 ? "Not Loaded" : trainingCount;
 }
+
 
 function updateStoresDropDown()
 {
@@ -149,7 +146,7 @@ function updatePreviewPage()
     const startDate = document.getElementById("start-date-dropdown").value;
     const endDate = document.getElementById("end-date-dropdown").value;
 
-    document.getElementById("custom-link").setAttribute("href", getScheduleDataLink(store));
+    //document.getElementById("custom-link").setAttribute("href", getScheduleDataLink(store));
 
 
     sessionStorage.selectedDistrict = district;
@@ -192,7 +189,6 @@ function createPrintableSheets()
 function printSelectedPages()
 {
     createPrintableSheets();
-    setMainMenuVisible(false);
     print();
 }
 
@@ -360,7 +356,7 @@ function clearStoredFilters()
     sessionStorage.selectedAreas = "";
 }
 
-function setMainMenuDropDowns(district, store, areas)
+function setFilterDropdowns(district, store, areas)
 {
     sessionStorage.selectedStore = store;
     sessionStorage.selectedDistrict = district;
@@ -369,18 +365,13 @@ function setMainMenuDropDowns(district, store, areas)
     loadStoredFilters();
 }
 
-function setMainMenuDropdownsActive(value)
+function setFilterDropdownsActive(value)
 {
     const districtSelector = document.getElementById("district-dropdown");
     const storeSelector = document.getElementById("store-dropdown");
 
     districtSelector.disabled = !value;
     storeSelector.disabled = !value;
-}
-
-function setMainMenuVisible(value)
-{
-    setElementVisible(document.getElementById("main-menu"), value);
 }
 
 function setDevItemsVisible(value)

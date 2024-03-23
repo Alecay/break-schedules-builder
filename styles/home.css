@@ -1,126 +1,141 @@
 *
-    {
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        color: #333; 
-    }
+{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #333; 
+}
 
-    .darkText
-    {
-        color: #333;
-    }
+.darkText
+{
+    color: #333;
+}
 
-    .lightText
-    {
-        color: lightgray;
-    }
+.lightText
+{
+    color: lightgray;
+}
 
-    .navbar i
-    {
-        color: lightgray;
-    }
-
-
-    .previewGrid
-    {
-        margin: 0.5%;
-        width: 48%;
-        border: solid 1px;
-        border-radius: 10px;
-        background-color: lightgray;
-        display: inline-block;
-        min-height: 725px;  
-        position: relative;        
-    }
-
-    .previewGrid .title
-    {
-        display: inline;        
-        font-size: 100%;
-        color: lightgray;
-        margin: 0px;
-        padding: 5px;
-        float: left;
-    }
-
-    .previewGrid .titleBackground
-    {
-        margin: 4px;
-        border-radius: 10px;
-        background-color: #333;
-        height: 30px;
-    }
-
-    .previewGrid .titleButton
-    {
-        display: inline;
-        font-size: 80%;
-        font-weight: bold;
-        float: left; 
-        margin: 5px;   
-        background-color: lightgray;
-        color: #333;
-        border-radius: 3px;
-    }
-
-    .previewGrid .innerButton
-    {
-        display: inline;
-        font-size: 80%;
-        font-weight: bold;
-        float: left; 
-        margin: 5px;   
-        background-color: #333;
-        color: lightgray;
-        border-radius: 3px;
-    }
-
-    .previewGrid .innerButton:hover
-    {
-        color: lightgray;
-        background-color: rgb(10, 60, 66);
-    }
-
-    .previewGrid .innerButton i
-    {
-        color:lightgray;
-        float: left;
-    }
-
-    .previewGrid .nextArrow
-    {
-        float:right;        
-    }
-
-    .previewGrid .previousArrow
-    {
-        float:right;
-    }
-
-    .previewGrid .titleButton:hover
-    {
-        color: lightgray;
-        background-color: rgb(10, 60, 66);
-    }
-
-    .previewGrid .titleButton:hover i
-    {
-        color: lightgray;        
-    }
+.navbar i
+{
+    color: lightgray;
+}
 
 
-    .previewGrid .previewWindow
-    {        
-        margin: 1%;
-    }
+.previewGrid
+{        
+    border: solid 1px;
+    border-radius: 10px;
+    background-color: lightgray;
+    display: inline-block;
+    min-height: 725px;  
+    position: relative;        
+}
 
-    .previewGrid table
-    {
-        width: 100%;
-        border-collapse: collapse;
-        border: none;
-    }
+.previewGrid .title
+{
+    display: inline;        
+    font-size: 100%;
+    color: lightgray;
+    margin: 0px;
+    padding: 5px;
+    float: left;
+}
 
-    .previewGrid .solidBackground
-    {
-        background-color: darkgray;
-    }
+.previewGrid .titleBackground
+{
+    margin: 4px;
+    border-radius: 10px;
+    background-color: #333;
+    height: 30px;
+}
+
+.previewGrid .titleButton
+{
+    display: inline;
+    font-size: 80%;
+    font-weight: bold;
+    float: left; 
+    margin: 5px;   
+    background-color: lightgray;
+    color: #333;
+    border-radius: 3px;
+}
+
+.previewGrid .innerButton
+{
+    display: inline;
+    font-size: 80%;
+    font-weight: bold;
+    float: left; 
+    margin: 5px;   
+    background-color: #333;
+    color: lightgray;
+    border-radius: 3px;
+}
+
+.previewGrid .innerButton:hover
+{
+    color: lightgray;
+    background-color: rgb(10, 60, 66);
+}
+
+.previewGrid .innerButton i
+{
+    color:lightgray;
+    float: left;
+}
+
+.previewGrid .nextArrow
+{
+    float:right;        
+}
+
+.previewGrid .previousArrow
+{
+    float:right;
+}
+
+.previewGrid .titleButton:hover
+{
+    color: lightgray;
+    background-color: rgb(10, 60, 66);
+}
+
+.previewGrid .titleButton:hover i
+{
+    color: lightgray;        
+}
+
+
+.previewGrid .previewWindow
+{        
+    margin: 1%;
+}
+
+.previewGrid table
+{
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+}
+
+.previewGrid .solidBackground
+{
+    background-color: darkgray;
+}
+
+select
+{
+    background-color: #333;
+    color: lightgray;
+}
+
+option
+{
+    background-color: #333;
+    color: lightgray;
+}
+
+input.checkbox
+{
+    accent-color: rgb(10, 60, 66);
+}
