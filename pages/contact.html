@@ -3,23 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact</title>
-    <link rel="stylesheet" href="/styles/navBar.css">
+    <title>Contact - Daily Planning Tool</title>
+
+    <link rel="stylesheet" href="/break-schedules-builder/styles/navBar.css">
+    <link rel="stylesheet" href="/break-schedules-builder/styles/tooltip.css">
+    <link rel="stylesheet" href="/break-schedules-builder/styles/treeStyles.css">
+    <link rel="stylesheet" href="/break-schedules-builder/styles/home.css">
+    <link rel="stylesheet" href="/break-schedules-builder/styles/breakSheetStyle.css">
+
+    <!-- Load font awesome icons -->    
+    <script src="https://kit.fontawesome.com/f0906ef22c.js" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="/break-schedules-builder/js/leaderLogin.js"></script>
+    <script type="text/javascript" src="/break-schedules-builder/js/fileReader.js"></script>
+    <script type="text/javascript" src="/break-schedules-builder/js/csvHelpers.js"></script>
+    <script type="text/javascript" src="/break-schedules-builder/js/sortAndFilter.js"></script>    
+
+    <style>
+    .submitButton
+    {
+        background-color: #333;
+        color: lightgray;
+        border-radius: 3px;
+    }
+
+    .submitButton:hover
+    {
+        background-color: rgb(10, 60, 66);
+        color: lightgray;
+        border-radius: 3px;
+    }
+    </style>
+
 </head>
-<body>
+<body style="background-color: #333; min-width: 530px;">
 
-    <div class="header">
-        <a href="#default" class="logo">Daily Planning Tool</a>
-        <div class="header-right">
-          <a href="/home.html">Home</a>
-          <a class="active" href="/home.html">Contact</a>
-          <a href="#about">About</a>
+  <div id="navHeader">
+    <div class="navbar">
+        <a class="title ignoreHover">Daily Planning Tool</a>
+        <a class="subTitle ignoreHover">by Alec Groseclose</a>
+        <a href="/break-schedules-builder/pages/userLogin.html" style="float: right;"><i class="fa-solid fa-power-off"></i> Sign Out </a>
+        <!-- <a href="/pages/contact.html" style="float: right;"><i class="fa-solid fa-right-to-bracket"></i> Login </a> -->
+        <a class="ignoreHover" style="float: right;"><i class="fa-solid fa-user"></i> <span id="current-user-name" class="lightText"> User Name</span></a>
+    </div>
+
+    <!-- The navigation menu -->
+    <div class="navbar">
+    <a href="/break-schedules-builder/pages/dailyBreakSchedule.html"><i class="fa-solid fa-house"></i> Home</a>
+    <div class="subnav">
+        <button class="subnavbtn"><i class="fa-solid fa-calendar-days"></i> Break Schedules <i class="fa fa-caret-down"></i></button>
+        <div class="subnav-content">
+        <a href="">Print Range</a>
+        <a href="" class="hidden">Custom</a>
         </div>
-      </div>   
+    </div>
+    <div class="subnav">
+        <button class="subnavbtn"><i class="fa-solid fa-file-signature"></i> Assignment Sheets <i class="fa fa-caret-down"></i></button>
+        <div class="subnav-content">
+        <a href="/break-schedules-builder/assignmentSheet.html" target="_blank">Service and Engagement</a>
+        <a href="">More - Coming Soon</a>
+        </div>
+    </div>
+    <div class="subnav">
+        <button class="subnavbtn"><i class="fa-solid fa-database"></i> Greenfield <i class="fa fa-caret-down"></i></button>
+        <div class="subnav-content">
+        <a href="https://greenfield.target.com/l/dashboard/26664/chojpim" target="_blank">Driveup Dashboard</a>
+        <a href="https://greenfield.target.com/l/dashboard/28718/hb5hwvx" target="_blank">Checkout Dashboard</a>
+        <a href="https://greenfield.target.com/l/card/723665/oviscx9" target="_blank">Attendance Insights</a>
+        <a href="https://greenfield.target.com/l/card/1369653/v5gwt92" target="_blank">CRC Unreceived vs Received</a>
+        <a href="https://greenfield.target.com/l/card/1572127/g3l4awb" target="_blank">Checklanes POGs</a>
+        </div>
+    </div>
+    <a href=""><i class="fa-solid fa-upload"></i> Data Upload</a>
+    <a href="/break-schedules-builder/pages/contact.html" style="float: right;"><i class="fa-solid fa-at"></i> Contact</a>
+    <a href="/break-schedules-builder/pages/contact.html" style="float: right;"><i class="fa-solid fa-question"></i> Help</a>
+    
+    </div>
+    <hr style="height: 3px; background-color: lightgray; border-radius: 3px;">        
+    <br>
 
-    <h1>
-        Email me at: @alec.groseclose@target.com
-    </h1>
+  </div>
+
+  <table style="min-height: 725px;">
+    <tr class="hidden">
+      <td style="width: 33%;"></td>
+
+      <td style="text-align: center; vertical-align: top; height: 125px;">
+        <div class="previewGrid" style="min-height: 100px; width: 450px; min-width: 450px; margin: auto; margin-top: 0px;">
+          <div class="titleBackground">
+              <h3 class="title"><i class="fa-solid fa-person-circle-question lightText"></i> About Me</h3>                        
+          </div>
+
+          <div class="previewWindow" style="font-size: 150%; text-align: left;">                
+            <h3 style="margin: 10px;">My name is Alec Groseclose,</h3>
+            <h3 style="margin: 10px;">I have worked for Target since 2018 and I am currently a Service and Engagement Team Leader at Target 1061 in Austin TX.</h3>            
+          </div>    
+          
+        </div>   
+      </td>
+
+      <td style="width: 33%;"></td>
+    </tr>
+
+    <tr class="hidden">
+      <td style="width: 33%;"></td>
+
+      <td style="text-align: center; padding-top: 25px;  vertical-align: top; height: 125px;">
+        <div class="previewGrid" style="min-height: 100px; width: 450px; min-width: 450px; margin: auto; margin-top: 0px;">
+          <div class="titleBackground">
+              <h3 class="title"><i class="fa-solid fa-question lightText"></i> Why was this tool created?</h3>                        
+          </div>
+
+          <div class="previewWindow" style="font-size: 150%; text-align: left;">                
+            <h3 style="margin: 10px;">The original idea for this tool/site actually came from a google sheets that I had made for my team and myself to print our break schedules</h3>
+          </div>    
+          
+        </div>   
+      </td>
+
+      <td style="width: 33%;"></td>
+    </tr>
+
+    <tr>
+      <td style="width: 33%;"></td>
+
+      <td style="text-align: center; padding-top: 25px;  vertical-align: top;">
+        <div class="previewGrid" style="min-height: 100px; width: 450px; min-width: 450px; margin: auto; margin-top: 0px;">
+          <div class="titleBackground">
+              <h3 class="title"><i class="fa-solid fa-envelope lightText"></i> Contact</h3>                        
+          </div>
+
+          <div class="previewWindow" style="font-size: 150%; text-align: center;">                
+            <h3 style="margin: 10px;">alec.groseclose@target.com</h3>
+          </div>    
+          
+        </div>   
+      </td>
+
+      <td style="width: 33%;"></td>
+    </tr>
+  </table>
+
+    <table style="width: 100%;min-height: 100px; ">
+        <tr>
+            <td style="text-align: center;">
+                <hr style="height: 3px; background-color: lightgray; border-radius: 3px;">
+            </td>
+        </tr>
+    </table>
+
+    <script>
+      loadLeaderData();
+      const leaderInfo = getCurrentUserInfo();
+      document.getElementById("current-user-name").innerText = leaderInfo["nameFormatted"].concat(", ", leaderInfo["job"]);
+    </script>
     
 </body>
+
 </html>

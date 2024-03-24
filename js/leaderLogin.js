@@ -142,7 +142,7 @@ function setLoginPageVisible(value)
     setFailedLoginVisible(false);
 }
 
-function signOut(pagePath = "login.html")
+function signOut(pagePath = "/break-schedules-builder/pages/userLogin.html")
 {
     localStorage.loginID = "";
     clearStoredFilters();
