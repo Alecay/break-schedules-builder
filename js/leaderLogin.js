@@ -40,14 +40,14 @@ function setupLoginPage()
 
     loadStoredDataFiles();
     
-    var dString = "";
-    districtsArray.forEach(district => 
+    var tString = "";
+    storesArray.forEach(store => 
     {
-        dString = dString.concat(district, ", ");
+        tString = tString.concat(store, ", ");
     });
 
-    dString = dString.substring(0, dString.length - 2);    
-    document.getElementById("supported-districts").innerHTML = dString;    
+    tString = tString.substring(0, tString.length - 2);    
+    document.getElementById("supported-districts").innerHTML = tString;    
 }
 
 function loadLeaderData()
@@ -145,12 +145,8 @@ function setLoginPageVisible(value)
 function signOut(pagePath = "/break-schedules-builder/pages/userLogin.html")
 {
     localStorage.loginID = "";
-    clearStoredFilters();
 
-    window.location.href = pagePath;
-
-    setMainMenuVisible(false);
-    setLoginPageVisible(true);    
+    window.location.href = pagePath; 
 }
 
 function isValidLoginFormat(tmNumber)

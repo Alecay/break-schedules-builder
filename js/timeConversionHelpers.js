@@ -41,6 +41,13 @@ function timeToHourValue(time)
 
         return hour + mintues + 12.0;
     }
+    else
+    {
+        var hour = parseFloat(timeString.substring(0, 2));
+        var mintues = parseFloat(timeString.substring(3, 5)) / 60.0;
+        
+        return hour + mintues;
+    }
 
     return -1.0;
 }
@@ -54,8 +61,16 @@ function hourValueToTime(hourValue)
 
     if(hours > 12)
     {
-        hours -= 12;
-        isAM = false;        
+        if(hours < 24)
+        {
+            isAM = false;  
+        }
+
+        hours %= 12;
+        if(hours == 0)      
+        {
+            hours = 12;
+        }
     }
 
     if(hours == 12)
@@ -258,4 +273,27 @@ function convertToFormattedTimeRange(inputStr)
     }
 
     return leftConverted.concat(" - ", rightConverted);
+}
+
+function getCurrentTime(includeHour = true, inludeMinutes = true, includeSeconds = false, includeMeridian = true, use24HourFormat = false)
+{
+    const today = new Date();
+    let h = today.getHours();
+    let m = today.getMinutes();
+    let s = today.getSeconds();
+    var meridian = h >= 12 ? "PM" : "AM";
+
+    if(!use24HourFormat)
+    {
+        h = h % 12;
+        h = h ? h : 12;
+    }
+
+    m = m < 10 ? "0" + m : m;
+    s = s < 10 ? "0" + s : s;
+    var time = h + ":" + m + ":" + s + " " + meridian;
+
+    var time = (includeHour ? h + ":" : "") + (inludeMinutes ? m + (includeSeconds ? ":" : "") : "") + (includeSeconds ? s : "") + (includeMeridian ? " " + meridian : "");
+
+    return time;
 }

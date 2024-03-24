@@ -20,11 +20,12 @@ function setupDailyBreakSchedulePage()
     loadLeaderData();
     loadStoredDataFiles();
 
-    //localStorage.loginID = "72154057";
-    //localStorage.loginID = "75580777";
+    clearInterval(updateCurrentTimeSelectors());
+    setInterval(() => { updateCurrentTimeSelectors(); }, 15000);
     
     if(!isAllowedUser(localStorage.loginID))
     {
+        clearStoredFilters();
         signOut();
     }
 
@@ -47,21 +48,7 @@ function setupDailyBreakSchedulePage()
 
     loadTemplates();
 
-    const startSelector = document.getElementById("start-date-dropdown");
-    startSelector.onchange = (event) => { startDateSelected(); };
-
-    const endSelector = document.getElementById("end-date-dropdown");
-    endSelector.value = datesArray[datesArray.length - 1];
-    endSelector.onchange = (event) => { endDateSelected(); };
-
-    const districtSelector = document.getElementById("district-dropdown");
-    districtSelector.onchange = (event) => { updateStoresDropDown(); updatePreviewPage(); };
-
-    const storeSelector = document.getElementById("store-dropdown");
-    storeSelector.onchange = (event) => { updatePreviewPage(); };    
-
-    districtSelector.value = "D322";
-    storeSelector.value = "T1061";
+    setupOnChangeEventsForDropdowns();
 
     const treeHolder = document.getElementById("areas-tree-holder");
     treeHolder.innerHTML ="";
@@ -79,19 +66,76 @@ function setupDailyBreakSchedulePage()
     //     updateMainMenu();
     // });
 
-    window.onafterprint = function()
-    {
-        //setMainMenuVisible(true);
-    };
-
     window.addEventListener("load", function() 
     {
         if(isLoggedIn())
-            storeCurrentFilters();
+        {            
+            //storeCurrentFilters();
+        }        
+            
     });
 
+
+    // const storedFilters = getStoredFilters();
+    // if(storedFilters != undefined && storedFilters != {} && storedFilters["loginID"] != localStorage.loginID)
+    // {
+    //     loadUsersDefaultFilters();
+    // }
+    
     loadUsersDefaultFilters();
     updateDailyBreakSchedulePage(); 
+}
+
+function setupOnChangeEventsForDropdowns()
+{
+    const startSelector = document.getElementById("start-date-dropdown");
+    startSelector.onchange = (event) => { startDateSelected(); };
+
+    const endSelector = document.getElementById("end-date-dropdown");
+    endSelector.value = datesArray[datesArray.length - 1];
+    endSelector.onchange = (event) => { endDateSelected(); };
+
+    const shiftSelector = document.getElementById("tm-working-dropdown");
+    shiftSelector.onchange = (event) => { onShiftFilterChanged(); updatePreviewPage(); };
+
+    const startTimeSelector = document.getElementById("shift-start-time");
+    startTimeSelector.onchange = (event) => { onStartTimeChanged(); updatePreviewPage(); };
+
+    const endTimeSelector = document.getElementById("shift-end-time");
+    endTimeSelector.onchange = (event) => { onEndTimeChanged(); updatePreviewPage(); };
+
+    const districtSelector = document.getElementById("district-dropdown");
+    districtSelector.onchange = (event) => { updateStoresDropDown(); updatePreviewPage(); };
+
+    const storeSelector = document.getElementById("store-dropdown");
+    storeSelector.onchange = (event) => { updatePreviewPage(); };    
+
+    const autoFillSelector = document.getElementById("autofill-breaks-dropdown");
+    autoFillSelector.onchange = (event) => { updatePreviewPage(); };  
+
+    const break1Selector = document.getElementById("break1-dropdown");
+    break1Selector.onchange = (event) => { updatePreviewPage(); };  
+
+    const break2Selector = document.getElementById("break2-dropdown");
+    break2Selector.onchange = (event) => { updatePreviewPage(); };  
+
+    const break3Selector = document.getElementById("break3-dropdown");
+    break3Selector.onchange = (event) => { updatePreviewPage(); };  
+
+    const showTrainingSelector = document.getElementById("show-training-dropdown");
+    showTrainingSelector.onchange = (event) => { updatePreviewPage(); }; 
+
+    const closingTimeSelector = document.getElementById("closing-time-dropdown");
+    closingTimeSelector.onchange = (event) => { updatePreviewPage(); }; 
+
+    const showClosingSelector = document.getElementById("show-closing-dropdown");
+    showClosingSelector.onchange = (event) => { updatePreviewPage(); }; 
+
+    const checkoffBreaksSelector = document.getElementById("checkoff-breaks-dropdown");
+    checkoffBreaksSelector.onchange = (event) => { onBreakCheckoffChanged(); updatePreviewPage(); }; 
+
+    const checkoffBreaksTimeSelector = document.getElementById("checkoff-breaks-time");
+    checkoffBreaksTimeSelector.onchange = (event) => { updatePreviewPage(); }; 
 }
 
 function updateDailyBreakSchedulePage()
@@ -138,25 +182,18 @@ function updateStoresDropDown()
 
 function updatePreviewPage()
 {    
-    //console.log("Updating Preview Page");    
+    console.log("Updating Preview Page"); 
+    storeCurrentFilters();   
 
     const sheetsHolder = document.getElementById("sample-sheet-holder");
     sheetsHolder.innerHTML="";
 
-    const district = document.getElementById("district-dropdown").value;
-    const store = document.getElementById("store-dropdown").value;
-    const jobs = getTreeSelectedValues("areas-tree-holder");
-    const startDate = document.getElementById("start-date-dropdown").value;
-    const endDate = document.getElementById("end-date-dropdown").value;
+    const storedFilters = getStoredFilters();
+    const district = storedFilters["district"];
+    const store =  storedFilters["store"];
+    const areas =  storedFilters["areas"];
 
     //document.getElementById("custom-link").setAttribute("href", getScheduleDataLink(store));
-
-
-    sessionStorage.selectedDistrict = district;
-    sessionStorage.selectedStore = store;
-    sessionStorage.selectedAreas = jobs;
-    sessionStorage.startDate = startDate;
-    sessionStorage.endDate = endDate;
 
     const length = getSelectedDates().length;
 
@@ -170,23 +207,9 @@ function updatePreviewPage()
     }
 
     const date = getSelectedDates()[previewPageIndex];
+    //console.log("Settings", storedFilters["sheetSettings"]);
 
-    const useComm = store == "T1061" && (jobs.includes("Service") || jobs.includes("Checkout"));
-    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], jobs, [date]), useComm);
-}
-
-function createPrintableSheets()
-{
-    const sheetsHolder = document.getElementById("print-sheet-holder");
-    sheetsHolder.innerHTML="";
-
-    const district = document.getElementById("district-dropdown").value;
-    const store = document.getElementById("store-dropdown").value;
-    const jobs = getTreeSelectedValues("areas-tree-holder");
-    const dates = getSelectedDates();
-
-    const useComm = store == "T1061" && (jobs.includes("Service") || jobs.includes("Checkout"));
-    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], jobs, dates), useComm);
+    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], areas, [date]), storedFilters["sheetSettings"]);
 }
 
 function createPrintableSheetsFromStoredFilters()
@@ -198,13 +221,12 @@ function createPrintableSheetsFromStoredFilters()
     console.log(storedFilters);
     const district = storedFilters["district"];
     const store = storedFilters["store"];
-    const jobs = storedFilters["areas"];
+    const area = storedFilters["areas"];
     const dates = getDatesFromRange(storedFilters["startDate"], storedFilters["endDate"]);
 
-    console.log(jobs);
+    console.log(area);
 
-    const useComm = store == "T1061" && (jobs.includes("Service") || jobs.includes("Checkout"));
-    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], jobs, dates), useComm);
+    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], area, dates), storedFilters["sheetSettings"]);
 }
 
 function printSelectedPages()
@@ -295,30 +317,46 @@ function loadUsersDefaultFilters()
     const leaderInfo = getCurrentUserInfo();
     const dates = getDates();
 
-    sessionStorage.selectedDistrict = leaderInfo["district"];
-    sessionStorage.selectedStore = leaderInfo["store"];
-
     const index = dates.indexOf(getTodayDate());
-    sessionStorage.startDate = (index >= 0) ? dates[index] : dates[0];
 
-    sessionStorage.endDate = dates[dates.length - 1];
-    sessionStorage.selectedAreas = leaderInfo["areas"];
+    localStorage.storedFilters = JSON.stringify
+    ({
+        loginID : localStorage.loginID,
+        district : leaderInfo["district"],
+        store : leaderInfo["store"],
+        startDate : (index >= 0) ? dates[index] : dates[0],
+        endDate :  (index >= 0) ? dates[index] : dates[0],//dates[dates.length - 1],
+        areas : leaderInfo["areas"],
+        autoFillBreaks : true,
+        break1 : 4.0,
+        break2 : 6.0,
+        break3 : 7.0,
+    });    
 
     loadStoredFilters();
 }
 
 function getStoredFilters()
 {
-    const stored = 
+    if(localStorage.storedFilters != undefined && localStorage.storedFilters != "")
     {
-        district:sessionStorage.selectedDistrict,
-        store:sessionStorage.selectedStore,
-        areas:JSON.parse(sessionStorage.selectedAreas),
-        startDate:sessionStorage.startDate,
-        endDate:sessionStorage.endDate
+        const filters = JSON.parse(localStorage.storedFilters);
+
+        if(filters["sheetSettings"] != undefined)
+        {
+            const sheetSettings = filters["sheetSettings"];
+            sheetSettings["autoFillBreaks"] = sheetSettings["autoFillBreaks"] == "true" || sheetSettings["autoFillBreaks"];
+            sheetSettings["showTraining"] = sheetSettings["showTraining"] == "true" || sheetSettings["showTraining"];
+            sheetSettings["showClosing"] = sheetSettings["showClosing"] == "true" || sheetSettings["showClosing"];
+    
+            filters["sheetSettings"] = sheetSettings;
+        }
+
+
+        return filters;
     }
 
-    return stored;
+    return {};
 }
 
 function loadStoredFilters()
@@ -330,63 +368,114 @@ function loadStoredFilters()
     const startSelector = document.getElementById("start-date-dropdown");
     const endSelector = document.getElementById("end-date-dropdown");
 
-    if(sessionStorage.selectedDistrict != undefined && sessionStorage.selectedDistrict != "")
+    const storedFilters = getStoredFilters();
+
+    if(storedFilters["district"] != undefined && storedFilters["district"] != "")
     {
-        districtSelector.value = sessionStorage.selectedDistrict;
+        districtSelector.value = storedFilters["district"];
     }
 
     updateStoresDropDown();
 
-    if(sessionStorage.selectedStore != undefined && sessionStorage.selectedStore != "")
+    if(storedFilters["store"] != undefined && storedFilters["store"] != "")
     {
-        storeSelector.value = sessionStorage.selectedStore;
+        storeSelector.value = storedFilters["store"];
     }
 
-    if(sessionStorage.selectedAreas != undefined && sessionStorage.selectedAreas != "")
+    if(storedFilters["areas"] != undefined && storedFilters["areas"] != "")
     {
-        setTreeSelectedValues("areas-tree-holder", getAllTreeChildLabels("areas-tree-holder", sessionStorage.selectedAreas), false);
+        const areas = getAllTreeChildLabels("areas-tree-holder", storedFilters["areas"]);
+        setTreeSelectedValues("areas-tree-holder", areas, false);
     }
 
-    if(sessionStorage.startDate != undefined && sessionStorage.startDate != "")
+    if(storedFilters["startDate"] != undefined && storedFilters["startDate"] != "")
     {
-        startSelector.value = sessionStorage.startDate;
+        startSelector.value = storedFilters["startDate"];
     }
 
-    if(sessionStorage.endDate  != undefined && sessionStorage.endDate != "")
+    if(storedFilters["endDate"] != undefined && storedFilters["endDate"] != "")
     {
-        endSelector.value = sessionStorage.endDate;
+        endSelector.value = storedFilters["endDate"];
     }
 }
 
 function storeCurrentFilters()
 {
-    console.log("Storing current filters");
-    const districtSelector = document.getElementById("district-dropdown");
-    const storeSelector = document.getElementById("store-dropdown");    
-    const startSelector = document.getElementById("start-date-dropdown");
-    const endSelector = document.getElementById("end-date-dropdown");
-    const areas = getTreeSelectedValues("areas-tree-holder");
+    //console.log("Storing current filters");
+    const district = document.getElementById("district-dropdown").value;
+    const store = document.getElementById("store-dropdown").value;    
+    const startDate = document.getElementById("start-date-dropdown").value;
+    const endDate = document.getElementById("end-date-dropdown").value;
+    var areas = getTreeSelectedValues("areas-tree-holder");
+    //console.log("Stored Areas", areas);
 
-    console.log("Areas", areas);
+    if(areas.length == 0)
+    {
+        //console.log("Zero Length");
+        //areas = getCurrentUserInfo()["areas"];
+    }
 
-    sessionStorage.selectedDistrict = districtSelector.value;
-    sessionStorage.selectedStore = storeSelector.value;
-    sessionStorage.startDate = startSelector.value;
-    sessionStorage.endDate = endSelector.value;
-    sessionStorage.selectedAreas = JSON.stringify(areas);
+    const useComm = store == "T1061" && (areas.includes("Service") || areas.includes("Checkout"));
 
-    console.log(sessionStorage.selectedAreas);
+    const autoFillBreaks = document.getElementById("autofill-breaks-dropdown").value;
+    const break1 = document.getElementById("break1-dropdown").value;
+    const break2 = document.getElementById("break2-dropdown").value;
+    const break3 = document.getElementById("break3-dropdown").value;    
+
+    const showTraining = document.getElementById("show-training-dropdown").value;
+    const showClosing = document.getElementById("show-closing-dropdown").value;
+
+    const closingTime = document.getElementById("closing-time-dropdown").value; 
+    var selectedTime = document.getElementById("checkoff-breaks-time").value;
+    if(selectedTime != "")
+    {
+        selectedTime = timeToHourValue(selectedTime);
+        selectedTime = hourValueToTime(selectedTime);
+    }    
+
+    const startTime = document.getElementById("shift-start-time").value; 
+    const endTime = document.getElementById("shift-end-time").value; 
+
+    const sheetSettings = 
+    {
+        useCommTemplate : useComm,
+        autoFillBreaks : autoFillBreaks,
+        break1Threshold : break1,
+        break2Threshold : break2,
+        break3Threshold : break3,
+        showTraining : showTraining,
+        showClosing : showClosing,
+        closingTime : closingTime,
+        currentTime : selectedTime,
+        startTime : startTime,
+        endTime : endTime,
+    };
+
+    localStorage.storedFilters = JSON.stringify
+    ({
+        loginID : localStorage.loginID,
+        district : district,
+        store : store,
+        startDate : startDate,
+        endDate : endDate,
+        areas : areas,
+        autoFillBreaks : autoFillBreaks,
+        break1 : break1,
+        break2 : break2,
+        break3 : break3,
+        showTraining : showTraining,
+        showClosing : showClosing,
+        sheetSettings : sheetSettings
+    });
+
+    //console.log(JSON.parse(localStorage.storedFilters));
 }
 
 function clearStoredFilters()
 {
     console.log("Clearing stored filters");
 
-    sessionStorage.selectedDistrict = "";
-    sessionStorage.selectedStore = "";
-    sessionStorage.startDate = "";
-    sessionStorage.endDate = "";
-    sessionStorage.selectedAreas = "";
+    localStorage.storedFilters = "";
 }
 
 function setFilterDropdowns(district, store, areas)
@@ -425,5 +514,142 @@ function setElementVisible(element, value)
     else
     {
         element.classList.add("hidden");
+    }
+}
+
+function onBreakCheckoffChanged()
+{
+    const checkoffVal = document.getElementById("checkoff-breaks-dropdown").value;
+    const checkoffTimeSelector = document.getElementById("checkoff-breaks-time");
+
+    const d = new Date();
+    const time = getCurrentTime(true, true, false, false, true);
+
+    if(checkoffVal == 1)
+    {
+        checkoffTimeSelector.value = time;
+        checkoffTimeSelector.disabled = true;
+    }
+    else if(checkoffVal == 2)
+    {
+        checkoffTimeSelector.value = time;
+        checkoffTimeSelector.disabled = false;
+    }
+    else
+    {
+        checkoffTimeSelector.value = "";
+        checkoffTimeSelector.disabled = true;
+    }
+}
+
+function onShiftFilterChanged()
+{
+    const shiftVal = document.getElementById("tm-working-dropdown").value;
+    const startTimeSelector = document.getElementById("shift-start-time");
+    const endTimeSelector = document.getElementById("shift-end-time");
+
+    const d = new Date();
+    const time = getCurrentTime(true, true, false, false, true);
+
+    if(shiftVal == 1)
+    {
+        startTimeSelector.value = time;
+        endTimeSelector.value = "23:59";
+
+        startTimeSelector.disabled = true;
+        endTimeSelector.disabled = true;
+    }
+    else if(shiftVal == 2)
+    {
+        startTimeSelector.value = time;
+        endTimeSelector.value = "23:59";
+
+        startTimeSelector.disabled = false;
+        endTimeSelector.disabled = true;
+    }
+    else if(shiftVal == 3)
+    {
+        startTimeSelector.value = time;
+        endTimeSelector.value = "23:59";
+
+        startTimeSelector.disabled = false;
+        endTimeSelector.disabled = false;
+    }
+    else
+    {
+        startTimeSelector.value = "00:00";
+        endTimeSelector.value = "23:59";
+
+        startTimeSelector.disabled = true;
+        endTimeSelector.disabled = true;
+    }
+}
+
+function onStartTimeChanged()
+{
+    const shiftVal = document.getElementById("tm-working-dropdown").value;
+    const startTimeSelector = document.getElementById("shift-start-time");
+    const endTimeSelector = document.getElementById("shift-end-time");
+
+    const startTimeVal = timeToHourValue(startTimeSelector.value);
+    const endTimeVal = timeToHourValue(endTimeSelector.value);
+
+    if(shiftVal == 3 && startTimeVal > endTimeVal)
+    {
+        endTimeSelector.value = startTimeSelector.value;
+    }
+}
+
+function onEndTimeChanged()
+{
+    const shiftVal = document.getElementById("tm-working-dropdown").value;
+    const startTimeSelector = document.getElementById("shift-start-time");
+    const endTimeSelector = document.getElementById("shift-end-time");
+
+    const startTimeVal = timeToHourValue(startTimeSelector.value);
+    const endTimeVal = timeToHourValue(endTimeSelector.value);
+
+    if(shiftVal == 3 && startTimeVal > endTimeVal)
+    {
+        startTimeSelector.value = endTimeSelector.value;
+    }
+}
+
+function updateCurrentTimeSelectors()
+{
+    const checkoffVal = document.getElementById("checkoff-breaks-dropdown").value;
+    const checkoffTimeSelector = document.getElementById("checkoff-breaks-time");
+
+    const shiftVal = document.getElementById("tm-working-dropdown").value;
+    const startTimeSelector = document.getElementById("shift-start-time");
+
+    const d = new Date();
+    const time = getCurrentTime(true, true, false, false, true);
+
+    var shouldUpdatePage = false;
+    if(checkoffVal == 1)
+    {
+        if(timeToHourValue(checkoffTimeSelector.value) != timeToHourValue(time))
+        {
+            shouldUpdatePage = true;
+        }
+
+        checkoffTimeSelector.value = time;
+    }
+
+    if(shiftVal == 1)
+    {
+        if(timeToHourValue(startTimeSelector.value) != timeToHourValue(time))
+        {
+            shouldUpdatePage = true;
+        }
+
+        startTimeSelector.value = time;
+    }        
+    
+    if(shouldUpdatePage)
+    {
+        console.log("Updated current time");
+        updatePreviewPage();
     }
 }

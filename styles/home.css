@@ -135,6 +135,20 @@ select:disabled
     background-color: rgb(10, 60, 66);
 }
 
+input
+{
+    opacity: 1;
+    background-color: #333;
+    color: lightgray;
+}
+
+input:disabled
+{
+    opacity: 0.5;
+    background-color: rgb(10, 60, 66);
+    color: lightgray;
+}
+
 option
 {
     background-color: #333;

@@ -13,13 +13,11 @@ let jobsArray = new Array();
 
 let departmentTree = {};
 
-//https://greenfield.target.com/l/card/1732386/fi0bldv
+//Schedule Data
+//https://greenfield.target.com/l/card/1732305/zk3icio
 
-//https://greenfield.target.com/l/card/1732305/wrrjw43
-
-//https://greenfield.target.com/card/1732305?$filters@$ref_id=rjavftcxo5&field_name=job_area_a&obj_type=column&type=in&pattern@=Front%20Lanes&=Guest%20Services;&display_name=Job%20Area&dimension=job_area_a;&$type=in&dimension=region_format_short_n&display_name=Region&ref_id=rzhn4vt26l1&obj_type=column&pattern@=R300;;&$type=in&dimension=district_format_short_n&display_name=District&ref_id=r4uedak5j76&obj_type=column&pattern@=D322;;;&timePeriod$calendar_type=Fiscal&granularity=All&interval=(this.day.begin,%20this.week.end%20%3E%3E%201%20week)&type=relative
-
-//https://greenfield.target.com/card/1732305?$filters@$ref_id=rjavftcxo5&field_name=job_area_a&obj_type=column&type=in&pattern@=Front%20Lanes;&display_name=Job%20Area&dimension=job_area_a;&$type=in&dimension=home_location&display_name=Store&ref_id=rxdxp8x5pcc&obj_type=column&pattern@=T1061;;;&timePeriod$calendar_type=Fiscal&granularity=All&interval=(this.day.begin,%20this.week.end%20%3E%3E%201%20week)&type=relative
+//Leader Data
+//https://greenfield.target.com/l/card/1734371/eg4l8gp
 
 function loadStoredDataFiles()
 {
@@ -266,47 +264,12 @@ function getFormattedScheduleArray(array)
         var startTime = String(row["SCHEDULE"]).substring(0, 8);
         var endTime = String(row["SCHEDULE"]).substring(11, 19);
 
-        singleObj["hours"] = timeDifference(endTime, startTime).toFixed(1);
-        
-        const break1Threshold = 4;
-        const break2Threshold = 6;
-        const break3Threshold = 7;
+        singleObj["hours"] = timeDifference(endTime, startTime).toFixed(1);    
 
-        //Calcalute breaks
-        if(singleObj["hours"] >= break1Threshold)
-        {
-            if(singleObj["hours"] < break2Threshold)
-            {
-                singleObj["break1"] = shiftTime(startTime, Math.round(singleObj["hours"] / 2));
-            }
-            else
-            {
-                singleObj["break1"] = shiftTime(startTime, 2);
-            }
-            
-        }
-        else
-        {
-            singleObj["break1"] = "X";
-        }
-
-        if(singleObj["hours"] >= break2Threshold)
-        {
-            singleObj["break2"] = shiftTime(startTime, 4);
-        }
-        else
-        {
-            singleObj["break2"] = "X";
-        }
-
-        if(singleObj["hours"] >= break3Threshold)
-        {
-            singleObj["break3"] = shiftTime(startTime, 6);
-        }
-        else
-        {
-            singleObj["break3"] = "X";
-        } 
+        const breakData = getBreakTimes(singleObj["schedule"], singleObj["hours"], 4, 6, 8);
+        singleObj["break1"] = breakData["break1"];
+        singleObj["break2"] = breakData["break2"];
+        singleObj["break3"] = breakData["break3"];
 
         singleObj["date"] = String(row["SCHEDULED DATE"]);
         singleObj["area"] = String(row["JOB AREA"]);
@@ -357,4 +320,71 @@ function getTrainingCount(store)
 
 
     return count;
+}
+
+function getBreakTimes(schedule, hours, break1Threshold = 4.0, break2Threshold = 6.0, break3Threshold = 7.0, currentTime = "")
+{
+    var startTime = String(schedule).substring(0, 8);
+    const breakData = {};
+    
+    //Calcalute breaks
+    if(hours>= break1Threshold)
+    {
+        if(hours < break2Threshold)
+        {
+            breakData["break1"] = shiftTime(startTime, Math.round(hours / 2));
+        }
+        else
+        {
+            breakData["break1"] = shiftTime(startTime, 2);            
+        }
+        
+    }
+    else
+    {
+        breakData["break1"] = "X";
+    }
+
+    if(hours >= break2Threshold)
+    {
+        breakData["break2"] = shiftTime(startTime, 4);
+    }
+    else
+    {
+        breakData["break2"] = "X";
+    }
+
+    if(hours >= break3Threshold)
+    {
+        breakData["break3"] = shiftTime(startTime, 6);
+    }
+    else
+    {
+        breakData["break3"] = "X";
+    } 
+
+    if(currentTime != "")
+    {
+        var currentTimeVal = timeToHourValue(currentTime);
+        var break1Val = breakData["break1"] == "X" ? -1 : timeToHourValue(breakData["break1"]);
+        var break2Val = breakData["break2"] == "X" ? -1 : timeToHourValue(breakData["break2"]);
+        var break3Val = breakData["break3"] == "X" ? -1 : timeToHourValue(breakData["break3"]);
+
+        if(break1Val > 0 && break1Val < currentTimeVal)
+        {
+            breakData["break1"] = "✔";
+        }
+
+        if(break2Val > 0 && break2Val < currentTimeVal)
+        {
+            breakData["break2"] = "✔";
+        }
+
+        if(break3Val > 0 && break3Val < currentTimeVal)
+        {
+            breakData["break3"] = "✔";
+        }
+    }
+
+    return breakData;
 }

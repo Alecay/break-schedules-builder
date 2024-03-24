@@ -1,4 +1,4 @@
-function createBreakSheets(parent, array, useCommTemplate)
+function createBreakSheets(parent, array, sheetSettings = undefined)
 {
     //console.log("Creating sheets");
     var allDates = new Array();
@@ -10,20 +10,43 @@ function createBreakSheets(parent, array, useCommTemplate)
         }
     });
     
-    console.log("Creating sheets for dates:", allDates);
+    // console.log(sheetSettings);
+    //console.log("Creating sheets for dates:", allDates);
 
     allDates.forEach(date => 
     {
         if(date === null || date === undefined || String(date) == "undefined")
             return;
 
-        createBreakSheet(parent, array, date, useCommTemplate);        
+        createBreakSheet(parent, array, date, sheetSettings);        
     });
 }
 
-function createBreakSheet(parent, array, date, useCommTemplate)
+function createBreakSheet(parent, array, date, sheetSettings = undefined)
 {    
-    const sheet = getNewBreakSheet(useCommTemplate);
+    if(sheetSettings == undefined)
+    {
+        sheetSettings = {};
+        sheetSettings["useCommTemplate"] = false;
+        sheetSettings["autoFillBreaks"] = true;
+        sheetSettings["break1Threshold"] = 4.0;
+        sheetSettings["break2Threshold"] = 6.0;
+        sheetSettings["break3Threshold"] = 7.0;
+        sheetSettings["showTraining"] = true;
+        sheetSettings["showClosing"] = true;
+        sheetSettings["closingTime"] = "09:45 PM";
+        sheetSettings["currentTime"] = "";
+        sheetSettings["startTime"] = "12:00 AM";
+        sheetSettings["endTime"] = "11:59 PM";
+
+        console.log("Using default sheet settings");
+    }
+
+    sheetSettings["autoFillBreaks"] = sheetSettings["autoFillBreaks"] == "true" || sheetSettings["autoFillBreaks"] == true;
+    sheetSettings["showTraining"] = sheetSettings["showTraining"] == "true" || sheetSettings["showTraining"] == true;
+    sheetSettings["showClosing"] = sheetSettings["showClosing"] == "true" || sheetSettings["showClosing"] == true;
+
+    const sheet = getNewBreakSheet(sheetSettings["useCommTemplate"]);
     
     setChildNodeValue(sheet, "#date", getFormattedDate(date));
     //setChildNodeValue(sheet, "#up-to-date", "Up to date as of: ".concat(array[0]["load"]));
@@ -34,7 +57,7 @@ function createBreakSheet(parent, array, date, useCommTemplate)
     var count = 0;
     var closingCount = 0;
 
-    const solidClassName = "solidBackground";    
+    const solidClassName = "solidBackground";   
 
     filteredArr.forEach((data) =>
     {        
@@ -43,20 +66,43 @@ function createBreakSheet(parent, array, date, useCommTemplate)
             return;
         }
 
-        var row = addRowToBreakSheet(sheet);
-        setRowValuesFromObject(row, data);
+        const startTime = String(data["schedule"]).substring(0, 8);
+        const endTime = String(data["schedule"]).substring(11, 19);
 
-        if(data["break1"] == "X")
+        const startTimeVal = timeToHourValue(startTime);
+        const endTimeVal = timeToHourValue(endTime);
+
+        const startRange = timeToHourValue(sheetSettings["startTime"]);
+        const endRange = timeToHourValue(sheetSettings["endTime"]);
+
+        if(endTimeVal <= startRange || startTimeVal > endRange)
+        {
+            return;
+        }
+
+        const breakData = getBreakTimes(data["schedule"], data["hours"], 
+        sheetSettings["break1Threshold"], sheetSettings["break2Threshold"], sheetSettings["break3Threshold"], 
+        sheetSettings["currentTime"]);//getCurrentTime(true, true, false, true, false));
+
+        data["break1"] = breakData["break1"];
+        data["break2"] = breakData["break2"];
+        data["break3"] = breakData["break3"];
+        data["closing"] = timeToHourValue(endTime) >= timeToHourValue(sheetSettings["closingTime"]) ? "c" : "";
+
+        var row = addRowToBreakSheet(sheet);
+        setRowValuesFromObject(row, data, sheetSettings["autoFillBreaks"], sheetSettings["showTraining"], sheetSettings["showClosing"]);
+
+        if(data["break1"] == "X" || data["break1"] == "✔")
         {
             setChildNodeClass(row, "#break1", solidClassName);
         }
 
-        if(data["break2"] == "X")
+        if(data["break2"] == "X" || data["break2"] == "✔")
         {
             setChildNodeClass(row, "#break2", solidClassName);
         }
 
-        if(data["break3"] == "X")
+        if(data["break3"] == "X" || data["break3"] == "✔")
         {
             setChildNodeClass(row, "#break3", solidClassName);
         }
@@ -108,7 +154,7 @@ function createBreakSheetByArea(parent, array, date, area)
         }
 
         var row = addRowToBreakSheet(sheet);
-        setRowValuesFromObject(row, data);
+        setRowValuesFromObject(row, data, autoFillBreaks, showClosing);
 
         if(data["break1"] == "X")
         {
@@ -212,16 +258,44 @@ function setChildNodeValue(parent, id, value)
     holder.innerHTML = value;
 }
 
-function setRowValuesFromObject(row, data)
+function setRowValuesFromObject(row, data, setBreaks = true, showTraining = true, showClosing = true)
 {
-    setChildNodeValue(row, "#name", data["trainingName"]);
+    if(showTraining)
+    {
+        setChildNodeValue(row, "#name", data["trainingName"]);
+    }
+    else
+    {
+        setChildNodeValue(row, "#name", data["name"]);
+    }
+
     setChildNodeValue(row, "#job", data["job"]);
     setChildNodeValue(row, "#schedule", data["schedule"]);
-    setChildNodeValue(row, "#break1", data["break1"]);
-    setChildNodeValue(row, "#break2", data["break2"]);
-    setChildNodeValue(row, "#break3", data["break3"]);
+
+    if(setBreaks)
+    {        
+        setChildNodeValue(row, "#break1", data["break1"]);
+        setChildNodeValue(row, "#break2", data["break2"]);
+        setChildNodeValue(row, "#break3", data["break3"]);
+    }
+    else
+    {
+        setChildNodeValue(row, "#break1", data["break1"].length == 1 ? data["break1"] : "");
+        setChildNodeValue(row, "#break2", data["break2"].length == 1 ? data["break2"] : "");
+        setChildNodeValue(row, "#break3", data["break3"].length == 1 ? data["break3"] : "");
+    }
+
     setChildNodeValue(row, "#hours", data["hours"]);
-    setChildNodeValue(row, "#closing-flag", data["closing"]);
+
+    if(showClosing)
+    {
+        setChildNodeValue(row, "#closing-flag", data["closing"]);
+    }
+    else
+    {
+        setChildNodeValue(row, "#closing-flag", "");
+    }
+    
 }
 
 

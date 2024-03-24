@@ -138,23 +138,3 @@ Brian Arriaga,76699345,2,0
 Quentin Foster,76703716,2,0
 Miguel �ngel Dominguez Juarez,76710873,3,0
 Jackson Zeledon,76737341,2,0
-
-
-Exported at: 03/22/2024 9:23:03 pm
-Card ID: 1732386
-Card Name: trainingData
-
-Are all rows displayed: yes
-Number of rows: 139
-Time Period: All Time
-Data Time Window:
-Begin: 2019-06-16
-End: 2099-12-31
-
-
-Filters: 
-
-Name: Job
-Type: not in
-Pattern: Service & Engagement Team Leader
-

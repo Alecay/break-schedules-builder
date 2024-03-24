@@ -23,14 +23,14 @@ function setupUserLoginPage()
 
     loadStoredDataFiles();
     
-    var dString = "";
-    districtsArray.forEach(district => 
+    var tString = "";
+    storesArray.forEach(store => 
     {
-        dString = dString.concat(district, ", ");
+        tString = tString.concat(store, ", ");
     });
 
-    dString = dString.substring(0, dString.length - 2);    
-    document.getElementById("supported-districts").innerHTML = dString;    
+    tString = tString.substring(0, tString.length - 2);    
+    document.getElementById("supported-districts").innerHTML = tString;      
 }
 
 function onTMLoginSubmit()
@@ -68,15 +68,4 @@ function onTMLoginSubmit()
     loginField.value = "";
 
     attemptLogin(tmNumber, "/break-schedules-builder/pages/dailyBreakSchedule.html");
-}
-
-function signOut(pagePath = "login.html")
-{
-    localStorage.loginID = "";
-    clearStoredFilters();
-
-    window.location.href = pagePath;
-
-    setMainMenuVisible(false);
-    setLoginPageVisible(true);    
 }

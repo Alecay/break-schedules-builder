@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S&E Assignment Sheet - Daily Planning Tool</title>
+
+    <link rel="stylesheet" href="/break-schedules-builder/styles/navBar.css">
+    <link rel="stylesheet" href="/break-schedules-builder/styles/tooltip.css">
+    <link rel="stylesheet" href="/break-schedules-builder/styles/treeStyles.css">
+    <link rel="stylesheet" href="/break-schedules-builder/styles/home.css">
+    <link rel="stylesheet" href="/break-schedules-builder/styles/breakSheetStyle.css">
+
+    <!-- Load font awesome icons -->    
+    <script src="https://kit.fontawesome.com/f0906ef22c.js" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="/break-schedules-builder/js/leaderLogin.js"></script>
+    <script type="text/javascript" src="/break-schedules-builder/js/fileReader.js"></script>
+    <script type="text/javascript" src="/break-schedules-builder/js/csvHelpers.js"></script>
+    <script type="text/javascript" src="/break-schedules-builder/js/sortAndFilter.js"></script>    
+
+</head>
+<body style="background-color: #333; min-width: 530px;">
+
+  <div id="navHeader">
+    <div class="navbar">
+        <a class="title ignoreHover">Daily Planning Tool</a>
+        <a class="subTitle ignoreHover">by Alec Groseclose</a>
+        <a href="/break-schedules-builder/pages/userLogin.html" style="float: right;"><i class="fa-solid fa-power-off"></i> Sign Out </a>
+        <!-- <a href="/pages/contact.html" style="float: right;"><i class="fa-solid fa-right-to-bracket"></i> Login </a> -->
+        <a class="ignoreHover" style="float: right;"><i class="fa-solid fa-user"></i> <span id="current-user-name" class="lightText"> User Name</span></a>
+    </div>
+
+    <!-- The navigation menu -->
+    <div class="navbar">
+    <a href="/break-schedules-builder/pages/dailyBreakSchedule.html"><i class="fa-solid fa-house"></i> Home</a>
+    <div class="subnav">
+        <button class="subnavbtn"><i class="fa-solid fa-calendar-days"></i> Break Schedules <i class="fa fa-caret-down"></i></button>
+        <div class="subnav-content">
+        <a href="">Print Range</a>
+        <a href="" class="hidden">Custom</a>
+        </div>
+    </div>
+    <div class="subnav">
+        <button class="subnavbtn"><i class="fa-solid fa-file-signature"></i> Assignment Sheets <i class="fa fa-caret-down"></i></button>
+        <div class="subnav-content">
+        <a href="/break-schedules-builder/assignmentSheet.html" target="_blank">Service and Engagement</a>
+        <a href="">More - Coming Soon</a>
+        </div>
+    </div>
+    <div class="subnav">
+        <button class="subnavbtn"><i class="fa-solid fa-database"></i> Greenfield <i class="fa fa-caret-down"></i></button>
+        <div class="subnav-content">
+        <a href="https://greenfield.target.com/l/dashboard/26664/chojpim" target="_blank">Driveup Dashboard</a>
+        <a href="https://greenfield.target.com/l/dashboard/28718/hb5hwvx" target="_blank">Checkout Dashboard</a>
+        <a href="https://greenfield.target.com/l/card/723665/oviscx9" target="_blank">Attendance Insights</a>
+        <a href="https://greenfield.target.com/l/card/1369653/v5gwt92" target="_blank">CRC Unreceived vs Received</a>
+        <a href="https://greenfield.target.com/l/card/1572127/g3l4awb" target="_blank">Checklanes POGs</a>
+        </div>
+    </div>
+    <a href=""><i class="fa-solid fa-upload"></i> Data Upload</a>
+    <a href="/break-schedules-builder/pages/contact.html" style="float: right;"><i class="fa-solid fa-at"></i> Contact</a>
+    <a href="/break-schedules-builder/pages/contact.html" style="float: right;"><i class="fa-solid fa-question"></i> Help</a>
+    
+    </div>
+    <hr style="height: 3px; background-color: lightgray; border-radius: 3px;">        
+    <br>
+
+  </div>
+
+  <table style="width: 100%;">
+    <tr>
+        <td style="width: 27%;  vertical-align: top; padding: 10px; min-width: 400px;">
+            <div class="previewGrid" style="width: 100%;">
+                <div class="titleBackground">
+                    <h3 class="title"><i class="fa-solid fa-filter lightText"></i> Filters</h3>
+                    <i class="fa-solid fa-circle-info tooltip title" style="float: right;"><span class="tooltiptext">Used to select what areas or TMs to include on the schedule</span></i>
+                </div>
+    
+                <div class="previewWindow" style="font-size: 150%;">
+                    <div id="options-holder" style="margin-left: 0.5vw; border: 0px;">
+                
+                        <label for="district-dropdown">District:</label> 
+                        <select name="district-dropdown" id="district-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;"></select>
+                        <br>
+    
+                        <label for="store-dropdown">Store:</label> 
+                        <select name="store-dropdown" id="store-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;"></select>
+                        <br>
+    
+                        <label for="start-date-dropdown">Start Date:</label> 
+                        <select name="start-date-dropdown" id="start-date-dropdown" style="font-size: 80%;background-color: #333; color: lightgray;margin-bottom: 0.5vw;"></select>
+    
+                        <label style="padding-left: 0.1vw; padding-right: 0.1vw;">-</label>
+                        
+                        <label for="end-date-dropdown">End Date:</label> 
+                        <select name="end-date-dropdown" id="end-date-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;"></select> 
+                        <br>                                    
+    
+                    </div>
+                        
+                </div>
+                
+                <div class="titleBackground" style="margin-top: 15px;">
+                    <h3 class="title"><i class="fa-solid fa-mug-hot lightText"></i> Break Settings</h3>
+                    <i class="fa-solid fa-circle-info tooltip title" style="float: right;">
+                        <span class="tooltiptext">Used to determine when breaks should happen</span>
+                    </i>
+                </div>
+    
+                <div class="previewWindow" style="font-size: 150%; padding-left: 0.5vw;">
+
+                    <label for="autofill-breaks-dropdown">Autofill Breaks:</label> 
+                    <select name="autofill-breaks-dropdown" id="autofill-breaks-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;">
+                        <option value="true" selected="selected">True</option>
+                        <option value="false">False</option>
+                    </select>
+                    <br>
+
+                    <label for="break1-dropdown">1st Break After:</label> 
+                    <select name="break1-dropdown" id="break1-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;">
+                        <option value="3.0">3.0 hrs</option>
+                        <option value="3.5">3.5 hrs</option>
+                        <option value="4.0" selected="selected">4.0 hrs</option>
+                        <option value="4.5">4.5 hrs</option>
+                        <option value="5.0">5.0 hrs</option>
+                        <option value="5.5">5.5 hrs</option>
+                        <option value="6.0">6.0 hrs</option>
+                        <option value="6.5">6.5 hrs</option>
+                        <option value="7.0">7.0 hrs</option>
+                        <option value="7.5">7.5 hrs</option>
+                        <option value="8.0">8.0 hrs</option>
+                    </select>
+                    <br>
+
+                    <label for="meal-dropdown">Meal After:</label> 
+                    <select name="meal-dropdown" id="meal-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;">
+                        <option value="3.0">3.0 hrs</option>
+                        <option value="3.5">3.5 hrs</option>
+                        <option value="4.0">4.0 hrs</option>
+                        <option value="4.5">4.5 hrs</option>
+                        <option value="5.0">5.0 hrs</option>
+                        <option value="5.5">5.5 hrs</option>
+                        <option value="6.0" selected="selected">6.0 hrs</option>
+                        <option value="6.5">6.5 hrs</option>
+                        <option value="7.0">7.0 hrs</option>
+                        <option value="7.5">7.5 hrs</option>
+                        <option value="8.0">8.0 hrs</option>
+                    </select>
+                    <br>
+
+                    <label for="break2-dropdown">2nd Break After:</label> 
+                    <select name="break2-dropdown" id="break2-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;">
+                        <option value="3.0">3.0 hrs</option>
+                        <option value="3.5">3.5 hrs</option>
+                        <option value="4.0">4.0 hrs</option>
+                        <option value="4.5">4.5 hrs</option>
+                        <option value="5.0">5.0 hrs</option>
+                        <option value="5.5">5.5 hrs</option>
+                        <option value="6.0">6.0 hrs</option>
+                        <option value="6.5">6.5 hrs</option>
+                        <option value="7.0" selected="selected">7.0 hrs</option>
+                        <option value="7.5">7.5 hrs</option>
+                        <option value="8.0">8.0 hrs</option>
+                    </select>
+                    <br>                    
+
+                </div>   
+    
+                <div id="printDiv" style="position: absolute; bottom: 65px; left: 5px; width: 96%;">
+    
+                    <button class="innerButton" style="width: 100%; height: 50px;" onclick="printSelectedPages()">
+                        <i class="fa-solid fa-rotate-right" style="font-size: 200%; margin: 5px;"></i>
+                        <h3 class="title" style="font-size: 200%;"> Apply selected</h3>                            
+                    </button>
+                    
+                </div>
+
+                <div id="printDiv" style="position: absolute; bottom: 5px; left: 5px; width: 96%;">
+    
+                    <button class="innerButton" style="width: 100%; height: 50px;" onclick="printSelectedPages()">
+                        <i class="fa-solid fa-print" style="font-size: 200%; margin: 5px;"></i>
+                        <h3 class="title" style="font-size: 200%;"> Print Sheet</h3>                            
+                    </button>
+                    
+                </div>
+                
+            </div>
+
+        </td>
+
+        <td style="vertical-align: top;  padding: 10px;">
+            <div class="previewGrid" style="width: 100%;">
+                <div class="titleBackground">
+                    <h3 class="title"><i class="fa-solid fa-eye lightText"></i> Preview Assignment Sheet</h3>                      
+                
+                </div>
+    
+                <div class="previewWindow">
+    
+                    <div id="sample-sheet-holder" style="width: 100%; font-size: 1vw;"></div>
+                    
+                </div>
+            </div>
+        </td>
+
+    </tr>
+</table>
+
+    <script>
+      loadLeaderData();
+      const leaderInfo = getCurrentUserInfo();
+      document.getElementById("current-user-name").innerText = leaderInfo["nameFormatted"].concat(", ", leaderInfo["job"]);
+    </script>
+    
+</body>
+
+</html>

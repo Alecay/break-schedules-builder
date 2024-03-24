@@ -35,6 +35,11 @@
             line-height: 2.5;
             position: relative; 
         }
+
+        .disabledLabel
+        {
+            opacity: 0.5;
+        }
     </style>
 
 </head>
@@ -53,9 +58,9 @@
         <div class="navbar">
         <a href="/break-schedules-builder/pages/dailyBreakSchedule.html"><i class="fa-solid fa-house"></i> Home</a>
         <div class="subnav">
-            <button class="subnavbtn"><i class="fa-solid fa-calendar-days"></i> Break Schedules <i class="fa fa-caret-down"></i></button>
+            <button class="subnavbtn"><i class="fa-solid fa-calendar-days"></i> Schedule Reports <i class="fa fa-caret-down"></i></button>
             <div class="subnav-content">
-            <a href="">Print Range</a>
+            <a href="/break-schedules-builder/pages/dailyBreakSchedule.html">Daily Break Schedule</a>
             <a href="" class="hidden">Custom</a>
             </div>
         </div>
@@ -89,7 +94,7 @@
 
     <table style="width: 100%;">
         <tr>
-            <td style="width: 27%;  vertical-align: top; padding: 10px;">
+            <td style="width: 24%;  vertical-align: top; padding: 10px; min-width: 450px;">
                 <div class="previewGrid" style="width: 100%;">
                     <div class="titleBackground">
                         <h3 class="title"><i class="fa-solid fa-filter lightText"></i> Filters</h3>
@@ -100,21 +105,40 @@
                         <div id="options-holder" style="margin-left: 0.5vw; border: 0px;">
                     
                             <label for="district-dropdown">District:</label> 
-                            <select name="district-dropdown" id="district-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;"></select>
+                            <select name="district-dropdown" id="district-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;" ></select>
                             <br>
         
                             <label for="store-dropdown">Store:</label> 
-                            <select name="store-dropdown" id="store-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;"></select>
+                            <select name="store-dropdown" id="store-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;" ></select>
                             <br>
         
                             <label for="start-date-dropdown">Start Date:</label> 
-                            <select name="start-date-dropdown" id="start-date-dropdown" style="font-size: 80%;background-color: #333; color: lightgray;margin-bottom: 0.5vw;"></select>
+                            <select name="start-date-dropdown" id="start-date-dropdown"
+                            style="font-size: 80%;background-color: #333; color: lightgray;margin-bottom: 0.5vw;" ></select>
         
                             <label style="padding-left: 0.1vw; padding-right: 0.1vw;">-</label>
                             
                             <label for="end-date-dropdown">End Date:</label> 
-                            <select name="end-date-dropdown" id="end-date-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;"></select> 
+                            <select name="end-date-dropdown" id="end-date-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;" ></select> 
                             <br>
+
+                            <label for="tm-working-dropdown">Shifts:</label> 
+                            <select name="tm-working-dropdown" id="tm-working-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;" >
+                                <option value="0">Anytime of the day</option>
+                                <option value="1">After current time</option>
+                                <option value="2">After selected time</option>
+                                <option value="3">Between selected times</option>
+                            </select> 
+                            <br>
+
+                            <label for="shift-start-time">Shift Start:</label> 
+                            <input id="shift-start-time" type="time" style="font-size: 80%; margin-bottom: 0.5vw;" value="00:00" disabled/> 
+
+                            <label style="padding-left: 0.1vw; padding-right: 0.1vw;">-</label>
+
+                            <label for="shift-end-time">End:</label> 
+                            <input id="shift-end-time" type="time" style="font-size: 80%; margin-bottom: 0.5vw;"  value="23:59" disabled/>                             
+                            <br> 
                             
                             <label>Areas:</label>                             
                             <div id="areas-tree-holder" style="vertical-align: top; margin-bottom: 0.5vw;">
@@ -153,8 +177,8 @@
                 </div>
             </td>
 
-            <td style="width: 15%;  vertical-align: top; padding: 10px;" class="dev-visible">
-                <div class="previewGrid" style="width: 100%;min-height: 200px;">
+            <td style="width: 20%;  vertical-align: top; padding: 10px; min-width: 400px;">
+                <div class="previewGrid" style="width: 100%;min-height: 100px;">
                     <div class="titleBackground">
                         <h3 class="title"><i class="fa-solid fa-mug-hot lightText"></i> Break Settings</h3>
                         <i class="fa-solid fa-circle-info tooltip title" style="float: right;">
@@ -165,14 +189,14 @@
                     <div class="previewWindow" style="font-size: 150%; padding-left: 0.5vw;">
 
                         <label for="autofill-breaks-dropdown">Autofill Breaks:</label> 
-                        <select name="autofill-breaks-dropdown" id="autofill-breaks-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;">
+                        <select name="autofill-breaks-dropdown" id="autofill-breaks-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;"  >
                             <option value="true" selected="selected">True</option>
                             <option value="false">False</option>
                         </select>
                         <br>
 
-                        <label for="break1-dropdown">1st Break After:</label> 
-                        <select name="break1-dropdown" id="break1-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;">
+                        <label for="break1-dropdown" class="hidden">1st Break After:</label> 
+                        <select name="break1-dropdown" id="break1-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;" class="hidden">
                             <option value="3.0">3.0 hrs</option>
                             <option value="3.5">3.5 hrs</option>
                             <option value="4.0" selected="selected">4.0 hrs</option>
@@ -185,10 +209,10 @@
                             <option value="7.5">7.5 hrs</option>
                             <option value="8.0">8.0 hrs</option>
                         </select>
-                        <br>
+                        <br class="hidden">
 
-                        <label for="meal-dropdown">Meal After:</label> 
-                        <select name="meal-dropdown" id="meal-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;">
+                        <label for="break2-dropdown" class="hidden">Meal After:</label> 
+                        <select name="break2-dropdown" id="break2-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;" class="hidden" >
                             <option value="3.0">3.0 hrs</option>
                             <option value="3.5">3.5 hrs</option>
                             <option value="4.0">4.0 hrs</option>
@@ -201,29 +225,41 @@
                             <option value="7.5">7.5 hrs</option>
                             <option value="8.0">8.0 hrs</option>
                         </select>
-                        <br>
+                        <br class="hidden">
 
-                        <label for="break2-dropdown">2nd Break After:</label> 
-                        <select name="break2-dropdown" id="break2-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;">
-                            <option value="3.0">3.0 hrs</option>
-                            <option value="3.5">3.5 hrs</option>
-                            <option value="4.0">4.0 hrs</option>
-                            <option value="4.5">4.5 hrs</option>
-                            <option value="5.0">5.0 hrs</option>
-                            <option value="5.5">5.5 hrs</option>
-                            <option value="6.0">6.0 hrs</option>
+                        <label for="break3-dropdown">2nd Break After:</label> 
+                        <select name="break3-dropdown" id="break3-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;">
+                            <option value="3.0" class="hidden">3.0 hrs</option>
+                            <option value="3.5" class="hidden">3.5 hrs</option>
+                            <option value="4.0" class="hidden">4.0 hrs</option>
+                            <option value="4.5" class="hidden">4.5 hrs</option>
+                            <option value="5.0" class="hidden">5.0 hrs</option>
+                            <option value="5.5" class="hidden">5.5 hrs</option>
+                            <option value="6.0" class="hidden">6.0 hrs</option>
                             <option value="6.5">6.5 hrs</option>
                             <option value="7.0" selected="selected">7.0 hrs</option>
                             <option value="7.5">7.5 hrs</option>
                             <option value="8.0">8.0 hrs</option>
                         </select>
-                        <br>                    
+                        <br> 
+                        
+                        <label for="checkoff-breaks-dropdown">Mark Breaks Complete:</label> 
+                        <select name="checkoff-breaks-dropdown" id="checkoff-breaks-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;">
+                            <option value="0">None</option>
+                            <option value="1">Current Time</option>
+                            <option value="2">Selected Time</option>
+                        </select> 
+                        <br>  
+
+                        <label for="checkoff-breaks-time">Complete Breaks Before:</label> 
+                        <input id="checkoff-breaks-time" type="time" style="font-size: 80%; margin-bottom: 0.5vw;" disabled/> 
+                        <br>   
 
                     </div>             
                     
                 </div>
 
-                <div class="previewGrid" style="width: 100%;min-height: 510px; margin-top: 15px;">
+                <div class="previewGrid" style="width: 100%;min-height: 100px; margin-top: 15px;">
                     <div class="titleBackground">
                         <h3 class="title"><i class="fa-solid fa-gear lightText"></i> Page Settings</h3>
                         <i class="fa-solid fa-circle-info tooltip title" style="float: right;">
@@ -234,25 +270,64 @@
                     <div class="previewWindow" style="font-size: 150%; padding-left: 0.5vw;">
 
                         <label for="show-training-dropdown">Training Indicators:</label> 
-                        <select name="show-training-dropdown" id="show-training-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;">
+                        <select name="show-training-dropdown" id="show-training-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;"  >
                             <option value="true" selected="selected">Show</option>
                             <option value="false">Hide</option>
                         </select>
                         <br>        
                         
                         <label for="show-closing-dropdown">Closing Indicators:</label> 
-                        <select name="show-closing-dropdown" id="show-closing-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;">
+                        <select name="show-closing-dropdown" id="show-closing-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;"  >
                             <option value="true" selected="selected">Show</option>
                             <option value="false">Hide</option>
                         </select>
-                        <br>    
+                        <br> 
+                        
+                        <label for="closing-time-dropdown">Considered Closing After:</label> 
+                        <select name="closing-time-dropdown" id="closing-time-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;"  >
+                            <option value="09:00 PM">09:00 PM</option>
+                            <option value="09:15 PM">09:15 PM</option>
+                            <option value="09:30 PM">09:30 PM</option>
+                            <option value="09:45 PM" selected="selected">09:45 PM</option>
+                            <option value="10:00 PM">10:00 PM</option>
+                            <option value="10:15 PM">10:15 PM</option>
+                            <option value="10:30 PM">10:30 PM</option>
+                            <option value="10:45 PM">10:45 PM</option>
+                            <option value="11:00 PM">11:00 PM</option>
+                            <option value="11:15 PM">11:15 PM</option>
+                            <option value="11:30 PM">11:30 PM</option>
+                            <option value="11:45 PM">11:45 PM</option>
+                            <option value="11:59 PM">12:00 AM</option>
+                        </select>
+                        <br> 
+
+                    </div>             
+                    
+                </div>
+
+                <div class="previewGrid hidden" style="width: 100%;min-height: 400px; margin-top: 15px;">
+                    <div class="titleBackground">
+                        <h3 class="title"><i class="fa-solid fa-people-group lightText"></i> Team Settings</h3>
+                        <i class="fa-solid fa-circle-info tooltip title" style="float: right;">
+                            <span class="tooltiptext">Used to fine tune which TMs to include on the schedule</span>
+                        </i>
+                    </div>
+        
+                    <div class="previewWindow" style="font-size: 150%; padding-left: 0.5vw;">
+
+                        <label for="show-training-dropdown">Training Indicators:</label> 
+                        <select name="show-training-dropdown" id="show-training-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;"  >
+                            <option value="true" selected="selected">Show</option>
+                            <option value="false">Hide</option>
+                        </select>
+                        <br>                                
 
                     </div>             
                     
                 </div>
             </td>
 
-            <td style="vertical-align: top;  padding: 10px;">
+            <td style="vertical-align: top;  padding: 10px;  min-width: 650px;">
                 <div class="previewGrid" style="width: 100%;">
                     <div class="titleBackground">
                         <h3 class="title"><i class="fa-solid fa-eye lightText"></i> Preview Break Schedule</h3>            
