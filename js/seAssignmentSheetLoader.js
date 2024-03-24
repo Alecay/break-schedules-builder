@@ -3,6 +3,9 @@ let previousWidth = "";
 function loadSuggested()
 {
     loadStoredDataFiles();
+    loadLeaderData();
+    var leaderInfo = getCurrentUserInfo();
+
     const assignmentSheet = document.getElementById("se-assignment-sheet");
     setupTableResize(assignmentSheet);
 
@@ -11,9 +14,20 @@ function loadSuggested()
     for (let i = 0; i < dateHolders.length; i++) {
         const element = dateHolders[i];
         element.innerText = date;
-    }
+    }    
 
-    var array = getScheduleDataArray(["D322"], ["T1061"], ["Service", "Order Pickup"], [date]);    
+    const leadersString = "Leaders";
+    var leadersSchedule = getScheduleDataArray([leaderInfo["district"]], [leaderInfo["store"]], ["Service", "Order Pickup"], [date]);
+
+    leadersSchedule = getFilteredArray(leadersSchedule, "tmNumber", []);
+
+    const leaderHolders = document.querySelectorAll("#leader-list");
+    for (let i = 0; i < leaderHolders.length; i++) {
+        const element = leaderHolders[i];
+        element.innerText = leadersString;
+    }  
+
+    var array = getScheduleDataArray([leaderInfo["district"]], [leaderInfo["store"]], ["Service", "Order Pickup"], [date]);    
 
     clearTMRows("service-table");
     array.forEach(row => 
@@ -22,7 +36,7 @@ function loadSuggested()
     });   
     
 
-    array = getScheduleDataArray(["D322"], ["T1061"], ["Checkout", "Cash Off."], [date]);    
+    array = getScheduleDataArray([leaderInfo["district"]], [leaderInfo["store"]], ["Checkout", "Cash Off."], [date]);    
 
     clearTMRows("checkout-table");
     array.forEach(row => 
@@ -31,7 +45,7 @@ function loadSuggested()
     });  
 
 
-    array = getScheduleDataArray(["D322"], ["T1061"], ["Front Att."], [date]);    
+    array = getScheduleDataArray([leaderInfo["district"]], [leaderInfo["store"]], ["Front Att."], [date]);    
 
     clearTMRows("front-of-store-table");
     array.forEach(row => 

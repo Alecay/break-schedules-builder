@@ -177,4 +177,9 @@ span
     {
         display: block;
     }
+
+    @page
+    {
+        size: landscape;
+    }
 }

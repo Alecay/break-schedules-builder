@@ -17,11 +17,11 @@ function loadTemplates()
 
 function setupDailyBreakSchedulePage()
 {
-    loadLeaderData(true);
-    loadStoredDataFiles(true);
+    loadLeaderData();
+    loadStoredDataFiles();
 
     //localStorage.loginID = "72154057";
-    localStorage.loginID = "75580777";
+    //localStorage.loginID = "75580777";
     
     if(!isAllowedUser(localStorage.loginID))
     {

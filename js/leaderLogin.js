@@ -3,6 +3,8 @@ let leaderJobs = new Array();
 let leaderLookup = {};
 let defaultAreasLookup = {};
 
+let isGuest = false;
+
 
 //Leader Info Link
 //https://greenfield.target.com/l/card/1734371/aoot1gm
@@ -14,7 +16,7 @@ function isLoggedIn()
 
 function getCurrentUserInfo()
 {
-    if(localStorage.loginID)
+    if(localStorage.loginID != "" && localStorage.loginID != undefined)
     {
         return leaderLookup[localStorage.loginID];
     }
@@ -48,16 +50,16 @@ function setupLoginPage()
     document.getElementById("supported-districts").innerHTML = dString;    
 }
 
-function loadLeaderData(fromSubFolder = false)
+function loadLeaderData()
 {
-    var csvText = loadFile(fromSubFolder ? "../csvData/leaderData.csv" : "csvData/leaderData.csv");
+    var csvText = loadFile("/csvData/leaderData.csv");
     leaderArr = csvToArr(csvText);
     leaderArr.sort(dynamicSortMultiple("TM NUMBER"));
 
     leaderJobs = getUniqueElements(leaderArr, "JOB");
     leaderJobs.sort();    
 
-    csvText = loadFile(fromSubFolder ? "../csvData/defaultAreas.csv" : "csvData/defaultAreas.csv");
+    csvText = loadFile("/csvData/defaultAreas.csv");
     const defaultAreasArr = csvToArr(csvText);
 
     defaultAreasLookup = {};
@@ -83,7 +85,7 @@ function loadLeaderData(fromSubFolder = false)
     });    
 }
 
-function attemptLogin(tmNumber)
+function attemptLogin(tmNumber, pagePath)
 {    
     if(!isValidLoginFormat(tmNumber))
     {
@@ -98,13 +100,13 @@ function attemptLogin(tmNumber)
     else
     {
         localStorage.loginID = tmNumber;        
-        onLoginSuccessful();            
+        onLoginSuccessful(pagePath);            
     }
 }
 
-function onLoginSuccessful()
+function onLoginSuccessful(pagePath = "mainMenu.html")
 {
-    window.location.href = "mainMenu.html";
+    window.location.href = pagePath;
     console.log("Logged in");
 
     const leaderInfo = getCurrentUserInfo();
@@ -114,6 +116,18 @@ function onLoginSuccessful()
         'user_id' : leaderInfo["nameFormatted"].concat(" ", leaderInfo["number"])
 
     });
+}
+
+function setElementVisible(element, value)
+{
+    if(value)
+    {
+        element.classList.remove("hidden");
+    }
+    else
+    {
+        element.classList.add("hidden");
+    }
 }
 
 function setFailedLoginVisible(value)
@@ -128,12 +142,12 @@ function setLoginPageVisible(value)
     setFailedLoginVisible(false);
 }
 
-function signOut()
+function signOut(pagePath = "login.html")
 {
     localStorage.loginID = "";
     clearStoredFilters();
 
-    window.location.href = "login.html";
+    window.location.href = pagePath;
 
     setMainMenuVisible(false);
     setLoginPageVisible(true);    

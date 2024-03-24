@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Daily Planning Tool</title>
+
+    <link rel="stylesheet" href="../styles/navBar.css">
+    <link rel="stylesheet" href="../styles/tooltip.css">
+    <link rel="stylesheet" href="../styles/treeStyles.css">
+    <link rel="stylesheet" href="../styles/home.css">
+    <link rel="stylesheet" href="../styles/breakSheetStyle.css">
+
+    <!-- Load font awesome icons -->    
+    <script src="https://kit.fontawesome.com/f0906ef22c.js" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="../js/pageControllers/userLoginController.js"></script>
+    <script type="text/javascript" src="../js/leaderLogin.js"></script>
+    <script type="text/javascript" src="../js/fileReader.js"></script>
+    <script type="text/javascript" src="../js/csvHelpers.js"></script>
+    <script type="text/javascript" src="../js/timeConversionHelpers.js"></script>
+    <script type="text/javascript" src="../js/sortAndFilter.js"></script>    
+    <script type="text/javascript" src="../js/csvData.js"></script>
+
+    <style>
+    .submitButton
+    {
+        background-color: #333;
+        color: lightgray;
+        border-radius: 3px;
+    }
+
+    .submitButton:hover
+    {
+        background-color: rgb(10, 60, 66);
+        color: lightgray;
+        border-radius: 3px;
+    }
+    </style>
+
+</head>
+<body style="background-color: #333; min-width: 530px;">
+
+    <div id="navHeader">
+        <div class="navbar">
+            <a class="title ignoreHover">Daily Planning Tool</a>
+            <a class="subTitle ignoreHover">by Alec Groseclose</a>
+            <a class="subTitle ignoreHover" style=" float: right;">Last Updated 3/23/24</a>
+            <a class="subTitle ignoreHover" style=" float: right;">Version 1.0</a>
+        </div>
+        <hr style="height: 3px; background-color: lightgray; border-radius: 3px;">        
+        <br>
+
+    </div>
+
+
+    <div style="width: 100%;min-height: 700px; display: flex; align-items: center;">
+        <div class="previewGrid" style="min-height: 100px; width: 450px; min-width: 450px; margin: auto; margin-top: 0px;">
+            <div class="titleBackground">
+                <h3 class="title"><i class="fa-solid fa-right-to-bracket lightText"></i> Login</h3>                        
+            </div>
+
+            <div class="previewWindow" style="font-size: 150%;">
+
+                <form style="text-align: center; margin: 10px; margin-bottom: 15px;" id="login-form">                                
+                    <label for="tm-number-login">TM Number:</label>
+                    <input type="text" id="tm-number-login" name="tm-number-login" style="font-size: 80%;">
+                    <input type="submit" id="tm-number-submit" value="LOGIN" class="submitButton" style="font-size: 100%;">
+                    <br>
+                    <label id="tm-number-login-invalid" style="color: rgb(231, 20, 20);" class="hidden">Invalid Login! Please try again.</label>                    
+
+                </form>
+
+                <form style="text-align: center; margin: 10px; margin-bottom: 20px;" id="guest-login-form" class="hidden">                                
+                    <label for="guest-login">OR</label>                            
+                    <br>
+                    <br>
+
+                    <input type="submit" id="guest-submit" value="CONTINUE AS GUEST" class="submitButton" style="font-size: 100%;">
+
+                </form>
+    
+            </div>    
+            
+        </div>
+    </div>
+
+    <table style="width: 100%;min-height: 100px; ">
+
+        <tr>
+            <td style="text-align: center;">
+                <h3 class="lightText">This site currently directly supports the following Distrcts:</h3>
+                <h3 class="lightText" id="supported-districts">D###, D###, D###</h3>
+            </td>
+            
+        </tr>
+
+        <tr>
+            <td style="text-align: center;">
+                <hr style="height: 3px; background-color: lightgray; border-radius: 3px;">
+                <h3 class="lightText">For questions, comments, and other inquiries please email: alec.groseclose@target.com</h3>
+            </td>
+        </tr>
+    </table>
+
+
+    <script>
+        localStorage.loginID = "";
+        setupUserLoginPage();
+    </script>
+    
+</body>
+
+</html>
