@@ -52,14 +52,14 @@ function setupLoginPage()
 
 function loadLeaderData()
 {
-    var csvText = loadFile("/csvData/leaderData.csv");
+    var csvText = loadFile("/break-schedules-builder/csvData/leaderData.csv");
     leaderArr = csvToArr(csvText);
     leaderArr.sort(dynamicSortMultiple("TM NUMBER"));
 
     leaderJobs = getUniqueElements(leaderArr, "JOB");
     leaderJobs.sort();    
 
-    csvText = loadFile("/csvData/defaultAreas.csv");
+    csvText = loadFile("/break-schedules-builder/csvData/defaultAreas.csv");
     const defaultAreasArr = csvToArr(csvText);
 
     defaultAreasLookup = {};

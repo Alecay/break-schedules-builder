@@ -19,7 +19,7 @@ function setupUserLoginPage()
     });
 
     if(localStorage.loginID && localStorage.loginID != "")
-        attemptLogin(localStorage.loginID, "../../pages/dailyBreakSchedule.html");
+        attemptLogin(localStorage.loginID, "/break-schedules-builder/pages/dailyBreakSchedule.html");
 
     loadStoredDataFiles();
     
@@ -67,7 +67,7 @@ function onTMLoginSubmit()
 
     loginField.value = "";
 
-    attemptLogin(tmNumber, "/pages/dailyBreakSchedule.html");
+    attemptLogin(tmNumber, "/break-schedules-builder/pages/dailyBreakSchedule.html");
 }
 
 function signOut(pagePath = "login.html")

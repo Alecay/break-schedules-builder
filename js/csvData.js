@@ -24,10 +24,10 @@ let departmentTree = {};
 function loadStoredDataFiles()
 {
     console.log("Loaded data files");
-    var csvText = loadFile("/csvData/scheduleData.csv");
+    var csvText = loadFile("/break-schedules-builder/csvData/scheduleData.csv");
     storeScheduleArray(csvText, false);
 
-    var csvTextTraining = loadFile("/csvData/trainingData.csv");
+    var csvTextTraining = loadFile("/break-schedules-builder/csvData/trainingData.csv");
     storeTrainingArray(csvTextTraining, false);    
 }
 
