@@ -291,9 +291,13 @@ function getCurrentTime(includeHour = true, inludeMinutes = true, includeSeconds
 
     m = m < 10 ? "0" + m : m;
     s = s < 10 ? "0" + s : s;
-    var time = h + ":" + m + ":" + s + " " + meridian;
+    var time = String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0") + " " + meridian;
 
-    var time = (includeHour ? h + ":" : "") + (inludeMinutes ? m + (includeSeconds ? ":" : "") : "") + (includeSeconds ? s : "") + (includeMeridian ? " " + meridian : "");
+    const hStr = String(h).padStart(2, "0");
+    const mStr = String(m).padStart(2, "0");
+    const sStr = String(s).padStart(2, "0");
+
+    var time = (includeHour ? hStr + ":" : "") + (inludeMinutes ? mStr + (includeSeconds ? ":" : "") : "") + (includeSeconds ? sStr : "") + (includeMeridian ? " " + meridian : "");
 
     return time;
 }

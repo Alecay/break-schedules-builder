@@ -623,7 +623,6 @@ function updateCurrentTimeSelectors()
     const shiftVal = document.getElementById("tm-working-dropdown").value;
     const startTimeSelector = document.getElementById("shift-start-time");
 
-    const d = new Date();
     const time = getCurrentTime(true, true, false, false, true);
 
     var shouldUpdatePage = false;
