@@ -19,6 +19,9 @@ let departmentTree = {};
 //Leader Data
 //https://greenfield.target.com/l/card/1734371/eg4l8gp
 
+//Training
+//https://greenfield.target.com/l/card/1732386/ly0bjik
+
 function loadStoredDataFiles()
 {
     console.log("Loaded data files");
