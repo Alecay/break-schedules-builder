@@ -1,8 +1,8 @@
 ﻿TM NAME,TM NUMBER,PERSONAL COUNT,OVERDUE COUNT
-Dorothy Irwin,16660268,1,0
+Amy Funderburk,18626739,1,0
 Geisi Guzman,24490617,2,0
-Joseph Bautista,28558716,6,1
-Cheryl Saad,30910368,5,1
+Lorena Soto,25250101,1,0
+Joseph Bautista,28558716,6,2
 Diana Gray,31706898,1,0
 David Garcia,51124048,5,0
 Jenna Ketkaew,51525319,1,0
@@ -13,31 +13,32 @@ Mario Perez,56267909,3,1
 Danielle Walker,57728362,4,1
 Jenna Holt,60236825,2,0
 Matthew Cervantes,61107280,1,0
-Chandler Bland,65269672,3,0
+Chandler Bland,65269672,4,0
 Anthony Sanchez,65311680,1,0
-Kristian Villafranca,66870148,1,0
+Karina Carbajal,67372383,1,0
 Yami Sorto,67852517,1,1
 Monique Lamoureux,69145928,8,1
 Michael Meili,69341527,9,3
-Kris Brandenburg,70016993,1,0
-Liz Belardo,73247595,5,2
+Liz Belardo,73247595,2,0
 Jordan Staveley,73597254,5,2
 Paisley Sexton Rucker,73964231,3,0
 Lee Hanke,74876148,1,0
 Rachel Reyes,74882878,1,0
-Daniel Manzanares,74956050,3,1
+Jakob Brentzel,74904455,1,0
+Jack Anderson,74949674,26,0
+Daniel Manzanares,74956050,3,2
 Sebastian Sandoval,74961136,2,0
 Marquis Paschal,75012209,3,0
-Janell Hurns,75036558,1,0
-Perla Ramirez,75063894,3,0
-Jorge Tovar,75079204,2,0
-Domenica Bravo Leon,75146354,4,2
+Nancy Rodriguez Rico,75020686,1,0
+Janell Hurns,75036558,2,0
+Perla Ramirez,75063894,5,0
+Jorge Tovar,75079204,1,0
+Domenica Bravo Leon,75146354,2,0
 Maria Ventura,75173857,1,0
 Lauryn Castillo,75209239,1,0
+Brycen Anderson,75233362,2,0
 Emanuel Gonzalez Roman,75236981,3,0
-Zach Bigham,75282777,7,6
-Myranda Campos,75348822,6,3
-Evelyn Garza,75389333,1,0
+John Driggs,75407849,1,0
 Eddie Garay,75498806,1,0
 Ruben Hernandez,75500920,1,0
 Yvonne Rodriguez,75555744,2,0
@@ -45,18 +46,16 @@ Kade Kelly,75577974,5,2
 Melody Moreno,75585802,2,0
 Orel Rosales,75599328,3,2
 Ashlyn Mikanda,75611679,1,1
-Angelica Monrreal,75616817,6,2
-Connor Snow,75616863,3,2
+Connor Snow,75616863,5,2
 Jackson Mayer,75637050,1,0
 Melanie Ramirez,75687912,3,1
 Abbi Posey,75689109,3,2
-Caleb Martinez,75712438,4,1
-Jaden Trinh,75780113,5,0
+Caleb Martinez,75712438,3,1
+Jaden Trinh,75780113,2,0
 Maribel Zaldivar,75972354,1,0
 Amanda Baker,76044705,1,0
 Viridiana Gutierrez,76169258,5,3
-Melanie Venancio,76178221,3,0
-Wally Mohammed,76201387,1,0
+Wally Mohammed,76201387,2,0
 Aniyah Shirehjini,76202160,6,2
 Stephan Gushwagemberling,76205748,3,1
 Sabina Nykiel,76219337,3,0
@@ -65,14 +64,12 @@ Michelle Macias,76296747,3,1
 Serena Thomason,76299843,1,0
 Veronica Covarrubias,76304132,1,0
 Camryn Owings,76317978,3,2
-Julian Garcia,76334213,5,4
 Lucas Molandes,76448641,1,0
-Cass Vazquez,76473491,1,0
 Paola Sierra Sosa,76484743,1,0
 Josh Folco,76486743,1,0
 Joanna Peralta,76491611,5,0
 Adelina Galvan,76506207,2,0
-Carter Bennett,76515921,1,0
+Carter Bennett,76515921,2,0
 Julianna Dankert,76515995,4,2
 Alyssa Wright,76525462,2,0
 Jude Upchurch,76604198,3,2
@@ -82,6 +79,27 @@ Jackson Zeledon,76737341,2,0
 Tara Provenzano,76745472,1,0
 Randy Boyer,76755999,5,0
 Adrian Petrovic,76762647,1,0
-Nicolas Craven,76765472,2,0
-Marie Gates,76770357,13,0
-Amanda Besa,76770720,13,0
+Amanda Besa,76770720,2,0
+Donnie Cruz,76771768,13,0
+Kyle Jacinto,76774752,12,0
+Leandra Marroquin,76774987,16,0
+
+
+Exported at: 04/27/2024 8:17:18 pm
+Card ID: 1732386
+Card Name: trainingData
+
+Are all rows displayed: yes
+Number of rows: 84
+Time Period: All Time
+Data Time Window:
+Begin: 2019-06-10
+End: 2099-12-31
+
+
+Filters: 
+
+Name: Job
+Type: not in
+Pattern: Service & Engagement Team Leader
+
