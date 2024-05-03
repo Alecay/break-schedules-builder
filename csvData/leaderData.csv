@@ -4,15 +4,15 @@ Andrea,Seay,General Merchandise Team Leader,D304,T1115,74529934
 Damaris,Hernandez,General Merchandise Team Leader,D304,T1115,23723372
 Damaris,Silva,ETL Specialty Sales,D304,T1115,63062095
 Dewey,Nguyen,ETL Service & Engagement,D304,T1115,68533637
-Erika,Milladge,ETL Human Resources,D304,T1115,69022309
 Gabriel,Lusk,Service & Engagement Team Leader,D304,T1115,75907341
 Gertrudis,MacHado,ETL GM & Food Sales,D304,T1115,28562411
+Jorge,Ruvalcaba Danieli,ETL Human Resources,D304,T1115,76379858
 Jose,Mendoza,Closing Team Leader,D304,T1115,24673774
 LaJuana,Guillory,Specialty Sales Team Leader,D304,T1115,61211900
 Lessly,Sanchez,Specialty Sales Team Leader,D304,T1115,76602810
 Okarel,Carlos Ambriz,Store Director,D304,T1115,75340877
 Sonijah,Fox,Service & Engagement Team Leader,D304,T1115,76467946
-Tyler,Erickson,General Merchandise Team Leader,D304,T1115,75554237
+Tyler,Erickson,Fulfillment Operations Team Leader,D304,T1115,75554237
 jasmine,ventura,Specialty Sales Team Leader,D304,T1115,74193657
 Bradley,Leconey,ETL Service & Engagement,D311,T2868,76627617
 Briana,Whittaker,Specialty Sales Team Leader,D311,T2868,72115744
@@ -31,9 +31,11 @@ destiny,smith,Closing Team Leader,D311,T2868,71919351
 Alec,Groseclose,Service & Engagement Team Leader,D322,T1061,72154057
 Angelina,Uzueta,Service & Engagement Team Leader,D322,T1061,75622062
 Caleb,Martinez,Food Service Team Leader,D322,T1061,75712438
+Chandler,Bland,ETL Specialty Sales,D322,T1061,65269672
 Christina,Meyer,General Merchandise Team Leader,D322,T1061,76604355
 David,Garcia,Inbound Operations Team Leader,D322,T1061,51124048
 Domenica,Bravo Leon,Specialty Sales Team Leader,D322,T1061,75146354
+Emily,Walsh,Service & Engagement Team Leader,D322,T1061,75303132
 Evelyn,Garza,General Merchandise Team Leader,D322,T1061,75389333
 Jackson,Mayer,Specialty Sales Team Leader,D322,T1061,75637050
 Jaden,Trinh,Closing Team Leader,D322,T1061,75780113
@@ -41,11 +43,11 @@ Jenna,Holt,ETL Human Resources,D322,T1061,60236825
 Joseph,Bautista,Food & Beverage Team Leader,D322,T1061,28558716
 Liz,Belardo,ETL GM & Food Sales,D322,T1061,73247595
 Mason,Morris,Store Director,D322,T1061,55695993
-Michael,Meili,ETL Inbound Operations,D322,T1061,69341527
+Michael,Meili,ETL GM & Food Sales,D322,T1061,69341527
+Monique,Lamoureux,ETL Specialty Sales,D322,T1061,69145928
 Quentin,Foster,Inbound Operations Team Leader,D322,T1061,76703716
 Serena,Thomason,Specialty Sales Team Leader,D322,T1061,76299843
-Stephanie,Rodriguez,Fulfillment Operations Team Leader,D322,T1061,70079637
-Todd,Denning,ETL GM Sales,D322,T1061,76238852
+Todd,Denning,ETL Service & Engagement,D322,T1061,76238852
 Wally,Mohammed,Inbound Operations Team Leader,D322,T1061,76201387
 Yvonne,Rodriguez,General Merchandise Team Leader,D322,T1061,75555744
 Alejandro,Fernandez,General Merchandise Team Leader,D322,T2725,75438850
@@ -53,12 +55,11 @@ Andrew,Collins,Closing Team Leader,D322,T2725,74710284
 Angela,Brinkley,ETL Service & Engagement,D322,T2725,05405261
 Carmen,Hernandez,Service & Engagement Team Leader,D322,T2725,70579800
 Claudia,Garza,Store Director,D322,T2725,69119329
-Cricket,Lopez,General Merchandise Team Leader,D322,T2725,76232758
 Fernando,Villalobos,ETL Specialty Sales,D322,T2725,75570559
 Jordan,Lange,Specialty Sales Team Leader,D322,T2725,76602718
 Maria,Ramirez Gomez,Specialty Sales Team Leader,D322,T2725,75000416
+Michael,Cunningham,ETL GM & Food Sales,D322,T2725,60404043
 Nathan,Abes,Fulfillment Operations Team Leader,D322,T2725,74953677
-Tomas,Garza,Food & Beverage Team Leader,D322,T2725,76698472
 Veronica,Flores,ETL Human Resources,D322,T2725,75355289
 Victoria,Ellis,Service & Engagement Team Leader,D322,T2725,76547957
 Wendy,Gonzaga,Specialty Sales Team Leader,D322,T2725,73717555
@@ -77,6 +78,7 @@ Kristi,McLaurin,Service & Engagement Team Leader,D352,T2190,75580777
 Laurene,Estenson,ETL GM & Food Sales,D352,T2190,70934146
 Melonie,Gonzales,Fulfillment Operations Team Leader,D352,T2190,75329179
 Rachel,Karr,Store Director,D352,T2190,55807713
+Randy,Johnson,Inbound Operations Team Leader,D352,T2190,76600778
 Sarah,Fowler,ETL Service & Engagement,D352,T2190,62720529
 Serina,Leyva,Service & Engagement Team Leader,D352,T2190,76489192
 Shelly,Allen,General Merchandise Team Leader,D352,T2190,17723180
