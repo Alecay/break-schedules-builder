@@ -61,6 +61,7 @@
             <button class="subnavbtn"><i class="fa-solid fa-calendar-days"></i> Schedule Reports <i class="fa fa-caret-down"></i></button>
             <div class="subnav-content">
             <a href="/break-schedules-builder/pages/dailyBreakSchedule.html">Daily Break Schedule</a>
+            <a href="/break-schedules-builder/login.html">OLD Break Builder</a>
             <a href="" class="hidden">Custom</a>
             </div>
         </div>
@@ -74,7 +75,8 @@
         <div class="subnav">
             <button class="subnavbtn"><i class="fa-solid fa-database"></i> Greenfield <i class="fa fa-caret-down"></i></button>
             <div class="subnav-content">
-            <a href="https://greenfield.target.com/l/dashboard/26664/chojpim" target="_blank">Driveup Dashboard</a>
+            <a href="https://greenfield.target.com/l/dashboard/26664/8mume9h" target="_blank">Driveup Dashboard</a>
+            <a href="https://greenfield.target.com/l/dashboard/28998/l0dy7pn" target="_blank">Driveup This Week vs Last Week</a>
             <a href="https://greenfield.target.com/l/dashboard/28718/hb5hwvx" target="_blank">Checkout Dashboard</a>
             <a href="https://greenfield.target.com/l/card/723665/oviscx9" target="_blank">Attendance Insights</a>
             <a href="https://greenfield.target.com/l/card/1369653/v5gwt92" target="_blank">CRC Unreceived vs Received</a>
@@ -177,7 +179,7 @@
                 </div>
             </td>
 
-            <td style="width: 20%;  vertical-align: top; padding: 10px; min-width: 400px;">
+            <td style="width: 20%;  vertical-align: top; padding: 10px; min-width: 550px;">
                 <div class="previewGrid" style="width: 100%;min-height: 100px;">
                     <div class="titleBackground">
                         <h3 class="title"><i class="fa-solid fa-mug-hot lightText"></i> Break Settings</h3>
@@ -305,22 +307,64 @@
                     
                 </div>
 
-                <div class="previewGrid hidden" style="width: 100%;min-height: 400px; margin-top: 15px;">
+                <div class="previewGrid hidden" style="width: 100%;min-height: 330px; margin-top: 15px;">
                     <div class="titleBackground">
-                        <h3 class="title"><i class="fa-solid fa-people-group lightText"></i> Team Settings</h3>
-                        <i class="fa-solid fa-circle-info tooltip title" style="float: right;">
-                            <span class="tooltiptext">Used to fine tune which TMs to include on the schedule</span>
-                        </i>
+                        <h3 class="title"><i class="fa-solid fa-clock lightText"></i> Shift Adjustments</h3>
+
+                        <button class="titleButton nextArrow tooltipDelayed topRightTooltip" onclick="onAddShiftAdjustmentRow()">
+                            <span class="tooltiptext">Add TM</span>
+                            <i class="fa-solid fa-user-plus"></i>
+                        </button>
                     </div>
         
                     <div class="previewWindow" style="font-size: 150%; padding-left: 0.5vw;">
+                        
+                        <div id="tm-call-in-row" style="font-size: 80%;">
 
-                        <label for="show-training-dropdown">Training Indicators:</label> 
-                        <select name="show-training-dropdown" id="show-training-dropdown" style="font-size: 80%;margin-bottom: 0.5vw;"  >
-                            <option value="true" selected="selected">Show</option>
-                            <option value="false">Hide</option>
-                        </select>
-                        <br>                                
+                            <table style="border-collapse: collapse; text-wrap: nowrap;" id="shift-adjustment-table">
+                                <tr style="border-bottom: solid 1px;" id="shift-adjustment-row-template" class="hidden">
+                                    <td style="margin-bottom: 0px;">
+                                        <select name="tm-name-dropdown" id="tm-name-dropdown" style="font-size: 80%;margin-bottom: 0.5vw; width: 100%; margin-bottom: 0px;"  
+                                            onchange="loadDefaultShiftAdjustmentRowData(this); storeCurrentFilters(); updatePreviewPage();">            
+                                        </select>  
+                                    </td>
+
+                                    <td style="margin-bottom: 0px; width: 16%;">
+                                        <select name="date-dropdown" id="date-dropdown" style="font-size: 80%;margin-bottom: 0.5vw; width: 100%; margin-bottom: 0px;"  
+                                            onchange="loadDefaultShiftAdjustmentRowData(this, false); storeCurrentFilters(); updatePreviewPage();">            
+                                        </select>  
+                                    </td>
+
+                                    <td id="job-name" contenteditable="false" style="width: 15%; text-align: center; border-left: 1px solid; border-right: 1px solid;max-width: 100px; overflow: hidden;"
+                                        onclick="selectAllOnEdit(); updatePreviewPage();">
+                                        Job Name
+                                    </td>
+
+                                    <td id="shift" style="width: 33%;text-align: center; border-right: 1px solid; overflow: hidden;padding: 0px;" 
+                                        contenteditable="false" onblur="onShiftTimeChanged(this); updatePreviewPage();" onclick="selectAllOnEdit()">
+                                        08:00 AM - 04:00 PM
+                                    </td>
+
+                                    <td style="width: 1%; border-right: 1px solid">
+                                        <button class="titleButton nextArrow tooltipDelayed topRightTooltip" style="font-size: 50%; width: 25px; height: 25px;" onclick="onShowHideButtonClicked(this)">
+                                            <span class="tooltiptext">Show / Hide TM</span>
+                                            <i class="fa-solid fa-eye" id="show-hide-icon"></i>
+                                        </button>
+                                    </td>
+
+                                    <td style="width: 1%;">
+                                        <button class="titleButton nextArrow tooltipDelayed topRightTooltip" style="font-size: 50%;  width: 25px; height: 25px;" onclick="onRemoveShiftAdjustmentRow(this)">
+                                            <span class="tooltiptext">Remove TM</span>
+                                            <i class="fa-solid fa-user-minus"></i>
+                                        </button>
+                                    </td>
+                                </tr>                              
+                            </table>
+                            
+
+
+                        </div>
+                            
 
                     </div>             
                     
