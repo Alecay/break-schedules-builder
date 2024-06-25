@@ -220,15 +220,21 @@ function updateTrainingNames()
     {
         row["trainingName"] = row["name"]; 
         var training = getTrainingCounts(row["tmNumber"]);
+        var trainingStr = "";
+
         if(!(training === undefined) && training["count"] > 0)
         {
+            trainingStr = "T: " + training["count"];
             row["trainingName"] = row["name"].concat(" T:", training["count"]);
 
             if(training["overdue"] > 0)
             {
+                trainingStr += "*";
                 row["trainingName"] = row["trainingName"].concat("*");
             }
         } 
+
+        row["trainingStr"] = trainingStr;
     });
 
     //updatePreviewPage();
@@ -255,6 +261,13 @@ function getFormattedScheduleArray(array)
 
 
         singleObj["name"] = String(row["TM NAME (NUM)"]).replace(/"/g, "");
+        
+        const lastName = singleObj["name"].split(",")[0];
+        const firstName = singleObj["name"].split(",")[1].split("(")[0];
+        const shortName = firstName.concat(" ", lastName[0], ".");
+
+        singleObj["shortName"] = shortName;        
+
         singleObj["trainingName"] = singleObj["name"];
 
         singleObj["job"] = String(row["JOB NAME"]);
