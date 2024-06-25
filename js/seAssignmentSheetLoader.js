@@ -7,6 +7,8 @@ function setupAssignmentSheetPage()
 
     const dateDropdown = document.getElementById("date-dropdown");
     setDropdownOptionsFromSelect(dateDropdown, datesArray, "");
+
+    dateDropdown.value = getTodayDate();    
 }
 
 function loadSuggested()
