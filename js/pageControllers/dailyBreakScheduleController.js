@@ -185,31 +185,83 @@ function updatePreviewPage()
     console.log("Updating Preview Page"); 
     storeCurrentFilters();   
 
+    setupShiftAdjustmentDropdowns();
+
     const sheetsHolder = document.getElementById("sample-sheet-holder");
     sheetsHolder.innerHTML="";
 
+    const storedFilters = getStoredFilters();
+
+    createBreakSheets(sheetsHolder, getCurrentPreviewArrayWithAdjustments(), storedFilters["sheetSettings"]);
+}
+
+function getCurrentPreviewArray()
+{
     const storedFilters = getStoredFilters();
     const district = storedFilters["district"];
     const store =  storedFilters["store"];
     const areas =  storedFilters["areas"];
 
-    //document.getElementById("custom-link").setAttribute("href", getScheduleDataLink(store));
+    const date = getPreviewDate();
+    const array = getScheduleDataArray([district], [store], areas, [date]);
+    array.sort(dynamicSortMultiple("district", "store", "date", "rollupDepartment",  "department", "startTime"));
+    return array;
+}
 
-    const length = getSelectedDates().length;
+function getAllPreviewArray()
+{
+    const storedFilters = getStoredFilters();
+    const district = storedFilters["district"];
+    const store =  storedFilters["store"];
+    const areas =  storedFilters["areas"];
 
-    if(previewPageIndex < 0)
+    const dates = getDates();
+    const array = getScheduleDataArray([district], [store], areas, dates);
+    array.sort(dynamicSortMultiple("district", "store", "date", "rollupDepartment",  "department", "startTime"));
+    return array;
+}
+
+function getCurrentPreviewArrayWithAdjustments()
+{
+    const array = getCurrentPreviewArray();
+
+    return applyShiftAdjusments(array);
+
+}
+
+function applyShiftAdjusments(array)
+{    
+    const filters = getStoredFilters();    
+    const shiftAdjustments = filters["shiftAdjustments"];
+
+    for(var i = 0; i < array.length; i++)
     {
-        previewPageIndex = 0;
-    }       
-    else if(previewPageIndex >= length)
-    {
-        previewPageIndex = length - 1;
+        var rowData = array[i];
+        for(var j = 0; j < shiftAdjustments.length; j++)
+        {
+            const shiftAdjustment = shiftAdjustments[j];
+
+            if(rowData["shortName"] == shiftAdjustment["name"] && rowData["date"] == shiftAdjustment["date"])
+            {                
+                rowData["job"] = shiftAdjustment["job"];
+                rowData["schedule"] = shiftAdjustment["schedule"];
+
+
+                if(!shiftAdjustment["visible"])
+                {
+                    rowData = {};
+                }
+
+                array[i] = rowData;
+
+                //console.log("Modfied data", rowData);
+                break;
+            }            
+        }
     }
 
-    const date = getSelectedDates()[previewPageIndex];
-    //console.log("Settings", storedFilters["sheetSettings"]);
+    return array;
 
-    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], areas, [date]), storedFilters["sheetSettings"]);
 }
 
 function createPrintableSheetsFromStoredFilters()
@@ -226,7 +278,9 @@ function createPrintableSheetsFromStoredFilters()
 
     console.log(area);
 
-    createBreakSheets(sheetsHolder, getScheduleDataArray([district], [store], area, dates), storedFilters["sheetSettings"]);
+    const array = applyShiftAdjusments(getScheduleDataArray([district], [store], area, dates));
+
+    createBreakSheets(sheetsHolder, array, storedFilters["sheetSettings"]);
 }
 
 function printSelectedPages()
@@ -281,6 +335,25 @@ function getSelectedDates()
     const endSelector = document.getElementById("end-date-dropdown");
 
     return getDatesFromRange(startSelector.value, endSelector.value);
+}
+
+function getPreviewDate()
+{
+    const dates = getSelectedDates();
+    const length = dates.length;
+
+    if(previewPageIndex < 0)
+    {
+        previewPageIndex = 0;
+    }       
+    else if(previewPageIndex >= length)
+    {
+        previewPageIndex = length - 1;
+    }
+
+    const date = dates[previewPageIndex];
+
+    return date;
 }
 
 function getDatesFromRange(startDate, endDate)
@@ -451,6 +524,8 @@ function storeCurrentFilters()
         endTime : endTime,
     };
 
+    const shiftAdjustments = getShiftAdjustmentArray();
+
     localStorage.storedFilters = JSON.stringify
     ({
         loginID : localStorage.loginID,
@@ -465,7 +540,8 @@ function storeCurrentFilters()
         break3 : break3,
         showTraining : showTraining,
         showClosing : showClosing,
-        sheetSettings : sheetSettings
+        sheetSettings : sheetSettings,
+        shiftAdjustments : shiftAdjustments
     });
 
     //console.log(JSON.parse(localStorage.storedFilters));
@@ -651,4 +727,221 @@ function updateCurrentTimeSelectors()
         console.log("Updated current time");
         updatePreviewPage();
     }
+}
+
+function setupShiftAdjustmentDropdowns()
+{
+    const array = getAllPreviewArray();
+    const dates = getDates();
+    const options = getUniqueElements(array, "shortName");
+    options.sort();
+    options.splice(0, 0, "TM Name");
+
+    const table = document.getElementById("shift-adjustment-table");
+    const rowTemplate = table.querySelector("#shift-adjustment-row-template");
+    const selector = rowTemplate.querySelector("#tm-name-dropdown");    
+    setDropdownOptionsFromSelect(selector, options, "");
+
+    const nameDropdowns = table.querySelectorAll("#tm-name-dropdown");    
+
+    for(var i = 0; i < nameDropdowns.length; i++)
+    {
+        const value = nameDropdowns[i].value;
+        setDropdownOptionsFromSelect(nameDropdowns[i], options, "");
+
+        if(options.includes(value))
+        {
+            nameDropdowns[i].value = value;
+        }
+
+        //loadDefaultShiftAdjustmentRowData(nameDropdowns[i]);
+    }
+
+    //setupDateDropdowns();
+
+    for(var i = 0; i < nameDropdowns.length; i++)
+    {
+        loadDefaultShiftAdjustmentRowData(nameDropdowns[i]);
+    }
+
+    getShiftAdjustmentArray();
+}
+
+function setupDateDropdowns()
+{
+    const array = getAllPreviewArray();
+    const table = document.getElementById("shift-adjustment-table");
+    const nameDropdowns = table.querySelectorAll("#tm-name-dropdown");   
+    const dateDropdowns = table.querySelectorAll("#date-dropdown");
+
+    for(var i = 0; i < dateDropdowns.length; i++)
+    {
+        const name = nameDropdowns[i].value;
+        console.log(name);
+        const tmArray = getFilteredArray(array, "shortName", [name]);
+        const tmDates = getUniqueElements(tmArray, "date");
+        const value = dateDropdowns[i].value;
+        setDropdownOptionsFromSelect(dateDropdowns[i], tmDates, "");
+
+        if(tmDates.includes(value))
+        {
+            dateDropdowns[i].value = value;
+        }
+    }
+}
+
+function onAddShiftAdjustmentRow()
+{
+    const table = document.getElementById("shift-adjustment-table");
+    const rowTemplate = table.querySelector("#shift-adjustment-row-template");
+    const row = rowTemplate.cloneNode(true);
+    row.classList.remove("hidden");
+    row.setAttribute("id", "shift-adjustment-row");
+    table.appendChild(row);
+
+    storeCurrentFilters();
+}
+
+function onRemoveShiftAdjustmentRow(row)
+{
+    const parent = row.parentElement.parentElement.parentElement;
+    const holder = row.parentElement.parentElement;
+    parent.removeChild(holder);
+
+    storeCurrentFilters();
+}
+
+function onShiftTimeChanged(element)
+{
+    const text = element.innerText
+    const converted = convertToFormattedTimeRange(text);
+    
+    if(converted != "invalid")
+    {
+        element.innerText = converted;    
+        element.classList.remove("invalidTimeColor");
+    }
+    else
+    {
+        element.classList.add("invalidTimeColor");
+    }
+
+    storeCurrentFilters();
+}
+
+function selectAllOnEdit()
+{
+    document.execCommand('selectAll', false, null);
+}
+
+function loadDefaultShiftAdjustmentRowData(select, setDates = true)
+{    
+    //setupDateDropdowns();
+
+    const array = getAllPreviewArray();
+    array.sort
+    const name = select.value;
+    const tmArray = getFilteredArray(array, "shortName", [name]);
+
+    if(tmArray.length == 0)
+        return;
+
+    const tmDates = getUniqueElements(tmArray, "date");
+
+    const row = select.parentElement.parentElement;//.parentElement;
+    const dateDropdown = row.querySelector("#date-dropdown");
+    var date = dateDropdown.value;
+
+    if(setDates)
+    {
+        setDropdownOptionsFromSelect(dateDropdown, tmDates, "");
+    
+        const previewDate = getPreviewDate();
+        if(tmDates.includes(previewDate))
+        {
+            dateDropdown.value = previewDate;
+        }
+        else if(tmDates.includes(date))
+        {
+            dateDropdown.value = date;
+        }
+        else
+        {
+            date =  dateDropdown.value;
+        }
+    }
+
+
+    const rowData = arrayLookup(tmArray, "date", date);
+    
+
+    
+    
+
+    
+    const job = row.querySelector("#job-name");
+    const shift = row.querySelector("#shift");
+
+    if(rowData["schedule"] == undefined)
+    {
+        job.innerHTML = "Job Name";
+        shift.innerHTML = "08:00 AM - 04:00 PM";
+    }
+    else
+    {
+        job.innerHTML = rowData["job"];
+        shift.innerHTML = rowData["schedule"];
+    }
+
+
+    //console.log(rowData);
+}
+
+function onShowHideButtonClicked(button)
+{
+    const icon = button.querySelector("i");
+
+    if(icon.classList.contains("fa-eye"))
+    {
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+    }
+    else
+    {
+        icon.classList.add("fa-eye");
+        icon.classList.remove("fa-eye-slash");
+    }
+
+    storeCurrentFilters();
+
+    updatePreviewPage();
+}
+
+function getShiftAdjustmentArray()
+{
+    const table = document.getElementById("shift-adjustment-table");
+    const rows = table.querySelectorAll("#shift-adjustment-row");
+    
+    var newArr = new Array();
+    for(var i = 0; i < rows.length; i++)
+    {
+        const name = rows[i].querySelector("#tm-name-dropdown").value; 
+        const date = rows[i].querySelector("#date-dropdown").value;
+        const job = rows[i].querySelector("#job-name").innerText;
+        const shift = rows[i].querySelector("#shift").innerText;
+        const icon = rows[i].querySelector("#show-hide-icon");
+        const visible = icon.classList.contains("fa-eye");
+
+        const rowData = {
+            name : name,
+            date : date,
+            job : job,
+            schedule : shift,
+            visible : visible
+        }; 
+        
+        newArr.push(rowData);
+    }
+
+    return newArr;
 }

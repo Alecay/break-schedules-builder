@@ -125,9 +125,13 @@
 
     .namesHeaderWidth
     {
-        width: 18%;        
+        width: 15%;        
     }
 
+    .trainingHeaderWidth
+    {
+        width: 3%;        
+    }
 
     .shiftHeaderWidth
     {
@@ -137,6 +141,11 @@
     .breakHeaderWidth
     {        
         width: 8%;
+    }
+    
+    .regHeaderWidth
+    {
+        width: 5%;        
     }
 
     .tasks
@@ -157,6 +166,11 @@
         font-weight: bold;
         color:black;
         background-color: rgb(255, 110, 110);        
+    }
+
+    .hidden
+    {
+        display: none;
     }
 
     @media print 
@@ -210,7 +224,12 @@
     <div style="margin: 1%;" class="printHidden">
         <h1 class="normalText">This page is still a work in progress and currently only lets you load today's data</h1>
         <h1 class="normalText">Also all changes made with reset on window refresh/close or when clicking the load suggested button below</h1>
-        <button onclick="loadSuggested()">Load Suggested Data</button>
+
+        <label class="normalText" for="date-dropdown">Date:</label> 
+        <select name="date-dropdown" id="date-dropdown" class="normalText"
+        style="font-size: 80%;margin-bottom: 0.5vw;" ></select>
+        <button onclick="loadSuggested()">Load Data</button>
+
     </div>
 
     <div id="se-assignment-sheet" style="width: 99%; margin: 0.5%;" class="assignmentSheetWidth">
@@ -246,10 +265,16 @@
                 <table id="instructions-table" style="width: 100%;">
                     <tr>
                         <td class="smallerText">
+                            Target Circle Signup Goal: <span class="editable" contenteditable="true" style="padding-right: 100px;"></span>                            
+                            Safety Tip: <span class="editable" contenteditable="true" style="padding-right: 100px;"></span>                            
+                        </td>
+                    </tr>
+                    <tr class="hidden">
+                        <td class="smallerText">
                             <span class="boldText">myGuest Metrics Assessment:</span> On Monday, SD or S&E leader should complete myGuest/Metric assessment to inform team of current state and trends.                    
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="hidden">
                         <td class="smallerText">                    
                             Remainder of the week (Tuesday-Sunday), leaders should copy Monday assessment to drive messaging.
                         </td>
@@ -443,8 +468,12 @@
             <table id="service-table" style="width: 100%;  table-layout: fixed;" class="borders">
                 <tr id="header-row">
     
-                    <td class="smallText boldText shaded rowPadding namesHeaderWidth">
+                    <td class="smallText boldText shaded rowPadding namesHeaderWidth" style="border-right: none;">
                         TM Name
+                    </td>
+
+                    <td class="smallText boldText shaded centered rowPadding trainingHeaderWidth" style="border-left: none;">
+                                                
                     </td>
     
                     <td class="smallText boldText shaded centered rowPadding shiftHeaderWidth">
@@ -475,8 +504,12 @@
                 
                 <tr id="tm-row-template" style="display: none;">
     
-                    <td id="name" class="smallText editable rowPadding" contenteditable="true">
+                    <td id="name" class="smallText editable rowPadding" contenteditable="true" style="border-right: none;">
                         Bal, Sherwin (1425) T:5
+                    </td>
+
+                    <td id="training" class="smallText editable rowPadding" contenteditable="true" style="border-left: none;">
+                        
                     </td>
     
                     <td id="shift" class="smallText centered editable rowPadding" contenteditable="true" onblur="onShiftTimeChanged(this)" onclick="selectAllOnEdit()">
@@ -493,6 +526,18 @@
     
                     <td id="break3" class="smallText centered editable rowPadding" contenteditable="true"onblur="onBreakTimeChanged(this)" onclick="selectAllOnEdit()">
                         01:00 PM          
+                    </td>
+
+                    <td id="register" class="smallText centered editable rowPadding hidden" contenteditable="true">
+                        
+                    </td>
+
+                    <td id="signups" class="smallText centered editable rowPadding hidden" contenteditable="true">
+                        
+                    </td>
+
+                    <td id="cards" class="smallText centered editable rowPadding hidden" contenteditable="true">
+                        
                     </td>
     
                     <td id="tasks" class="smallText editable rowPadding tasks" contenteditable="true" style="border-right: none;">
@@ -576,8 +621,12 @@
             <table id="front-of-store-table" style="width: 100%; table-layout: fixed;" class="borders">
                 <tr id="header-row">
     
-                    <td class="smallText boldText shaded rowPadding namesHeaderWidth">
+                    <td class="smallText boldText shaded rowPadding namesHeaderWidth" style="border-right: none;">
                         TM Name
+                    </td>
+
+                    <td class="smallText boldText shaded centered rowPadding trainingHeaderWidth" style="border-left: none;">
+                                                
                     </td>
     
                     <td class="smallText boldText shaded centered rowPadding shiftHeaderWidth">
@@ -622,8 +671,12 @@
             <table id="checkout-table" style="width: 100%; table-layout: fixed;" class="borders">
                 <tr id="header-row">
     
-                    <td class="smallText boldText shaded rowPadding namesHeaderWidth">
+                    <td class="smallText boldText shaded rowPadding namesHeaderWidth" style="border-right: none;">
                         TM Name
+                    </td>
+
+                    <td class="smallText boldText shaded centered rowPadding trainingHeaderWidth" style="border-left: none;">
+                                                
                     </td>
     
                     <td class="smallText boldText shaded centered rowPadding shiftHeaderWidth">
@@ -641,9 +694,21 @@
                     <td class="smallText boldText shaded centered rowPadding breakHeaderWidth">
                         2nd Break           
                     </td>
+
+                    <td class="smallText boldText shaded centered rowPadding regHeaderWidth">
+                        Reg #
+                    </td>
+
+                    <td class="smallText boldText shaded centered rowPadding regHeaderWidth" style="padding-right: 25px;">
+                        <img src="/break-schedules-builder/images/target-logo-square.png" alt="Target Logo" style="width: 25%; vertical-align: middle;"> Signups
+                    </td>
+
+                    <td class="smallText boldText shaded centered rowPadding regHeaderWidth" style="padding-right: 10px;">
+                        <img src="/break-schedules-builder/images/target-logo-square.png" alt="Target Logo" style="width: 25%; vertical-align: middle;"> Cards
+                    </td>
     
                     <td class="smallText boldText shaded rowPadding" style="border-right: none;">
-                       Task(s)     
+                        Additonal Task(s)     
                     </td>
 
                     <td id="remove-button-width" style="width: 2%; border: none;" class="printHidden shaded"></td>
@@ -685,6 +750,7 @@
     </div>
 
     <script>        
+        setupAssignmentSheetPage();
         loadSuggested();        
     </script>
 

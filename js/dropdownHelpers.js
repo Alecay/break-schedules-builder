@@ -35,6 +35,19 @@ function setDropdownOptions(id, options, style)
     }
 }
 
+function setDropdownOptionsFromSelect(selectList, options, style)
+{
+    selectList.innerHTML="";
+    for (var i = 0; i < options.length; i++)
+    {
+        var option = document.createElement("option");
+        option.setAttribute("style", style);
+        option.value = options[i];
+        option.text = options[i];
+        selectList.appendChild(option);
+    }
+}
+
 function getSelectedOptions(select)
 {
     var result = [];
