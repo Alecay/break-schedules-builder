@@ -7,24 +7,24 @@ function setupTableResize(parent, referenceSize = 1000)
 
         window.addEventListener("resize", (event) =>
         {        
-            resizeDivTables(parent);            
+            resizeDivTables(parent, referenceSize);            
         });
     
         window.addEventListener("load", (event) =>
         {        
-            resizeDivTables(parent);            
+            resizeDivTables(parent, referenceSize);            
         });         
         
         window.addEventListener("beforeprint", (event) =>
         {        
-            setDivTableSizes(parent);  
+            setDivTableSizes(parent, referenceSize);  
             console.log("print");
         });           
 
         window.addEventListener("afterprint", (event) =>
         {                             
             location.reload();      
-            //resizeDivTables(parent);  
+            //resizeDivTables(parent, referenceSize);  
             console.log("after");
         }); 
     }

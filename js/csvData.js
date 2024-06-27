@@ -268,6 +268,8 @@ function getFormattedScheduleArray(array)
 
         singleObj["shortName"] = shortName;        
 
+        singleObj["nameNoNum"] = singleObj["name"].substring(0, singleObj["name"].indexOf(" ("));
+
         singleObj["trainingName"] = singleObj["name"];
 
         singleObj["job"] = String(row["JOB NAME"]);

@@ -125,7 +125,7 @@ span
 
 .commWidth
 {
-    width: 25%;
+    width: 35%;
 }
 
 .commPanel
@@ -158,6 +158,12 @@ span
 .printPages
 {
     display: none;
+}
+
+table td
+{
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
 /* .dev-visible

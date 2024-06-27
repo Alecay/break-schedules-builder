@@ -262,12 +262,14 @@ function setRowValuesFromObject(row, data, setBreaks = true, showTraining = true
 {
     if(showTraining)
     {
-        setChildNodeValue(row, "#name", data["trainingName"]);
+        setChildNodeValue(row, "#training", data["trainingStr"]);
     }
     else
     {
-        setChildNodeValue(row, "#name", data["name"]);
+        setChildNodeValue(row, "#training", "");
     }
+
+    setChildNodeValue(row, "#name", data["nameNoNum"]);
 
     setChildNodeValue(row, "#job", data["job"]);
     setChildNodeValue(row, "#schedule", data["schedule"]);

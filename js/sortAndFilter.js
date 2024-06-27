@@ -44,6 +44,51 @@ function getFilteredArray()
     return newArr;    
 }
 
+function getInverseFilteredArray()
+{
+    var props = arguments;
+
+    if(props.length < 3 || props.length % 2 != 1)
+        return;
+
+    const array = props[0];
+
+    var newArr = new Array();
+
+    array.forEach(element => 
+    {
+        var shouldAdd = true;
+        for (let index = 1; index < props.length; index += 2) 
+        {
+            const key = props[index];
+            const values = props[index + 1];
+
+            var hasValue = false;
+            for (let valIndex = 0; valIndex < values.length; valIndex++) 
+            {            
+                if(element[key] == values[valIndex])
+                {
+                    hasValue = true;
+                    break;
+                }
+            }
+
+            if(hasValue)
+            {
+                shouldAdd = false;
+                break;
+            }
+        }
+
+        if(shouldAdd)
+            newArr.push(element);
+    });
+
+    //console.log("Got filtered array with ", newArr.length, " elements");    
+
+    return newArr; 
+}
+
 function getUniqueElements(array, key)
 {
     var newArr = new Array();
@@ -93,4 +138,21 @@ function dynamicSortMultiple()
         }
         return result;
     }
+}
+
+function arrayLookup(array, key, value)
+{
+    //console.log("Searching array of length ", array.length, " for Key:", key, " Value:", value);
+    var data = {};
+    array.forEach(element => 
+        {
+            if(element[key] == value)
+            {
+                //console.log("Found object");
+                data = element;
+                return;                
+            }            
+        });
+
+        return data;
 }
