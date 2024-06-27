@@ -417,7 +417,7 @@ function selectText(element)
     for (let i = 0; i < messages.length; i++) 
     {
         const message = messages[i];
-        message.innerText = "Copyied: " + text;
+        message.innerText = "Copied: " + text;
     }
 
     //document.getElementById("copyMessage").innerText = "Copyied: " + text;
