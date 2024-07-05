@@ -120,7 +120,8 @@
 
     .copyable:hover
     {
-        background-color: rgb(234, 251, 146);        
+        background-color: rgb(234, 251, 146);
+        cursor:pointer;        
     }
 
     .rowPadding
@@ -239,22 +240,22 @@
     </div>
 
     <div style="margin: 1%;" class="printHidden">
-        <h1 class="normalText" style="margin-bottom: 5px; margin-left: 1%; display: inline-block;">Common Tasks by area (Click to copy)</h1>
+        <h1 class="normalText" style="margin-bottom: 5px; margin-left: 1%; display: inline-block;">Common Tasks by area (Click to copy, CTRL click to copy mutltiple)</h1>
         <h1 class="normalText" id="copyMessage" style="font-weight: normal; margin-bottom: 5px; margin-left: 1%; display: inline-block; font-style: italic;"></h1>
         <br>        
         <div style="margin: 1%; margin-top: 0%; display: inline-block;">
             <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Service Desk</h1>
             
             <table id="service-tasks" class="normalText" style="border-top: solid 1px; min-width: 100%;">
-                <tr><td onclick="selectText(this)" class="copyable">• Complete RTS & sort</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Move carts and open entrance doors. Setup DU tent (if needed)</td></tr>
+                <tr><td onclick="selectText(this)" class="copyable">• Complete RTS & sort</td></tr>
+                <tr><td onclick="selectText(this)" class="copyable">• Restock drinks cooler with water/gatorade/ice</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Hang / sort style abandons</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Load bulky abandons onto U-boat/flat</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Empty hold bin and sort</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Log Paid & Left items and sort</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Log and process Lost & Found items (Toss/Donate)</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Audit SodaStream bottles and box up empties</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Restock drinks cooler with water/gatorade/ice</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Audit all hold spaces in SD</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Audit all hold spaces in MC</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Audit all hold spaces in CLR / FRZ</td></tr>
@@ -269,34 +270,34 @@
             <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Front of Store Attendant</h1>
             
             <table id="fos-tasks" class="normalText" style="border-top: solid 1px; min-width: 100%;">
-                <tr><td onclick="selectText(this)" class="copyable">• Fill spill stations</td></tr>
+                <tr><td onclick="selectText(this)" class="copyable">• Fill all spill stations</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Audit cleaning supplies</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Take back bulky defective items & trash</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Deep clean and restock bathrooms</td></tr>
+                <tr><td onclick="selectText(this)" class="copyable">• Clean and organize cleaning closet</td></tr>
             </table>
         </div>   
 
         <div style="margin: 1%; margin-top: 0%; display: inline-block;">
             <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Checkout</h1>
             
-            <table id="checkout-tasks" class="normalText" style="border-top: solid 1px; min-width: 100%;">
-                <tr><td onclick="selectText(this)" class="copyable">• Collect and sort abandons from all registers</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Collect security tags from all registers</td></tr>
+            <table id="checkout-tasks" class="normalText" style="border-top: solid 1px; min-width: 100%;">       
+                <tr><td onclick="selectText(this)" class="copyable">• Restock & zone front lanes endcaps</td></tr>  
+                <tr><td onclick="selectText(this)" class="copyable">• Restock candy and snacks on all registers</td></tr>
+                <tr><td onclick="selectText(this)" class="copyable">• Wipe down belts, card readers, and screens</td></tr>       
                 <tr><td onclick="selectText(this)" class="copyable">• Restock receipt paper on all registers</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Restock bags on all registers</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Wipe down belts, card readers, and screens</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Restock candy and snacks on all registers</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Restock Target Giftcards on all registers</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Restock 3rd Party Giftcards on all registers</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Sweep/vacuum the entrance way carpet/floor</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Restock & zone front lanes endcaps</td></tr>
                 <tr><td onclick="selectText(this)" class="copyable">• Zone drink coolers and inline candy/snacks</td></tr>
+                <tr><td onclick="selectText(this)" class="copyable">• Collect and sort abandons from all registers</td></tr>
+                <tr><td onclick="selectText(this)" class="copyable">• Collect security tags from all registers</td></tr>
             </table>
         </div>  
     </div>    
 
     <div id="se-assignment-sheet" style="width: 99%; margin: 0.5%;" class="assignmentSheetWidth">
-        <div id="se-assignment-sheet-front" class="pagebreak">
+        <div id="se-assignment-sheet-front" class="pagebreak" style="padding-top: 2%;">
 
             <div id="page-header">                
                 <table id="title-table" style="width: 100%;">
@@ -393,20 +394,20 @@
                     <td contenteditable="true" class="editable smallText centered" onclick="selectAllOnEdit()" id="value"></td>
                     <td contenteditable="true" class="editable smallText" onclick="selectAllOnEdit()" id="themes"></td>
                 </tr>
-    
+
                 <tr>
                     <td class="smallText rowPadding">
-                        Checkout Experience
+                        Same Day Experience
                     </td>
     
                     <td class="smallText rowPadding">
-                        Key Driver: Interaction with TM at Checkout
+                        Drive Up NPS
                     </td>
     
                     <td contenteditable="true" class="editable smallText centered" onclick="selectAllOnEdit()" id="value"></td>
                     <td contenteditable="true" class="editable smallText" onclick="selectAllOnEdit()" id="themes"></td>
                 </tr>
-    
+
                 <tr>
                     <td class="smallText rowPadding">
                         Checkout Experience
@@ -426,7 +427,33 @@
                     </td>
     
                     <td class="smallText rowPadding">
-                        myTime: Schedule to Forecast %
+                        Key Driver: Interaction with TM at Checkout
+                    </td>
+    
+                    <td contenteditable="true" class="editable smallText centered" onclick="selectAllOnEdit()" id="value"></td>
+                    <td contenteditable="true" class="editable smallText" onclick="selectAllOnEdit()" id="themes"></td>
+                </tr>
+
+                <tr>
+                    <td class="smallText rowPadding">
+                        Guest Engagement
+                    </td>
+    
+                    <td class="smallText rowPadding">
+                        Key Driver: Interaction While Shopping
+                    </td>
+                    
+                    <td contenteditable="true" class="editable smallText centered" onclick="selectAllOnEdit()" id="value"></td>
+                    <td contenteditable="true" class="editable smallText" onclick="selectAllOnEdit()" id="themes"></td>
+                </tr>
+
+                <tr>
+                    <td class="smallText rowPadding">
+                        S&E Brand & Cleanliness
+                    </td>
+    
+                    <td class="smallText rowPadding">
+                        Key Driver: Cleanliness
                     </td>
     
                     <td contenteditable="true" class="editable smallText centered" onclick="selectAllOnEdit()" id="value"></td>
@@ -440,32 +467,6 @@
     
                     <td class="smallText rowPadding">
                         SCO Utilization %
-                    </td>
-    
-                    <td contenteditable="true" class="editable smallText centered" onclick="selectAllOnEdit()" id="value"></td>
-                    <td contenteditable="true" class="editable smallText" onclick="selectAllOnEdit()" id="themes"></td>
-                </tr>
-    
-                <tr>
-                    <td class="smallText rowPadding">
-                        Same Day Experience
-                    </td>
-    
-                    <td class="smallText rowPadding">
-                        Drive Up NPS
-                    </td>
-    
-                    <td contenteditable="true" class="editable smallText centered" onclick="selectAllOnEdit()" id="value"></td>
-                    <td contenteditable="true" class="editable smallText" onclick="selectAllOnEdit()" id="themes"></td>
-                </tr>
-    
-                <tr>
-                    <td class="smallText rowPadding">
-                        S&E Brand & Cleanliness
-                    </td>
-    
-                    <td class="smallText rowPadding">
-                        Key Driver: Cleanliness
                     </td>
     
                     <td contenteditable="true" class="editable smallText centered" onclick="selectAllOnEdit()" id="value"></td>
@@ -497,16 +498,16 @@
                     <td contenteditable="true" class="editable smallText centered" onclick="selectAllOnEdit()" id="value"></td>
                     <td contenteditable="true" class="editable smallText" onclick="selectAllOnEdit()" id="themes"></td>
                 </tr>
-    
+
                 <tr>
                     <td class="smallText rowPadding">
-                        Guest Engagement
+                        Checkout Experience
                     </td>
     
                     <td class="smallText rowPadding">
-                        Key Driver: Interaction While Shopping
+                        myTime: Schedule to Forecast %
                     </td>
-                    
+    
                     <td contenteditable="true" class="editable smallText centered" onclick="selectAllOnEdit()" id="value"></td>
                     <td contenteditable="true" class="editable smallText" onclick="selectAllOnEdit()" id="themes"></td>
                 </tr>
@@ -515,7 +516,490 @@
             
             <div id="spacing-div" style="display: table;" class="tableResize spacingDiv">
             </div>
+
+            <div style="margin: 1%;" class="printHidden" id="suggested-bathroom-tms">
+                <h1 class="normalText" style="margin-bottom: 5px; margin-left: 1%; display: inline-block;">Suggested Bathroom Check TMs (Click to copy)</h1>
+                <h1 class="normalText" id="copyMessage" style="font-weight: normal; margin-bottom: 5px; margin-left: 1%; display: inline-block; font-style: italic;"></h1>
+                <br>        
+                <div style="margin: 1%; margin-top: 0%; display: inline-block; width: 25%;">
+                    <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Opening / Mid TMs</h1>                    
+                    <table id="opening-bathroom-tms" style="border-top: solid 1px;">
+                        <tr id="suggested-tm-row"><td onclick="selectText(this, '\n')" class="copyable smallerText" style="font-size: 10px;" id="tm">• TM 1</td><td id="time" class="smallerText">time</td></tr>
+                    </table>
+                </div>    
+
+                <div style="margin: 1%; margin-top: 0%; display: inline-block; width: 25%;">
+                    <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Closing TMs</h1>                    
+                    <table id="closing-bathroom-tms" style="border-top: solid 1px;">                        
+                    </table>
+                </div>  
+            </div>  
+
+            <table id="bathroom-title-table" style="width: 100%;border: 1px solid; border-bottom: none;">
+                <tr>
+                    <td class="normalText boldText shaded rowPadding centered">
+                        Bathroom Cleaning Assignments
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="smallerText shaded rowPadding centered">
+                        TMs should check the assigned bathroom(s) at the assigned time(s) and preform all necessary cleaning tasks and then sign off on the bathroom sheet(s). Leaders will follow up to ensure completion.                         
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="smallerText shaded rowPadding centered hidden">
+                        All TMs are required to assist in cleaning the bathrooms unless they have medical restrictions which would prevent
+                    </td>
+                </tr>
+            </table>
+
+            <table id="bathroom-table" style="width: 100%;  table-layout: fixed; border-bottom: none; border-left: none; border-right: none;" class="borders">
+                <tr id="header-row">
     
+                    <td style="width: 0.5%;border:none"></td>
+
+                    <td class="smallText boldText shaded centered rowPadding">
+                        Time
+                    </td>
+    
+                    <td class="smallText boldText shaded centered rowPadding">
+                        Men's
+                    </td>
+
+                    <td class="smallText boldText shaded centered rowPadding">
+                        Women's
+                    </td>
+
+                    <td class="smallText boldText shaded centered rowPadding">
+                        Family
+                    </td>
+
+                    <td style="width: 0.5%;border:none"></td>
+
+                    <td class="smallText boldText shaded centered rowPadding">
+                        Time
+                    </td>
+    
+                    <td class="smallText boldText shaded centered rowPadding">
+                        Men's
+                    </td>
+
+                    <td class="smallText boldText shaded centered rowPadding">
+                        Women's
+                    </td>
+
+                    <td class="smallText boldText shaded centered rowPadding">
+                        Family
+                    </td>
+
+                    <td style="width: 0.5%;border:none"></td>
+
+                    <td class="smallText boldText shaded centered rowPadding">
+                        Time
+                    </td>
+    
+                    <td class="smallText boldText shaded centered rowPadding">
+                        Men's
+                    </td>
+
+                    <td class="smallText boldText shaded centered rowPadding">
+                        Women's
+                    </td>
+
+                    <td class="smallText boldText shaded centered rowPadding">
+                        Family
+                    </td>
+
+                    <td style="width: 0.5%;border:none"></td>
+                </tr>        
+
+                <tr id="time-row">
+    
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding">
+                        8:30 AM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">                        
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding">
+                        1:30 PM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding ">
+                        6:30 PM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+                </tr>   
+
+                <tr id="time-row">
+    
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding ">
+                        9:30 AM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding ">
+                        2:30 PM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding ">
+                        7:30 PM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+                </tr>  
+
+                <tr id="time-row">
+
+                    <td style="border:none"></td>
+    
+                    <td class="smallText centered rowPadding ">
+                        10:30 AM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding ">
+                        3:30 PM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding ">
+                        8:30 PM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+                </tr>  
+
+                <tr id="time-row">
+    
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding ">
+                        11:30 AM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding ">
+                        4:30 PM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding ">
+                        9:30 PM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+
+                </tr>  
+
+                <tr id="time-row">
+    
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding ">
+                        12:30 PM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding ">
+                        5:30 PM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+
+                    <td class="smallText centered rowPadding ">
+                        10:00 PM
+                    </td>
+    
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="mens">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="womans">
+                    </td>
+
+                    <td class="smallText centered rowPadding  editable" contenteditable="true"  onclick="selectAllOnEdit()"  id="family">
+                    </td>
+
+                    <td style="border:none"></td>
+
+                </tr>  
+    
+            </table>
+
+            <div id="spacing-div" style="display: table;" class="tableResize spacingDiv">
+            </div>
+
+            <div style="margin: 1%;" class="printHidden" id="suggested-backups">
+                <h1 class="normalText" style="margin-bottom: 5px; margin-left: 1%; display: inline-block;">Suggested Backup TMs (Click to copy, CTRL click to copy mutltiple)</h1>
+                <h1 class="normalText" id="copyMessage" 
+                    style="font-weight: normal; margin-bottom: 5px; margin-left: 1%; display: inline-block; font-style: italic; text-wrap: nowrap; width: 80%;">
+                </h1>
+                <br>        
+                <div style="margin: 1%; margin-top: 0%; display: inline-block; width: 23%;">
+                    <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Style - Opening TMs</h1>                    
+                    <table id="style-opening-backups" style="border-top: solid 1px;">
+                        <tr id="suggested-tm-row">
+                            <td onclick="selectText(this, '\n')" class="copyable smallerText" style="font-size: 10px;" id="tm">• TM 1</td>
+                            <td id="time" class="smallerText">time</td>
+                        </tr>
+                    </table>
+                </div>    
+
+                <div style="margin: 1%; margin-top: 0%; display: inline-block; width: 23%;">
+                    <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Style - Closing TMs</h1>                    
+                    <table id="style-closing-backups" style="border-top: solid 1px;">                        
+                    </table>
+                </div>  
+
+                <div style="margin: 1%; margin-top: 0%; display: inline-block; width: 23%;">
+                    <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">GM - Opening TMs</h1>                    
+                    <table id="gm-opening-backups" class="normalText" style="border-top: solid 1px;">                        
+                    </table>
+                </div> 
+
+                <div style="margin: 1%; margin-top: 0%; display: inline-block; width: 22%;">
+                    <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">GM - Closing TMs</h1>                    
+                    <table id="gm-closing-backups" class="normalText" style="border-top: solid 1px;">                        
+                    </table>
+                </div> 
+            </div>  
+
+            <table id="backup-title-table" style="width: 100%;border: 1px solid; border-bottom: none;">
+                <tr>
+                    <td class="normalText boldText shaded rowPadding centered">
+                        Designated Backup Team Members
+                    </td>
+                </tr>
+            </table>
+
+            <div>
+                <table id="backups-table" style="width: 100%;">
+                    <tr>
+                        <td class="borders smallerText rowPadding boldText" style="width: 25%;">
+                            Checkout Backups (Morning/Mid):                          
+                            <table id="checkout-backups" style="width: 100%;">
+                                <tr>
+                                    <td class="editable smallerText spacingDivLarge" style="font-weight: normal; border:none;" 
+                                    contenteditable="true" id="checkout-am-backups" onclick="selectAllOnEdit()">                               
+                                    </td>
+                                </tr>
+                            </table>        
+                        </td>
+                        <td class="borders smallerText rowPadding boldText" style="width: 25%;">
+                            Checkout Backups (Closing):                          
+                            <table id="checkout-backups" style="width: 100%;">
+                                <tr>
+                                    <td class="editable smallerText spacingDivLarge" style="font-weight: normal; border:none;" 
+                                    contenteditable="true" id="checkout-pm-backups" onclick="selectAllOnEdit()">                               
+                                    </td>
+                                </tr>
+                            </table>        
+                        </td>
+                        <td class="borders smallerText rowPadding boldText" style="width: 25%;">
+                            Guest Service/Drive-Up Backups (Morning/Mid):
+                            <table id="service-backups" style="width: 100%;">
+                                <tr>
+                                    <td class="editable smallerText spacingDivLarge" style="font-weight: normal; border:none;" 
+                                    contenteditable="true"  id="service-am-backups" onclick="selectAllOnEdit()">
+                                    </td>
+                                </tr>
+                            </table>                            
+                        </td>
+                        <td class="borders smallerText rowPadding boldText" style="width: 25%;">
+                            Guest Service/Drive-Up Backups (Closing):
+                            <table id="service-backups" style="width: 100%;">
+                                <tr>
+                                    <td class="editable smallerText spacingDivLarge" style="font-weight: normal; border:none;" 
+                                    contenteditable="true" id="service-pm-backups" onclick="selectAllOnEdit()">
+                                    </td>
+                                </tr>
+                            </table>                            
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <div id="spacing-div" style="display: table;" class="tableResize spacingDiv printHidden">
+        </div>
+    
+        <div id="se-assignment-sheet-back" style="padding-top: 2%;">
+    
+            <div id="page-header" class="onlyVisibleOnPrint">                
+                <table id="title-table" style="width: 100%;">
+                    <tr class="shaded">
+                        
+                        <td id="target-symbol" style="width: 3%;" class="rowPadding">
+                            <img src="/break-schedules-builder/images/target-logo-square.png" alt="Target Logo" style="width: 100%; vertical-align: middle;">
+                        </td>
+            
+                        <td id="title" class="largeText boldText" style="width: 60%; vertical-align: middle;">
+                            Service & Engagement Daily Team Assignment Sheet
+                        </td>
+            
+                        <td id="leader-label" class="smallText boldText" style="width: 30%; vertical-align: middle;">
+                            Leader(s): <span id="leader-list" contenteditable="true" class="shadedEditable"></span>
+                        </td>
+            
+                        <td id="date-label" class="smallText boldText" style="vertical-align: middle;">
+                            Date: 
+                            <span id="date" style="padding-right: 5px;">3/16</span>
+                        </td>
+            
+                    </tr>
+                </table>
+    
+                <div id="spacing-div" style="display: table;" class="tableResize spacingDivSmall">
+                </div>      
+                
+                <div id="spacing-div" style="display: table;" class="tableResize spacingDivSmall">
+                </div>
+            </div>
+            
             <table id="service-desk-title-table" style="width: 100%;border: 1px solid; border-bottom: none;">
                 <tr>
                     <td class="normalText boldText shaded rowPadding">
@@ -569,7 +1053,7 @@
                     
                 </tr>    
                 
-                <tr id="tm-row-template" style="display: none;">
+                <tr id="tm-row" style="display: none;">
     
                     <td id="name" class="smallText editable rowPadding" contenteditable="true" style="border-right: none;">
                         Bal, Sherwin (1425) T:5
@@ -626,43 +1110,9 @@
                 </tr>  
     
             </table>
-        </div>
 
-        <div id="spacing-div" style="display: table;" class="tableResize spacingDiv">
-        </div>
-    
-        <div id="se-assignment-sheet-back">
-    
-            <div id="page-header" class="onlyVisibleOnPrint">                
-                <table id="title-table" style="width: 100%;">
-                    <tr class="shaded">
-                        
-                        <td id="target-symbol" style="width: 3%;" class="rowPadding">
-                            <img src="/break-schedules-builder/images/target-logo-square.png" alt="Target Logo" style="width: 100%; vertical-align: middle;">
-                        </td>
-            
-                        <td id="title" class="largeText boldText" style="width: 60%; vertical-align: middle;">
-                            Service & Engagement Daily Team Assignment Sheet
-                        </td>
-            
-                        <td id="leader-label" class="smallText boldText" style="width: 30%; vertical-align: middle;">
-                            Leader(s): <span id="leader-list" contenteditable="true" class="shadedEditable"></span>
-                        </td>
-            
-                        <td id="date-label" class="smallText boldText" style="vertical-align: middle;">
-                            Date: 
-                            <span id="date" style="padding-right: 5px;">3/16</span>
-                        </td>
-            
-                    </tr>
-                </table>
-    
-                <div id="spacing-div" style="display: table;" class="tableResize spacingDivSmall">
-                </div>      
-                
-                <div id="spacing-div" style="display: table;" class="tableResize spacingDivSmall">
-                </div>
-            </div>  
+            <div id="spacing-div" style="display: table;" class="tableResize spacingDiv">
+            </div>
     
             <table id="front-of-store-title-table" style="width: 100%;border: 1px solid; border-bottom: none;">
                 <tr>
@@ -774,53 +1224,6 @@
             </table>
     
             <div id="spacing-div" style="display: table;" class="tableResize spacingDiv">
-            </div>
-
-            <div>
-                <table id="backups-table" style="width: 100%;">
-                    <tr>
-                        <td class="borders smallerText rowPadding boldText" style="width: 25%;">
-                            Checkout Backups (Morning/Mid):                          
-                            <table id="checkout-backups" style="width: 100%;">
-                                <tr>
-                                    <td class="editable smallerText spacingDivLarge" style="font-weight: normal; border:none;" 
-                                    contenteditable="true" onclick="selectAllOnEdit()" id="checkout-am-backups">                               
-                                    </td>
-                                </tr>
-                            </table>        
-                        </td>
-                        <td class="borders smallerText rowPadding boldText" style="width: 25%;">
-                            Checkout Backups (Closing):                          
-                            <table id="checkout-backups" style="width: 100%;">
-                                <tr>
-                                    <td class="editable smallerText spacingDivLarge" style="font-weight: normal; border:none;" 
-                                    contenteditable="true" onclick="selectAllOnEdit()" id="checkout-pm-backups">                               
-                                    </td>
-                                </tr>
-                            </table>        
-                        </td>
-                        <td class="borders smallerText rowPadding boldText" style="width: 25%;">
-                            Guest Service/Drive-Up Backups (Morning/Mid):
-                            <table id="service-backups" style="width: 100%;">
-                                <tr>
-                                    <td class="editable smallerText spacingDivLarge" style="font-weight: normal; border:none;" 
-                                    contenteditable="true" onclick="selectAllOnEdit()"  id="service-am-backups">
-                                    </td>
-                                </tr>
-                            </table>                            
-                        </td>
-                        <td class="borders smallerText rowPadding boldText" style="width: 25%;">
-                            Guest Service/Drive-Up Backups (Closing):
-                            <table id="service-backups" style="width: 100%;">
-                                <tr>
-                                    <td class="editable smallerText spacingDivLarge" style="font-weight: normal; border:none;" 
-                                    contenteditable="true" onclick="selectAllOnEdit()" id="service-pm-backups">
-                                    </td>
-                                </tr>
-                            </table>                            
-                        </td>
-                    </tr>
-                </table>
             </div>
         </div>
     </div>

@@ -11,6 +11,11 @@ let currentFOSTMCount = 0;
 
 let savedPageData = {};
 
+let pressedKeys = {};
+
+let currentCopyString = "";
+let currentCopyMessage = "";
+
 function loadServiceTasks()
 {
     const taskTable = document.getElementById("service-tasks");
@@ -23,19 +28,24 @@ function loadServiceTasks()
         tasksArr.push(task.innerText.replace("• ", ""));
     }
 
+    const firstTasks = [];
+    firstTasks.push(tasksArr[0]);
+    firstTasks.push(tasksArr[1]);
+    firstTasks.push(tasksArr[2]);
+
     serviceTasks = tasksArr;
     shuffle(serviceTasks);
 
     //Set positions of certain tasks that should occur first
-    var index = serviceTasks.indexOf("Move carts and open entrance doors");
+    var index = serviceTasks.indexOf(firstTasks[0]);//"Move carts and open entrance doors");
     // And swap it with the current element.
     [serviceTasks[0], serviceTasks[index]] = [serviceTasks[index], serviceTasks[0]];
 
-    index = serviceTasks.indexOf("Complete RTS & sort");
+    index = serviceTasks.indexOf(firstTasks[1]);//"Complete RTS & sort");
     // And swap it with the current element.
     [serviceTasks[1], serviceTasks[index]] = [serviceTasks[index], serviceTasks[1]];
 
-    index = serviceTasks.indexOf("Restock drinks cooler with water/gatorade/ice");
+    index = serviceTasks.indexOf(firstTasks[2]);//"Restock drinks cooler with water/gatorade/ice");
     // And swap it with the current element.
     [serviceTasks[2], serviceTasks[index]] = [serviceTasks[index], serviceTasks[2]];    
 }
@@ -52,8 +62,37 @@ function loadCheckoutTasks()
         tasksArr.push(task.innerText.replace("• ", ""));
     }
 
+    const lastTasks = [];
+    lastTasks.push(tasksArr[tasksArr.length - 1]);
+    lastTasks.push(tasksArr[tasksArr.length - 2]);
+
+    const firstTasks = [];
+    firstTasks.push(tasksArr[0]);
+    firstTasks.push(tasksArr[1]);
+    firstTasks.push(tasksArr[2]);
+
     checkoutTasks = tasksArr;
-    shuffle(checkoutTasks);    
+    shuffle(checkoutTasks);   
+    
+    var index = checkoutTasks.indexOf(lastTasks[0]);
+    // And swap it with the current element.
+    [checkoutTasks[checkoutTasks.length - 1], checkoutTasks[index]] = [checkoutTasks[index], checkoutTasks[checkoutTasks.length - 1]];
+
+    index = checkoutTasks.indexOf(lastTasks[1]);
+    // And swap it with the current element.
+    [checkoutTasks[checkoutTasks.length - 2], checkoutTasks[index]] = [checkoutTasks[index], checkoutTasks[checkoutTasks.length - 2]];
+
+    index = checkoutTasks.indexOf(firstTasks[0]);
+    // And swap it with the current element.
+    [checkoutTasks[0], checkoutTasks[index]] = [checkoutTasks[index], checkoutTasks[0]];
+
+    index = checkoutTasks.indexOf(firstTasks[1]);
+    // And swap it with the current element.
+    [checkoutTasks[1], checkoutTasks[index]] = [checkoutTasks[index], checkoutTasks[1]];
+
+    index = checkoutTasks.indexOf(firstTasks[2]);
+    // And swap it with the current element.
+    [checkoutTasks[2], checkoutTasks[index]] = [checkoutTasks[index], checkoutTasks[2]];
 }
 
 function loadFOSTasks()
@@ -73,7 +112,10 @@ function loadFOSTasks()
 }
 
 function setupAssignmentSheetPage()
-{    
+{        
+    window.onkeyup = function(e) { pressedKeys[e.keyCode] = false; };
+    window.onkeydown = function(e) { pressedKeys[e.keyCode] = true; };
+
     loadStoredDataFiles();
     loadLeaderData();
 
@@ -86,6 +128,18 @@ function setupAssignmentSheetPage()
     {        
         savePageData();
     }); 
+
+    const assignmentSheet = document.getElementById("se-assignment-sheet");
+    setupTableResize(assignmentSheet);
+
+    const editable = document.querySelectorAll("[contenteditable]");    
+
+    editable.forEach(element => {
+        element.onblur = function ()
+        {
+            savePageData();            
+        };
+    });
 }
 
 function loadSuggested()
@@ -103,12 +157,9 @@ function loadSuggested()
     currentCheckoutTMCount = 0;
 
     loadFOSTasks();
-    currentFOSTMCount = 0;
+    currentFOSTMCount = 0;    
 
-    const assignmentSheet = document.getElementById("se-assignment-sheet");
-    setupTableResize(assignmentSheet);
-
-    const date = document.getElementById("date-dropdown").value//getTodayDate();
+    const date = document.getElementById("date-dropdown").value;//getTodayDate();
     const dateHolders = document.querySelectorAll("#date");
     for (let i = 0; i < dateHolders.length; i++) {
         const element = dateHolders[i];
@@ -116,9 +167,7 @@ function loadSuggested()
     }    
 
     var leadersString = "";
-    var leadersSchedule = getScheduleDataArray([leaderInfo["district"]], [leaderInfo["store"]], ["S&E TL", "Order Pickup"], [date]);
-
-    //leadersSchedule = getFilteredArray(leadersSchedule, "tmNumber", []);
+    var leadersSchedule = getScheduleDataArray([leaderInfo["district"]], [leaderInfo["store"]], ["S&E TL", "Order Pickup"], [date]);    
 
     for (let i = 0; i < leadersSchedule.length; i++) 
     {
@@ -127,9 +176,7 @@ function loadSuggested()
 
         if(i < leadersSchedule.length - 1)
             leadersString += ", ";
-    }
-
-    console.log(leadersSchedule);
+    }    
 
     const leaderHolders = document.querySelectorAll("#leader-list");
     for (let i = 0; i < leaderHolders.length; i++) {
@@ -162,6 +209,9 @@ function loadSuggested()
     {
         addTMRow("front-of-store-table", row, "fos");
     }); 
+
+    loadSuggestedBathroomTMs();
+    loadSuggestedBackupTMs();
 }
 
 function savePageData()
@@ -197,7 +247,38 @@ function savePageData()
     savedPageData["metrics"] = metrics;
     savedPageData["themes"] = themes;
 
+    //bathroom data
+    const bathroomTable = document.getElementById("bathroom-table");
+    const mensCells = bathroomTable.querySelectorAll("#mens");
+    const womansCells = bathroomTable.querySelectorAll("#womans");
+    const familyCells = bathroomTable.querySelectorAll("#family");
+    
+    const mens = [];
+    const womans = [];
+    const family = [];
+
+    mensCells.forEach(cell =>
+    {
+        mens.push(cell.innerText);
+    });
+
+    womansCells.forEach(cell =>
+    {
+        womans.push(cell.innerText);
+    });
+
+    familyCells.forEach(cell =>
+    {
+        family.push(cell.innerText);
+    });
+
+    const bathroomData = {"mens":mens, "womans":womans, "family":family};
+
+    savedPageData["bathroomData"] = bathroomData;
+
     localStorage.setItem("savedPageData", JSON.stringify(savedPageData));
+
+    console.log("Saved page changes ", savedPageData);
 }
 
 function loadPageData()
@@ -206,9 +287,7 @@ function loadPageData()
     if(json == undefined)
         return;
 
-    savedPageData = JSON.parse(json);    
-
-    console.log(savedPageData);
+    savedPageData = JSON.parse(json);        
 
     if(savedPageData == undefined)
         return;
@@ -249,7 +328,177 @@ function loadPageData()
         themesElements[i].innerText = savedPageData["themes"][i];        
     }    
 
-    console.log("Loaded data");
+    //bathroom data
+    const bathroomTable = document.getElementById("bathroom-table");
+    const mensCells = bathroomTable.querySelectorAll("#mens");
+    const womansCells = bathroomTable.querySelectorAll("#womans");
+    const familyCells = bathroomTable.querySelectorAll("#family");
+
+    var bathroomData = savedPageData["bathroomData"];
+
+    if(bathroomData == undefined)
+        bathroomData = {"mens":new Array(), "womans":new Array(), "family":new Array()};
+    
+    const mens = bathroomData["mens"];
+    const womans = bathroomData["womans"];
+    const family = bathroomData["family"];
+
+    var index = 0;
+    mensCells.forEach(cell =>
+    {
+        if(index < mens.length)
+            cell.innerText = mens[index++];
+    });
+    index = 0;
+
+    womansCells.forEach(cell =>
+    {
+        if(index < womans.length)
+            cell.innerText = womans[index++];
+    });
+    index = 0;
+
+    familyCells.forEach(cell =>
+    {
+        if(index < family.length)
+            cell.innerText = family[index++];
+    });    
+
+    console.log("Loaded saved page data");
+}
+
+function loadSuggestedBathroomTMs()
+{
+    const openTable = document.getElementById("opening-bathroom-tms");
+    const closeTable = document.getElementById("closing-bathroom-tms");
+    const tmRow = openTable.querySelector("#suggested-tm-row");   
+    tmRow.style.display = ""; 
+
+    var leaderInfo = getCurrentUserInfo();
+    const date = document.getElementById("date-dropdown").value;
+
+    const tmArr = getScheduleDataArray([leaderInfo["district"]], [leaderInfo["store"]], ["Service", "Order Pickup", "Checkout", "Front Att."], [date]);        
+
+    function removeRows(parent, skipFirst = true)
+    {
+        
+        var rowsToRemove = parent.querySelectorAll("tr");        
+        for (let index = skipFirst ? 1 : 0; index < rowsToRemove.length; index++) 
+        {
+            parent.removeChild(rowsToRemove[index]);
+        }
+    }
+
+    removeRows(openTable);
+    removeRows(closeTable, false);
+
+    tmArr.forEach(row =>
+    {
+        if(row["closing"])
+            return;
+
+        const holder = tmRow.cloneNode(true);        
+        holder.querySelector("#tm").innerText = "• " + row["shortName"];
+        holder.querySelector("#time").innerText = row["schedule"];
+        holder.querySelector("#time").style.paddingLeft = "50px";
+        openTable.appendChild(holder);
+    });
+
+    tmArr.forEach(row =>
+    {
+        if(!row["closing"])
+            return;
+
+        const holder = tmRow.cloneNode(true);        
+        holder.querySelector("#tm").innerText = "• " + row["shortName"];
+        holder.querySelector("#time").innerText = row["schedule"];
+        holder.querySelector("#time").style.paddingLeft = "50px";
+        closeTable.appendChild(holder);
+    });
+
+    tmRow.style.display = "none";    
+}
+
+function loadSuggestedBackupTMs()
+{
+    const styleOpenTable = document.getElementById("style-opening-backups");
+    const styleCloseTable = document.getElementById("style-closing-backups");
+    const gmOpenTable = document.getElementById("gm-opening-backups");
+    const gmCloseTable = document.getElementById("gm-closing-backups");
+    const tmRow = styleOpenTable.querySelector("#suggested-tm-row");
+
+    tmRow.style.display = "";
+
+    var leaderInfo = getCurrentUserInfo();
+    const date = document.getElementById("date-dropdown").value;
+
+    const styleTMArr = getScheduleDataArray([leaderInfo["district"]], [leaderInfo["store"]], ["Style"], [date]);
+    const gmTMArr = getScheduleDataArray([leaderInfo["district"]], [leaderInfo["store"]], ["General Merchandise"], [date]);
+
+    function removeRows(parent, skipFirst = true)
+    {
+        
+        var rowsToRemove = parent.querySelectorAll("tr");        
+        for (let index = skipFirst ? 1 : 0; index < rowsToRemove.length; index++) 
+        {
+            parent.removeChild(rowsToRemove[index]);
+        }
+    }
+
+    removeRows(styleOpenTable);
+    removeRows(styleCloseTable, false);
+    removeRows(gmOpenTable, false);
+    removeRows(gmCloseTable, false);
+
+    styleTMArr.forEach(row =>
+    {
+        if(row["closing"])
+            return;
+
+        const holder = tmRow.cloneNode(true);        
+        holder.querySelector("#tm").innerText = "• " + row["shortName"];
+        holder.querySelector("#time").innerText = row["schedule"];
+        holder.querySelector("#time").style.paddingLeft = "50px";
+        styleOpenTable.appendChild(holder);
+    });
+
+    styleTMArr.forEach(row =>
+    {
+        if(!row["closing"])
+            return;
+
+        const holder = tmRow.cloneNode(true);        
+        holder.querySelector("#tm").innerText = "• " + row["shortName"];
+        holder.querySelector("#time").innerText = row["schedule"];
+        holder.querySelector("#time").style.paddingLeft = "50px";
+        styleCloseTable.appendChild(holder);
+    });
+
+    gmTMArr.forEach(row =>
+    {
+        if(row["closing"])
+            return;
+
+        const holder = tmRow.cloneNode(true);        
+        holder.querySelector("#tm").innerText = "• " + row["shortName"];
+        holder.querySelector("#time").innerText = row["schedule"];
+        holder.querySelector("#time").style.paddingLeft = "50px";
+        gmOpenTable.appendChild(holder);
+    });
+
+    gmTMArr.forEach(row =>
+    {
+        if(!row["closing"])
+            return;
+        
+        const holder = tmRow.cloneNode(true);        
+        holder.querySelector("#tm").innerText = "• " + row["shortName"];
+        holder.querySelector("#time").innerText = row["schedule"];
+        holder.querySelector("#time").style.paddingLeft = "50px";
+        gmCloseTable.appendChild(holder);
+    });
+
+    tmRow.style.display = "none";
 }
 
 function clearTMRows(holderID)
@@ -265,7 +514,14 @@ function clearTMRows(holderID)
 
 function addTMRow(holderID, rowData, area = "service")
 {
-    const rowTemplate = document.getElementById("tm-row-template");
+    const rowTemplate = document.getElementById("tm-row");
+
+    if(rowTemplate == undefined)
+    {
+        console.log("Failed to find row template");
+        return;
+    }
+
     const holder = document.getElementById(holderID);
     const row = rowTemplate.cloneNode(true);
     row.setAttribute("id", holderID.concat("-row"));
@@ -408,17 +664,31 @@ function selectAllOnEdit()
     document.execCommand('selectAll', false, null);
 }
 
-function selectText(element)
+function selectText(element, spacing = ", ")
 {
+    const controlPressed = pressedKeys[17];    
+
     var text = element.innerText.replace("• ", "");
-    navigator.clipboard.writeText(text);    
+
+    if(controlPressed && currentCopyString != "")
+    {
+        currentCopyString += spacing + text;
+        currentCopyMessage += ", " + text;
+    }
+    else
+    {
+        currentCopyString = text;
+        currentCopyMessage = text;
+    }
+
+    navigator.clipboard.writeText(currentCopyString);    
 
     const messages = document.querySelectorAll("#copyMessage");
     for (let i = 0; i < messages.length; i++) 
     {
-        const message = messages[i];
-        message.innerText = "Copied: " + text;
-    }
+        const message = messages[i];        
+        message.innerHTML = "Copied: " + currentCopyMessage;
+    }    
 
     //document.getElementById("copyMessage").innerText = "Copyied: " + text;
 }
