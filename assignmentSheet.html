@@ -237,64 +237,7 @@
         style="font-size: 80%;margin-bottom: 0.5vw;" ></select>
         <button onclick="loadSuggested()">Load Data</button>
 
-    </div>
-
-    <div style="margin: 1%;" class="printHidden">
-        <h1 class="normalText" style="margin-bottom: 5px; margin-left: 1%; display: inline-block;">Common Tasks by area (Click to copy, CTRL click to copy mutltiple)</h1>
-        <h1 class="normalText" id="copyMessage" style="font-weight: normal; margin-bottom: 5px; margin-left: 1%; display: inline-block; font-style: italic;"></h1>
-        <br>        
-        <div style="margin: 1%; margin-top: 0%; display: inline-block;">
-            <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Service Desk</h1>
-            
-            <table id="service-tasks" class="normalText" style="border-top: solid 1px; min-width: 100%;">
-                <tr><td onclick="selectText(this)" class="copyable">• Move carts and open entrance doors. Setup DU tent (if needed)</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Complete RTS & sort</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Restock drinks cooler with water/gatorade/ice</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Hang / sort style abandons</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Load bulky abandons onto U-boat/flat</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Empty hold bin and sort</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Log Paid & Left items and sort</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Log and process Lost & Found items (Toss/Donate)</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Audit SodaStream bottles and box up empties</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Audit all hold spaces in SD</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Audit all hold spaces in MC</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Audit all hold spaces in CLR / FRZ</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Wipe down counter, screens, & card readers</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Clean and organize counter drawers</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Box / bag and sort all defective items, and prep to go back</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Take  defective items (CRC, Salvage, ESIM) to receiving</td></tr>
-            </table>
-        </div>    
-
-        <div style="margin: 1%; margin-top: 0%; display: inline-block;">
-            <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Front of Store Attendant</h1>
-            
-            <table id="fos-tasks" class="normalText" style="border-top: solid 1px; min-width: 100%;">
-                <tr><td onclick="selectText(this)" class="copyable">• Fill all spill stations</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Audit cleaning supplies</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Take back bulky defective items & trash</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Clean and organize cleaning closet</td></tr>
-            </table>
-        </div>   
-
-        <div style="margin: 1%; margin-top: 0%; display: inline-block;">
-            <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Checkout</h1>
-            
-            <table id="checkout-tasks" class="normalText" style="border-top: solid 1px; min-width: 100%;">       
-                <tr><td onclick="selectText(this)" class="copyable">• Restock & zone front lanes endcaps</td></tr>  
-                <tr><td onclick="selectText(this)" class="copyable">• Restock candy and snacks on all registers</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Wipe down belts, card readers, and screens</td></tr>       
-                <tr><td onclick="selectText(this)" class="copyable">• Restock receipt paper on all registers</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Restock bags on all registers</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Restock Target Giftcards on all registers</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Restock 3rd Party Giftcards on all registers</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Sweep/vacuum the entrance way carpet/floor</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Zone drink coolers and inline candy/snacks</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Collect and sort abandons from all registers</td></tr>
-                <tr><td onclick="selectText(this)" class="copyable">• Collect security tags from all registers</td></tr>
-            </table>
-        </div>  
-    </div>    
+    </div>   
 
     <div id="se-assignment-sheet" style="width: 99%; margin: 0.5%;" class="assignmentSheetWidth">
         <div id="se-assignment-sheet-front" class="pagebreak" style="padding-top: 2%;">
@@ -523,7 +466,7 @@
                 <br>        
                 <div style="margin: 1%; margin-top: 0%; display: inline-block; width: 25%;">
                     <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Opening / Mid TMs</h1>                    
-                    <table id="opening-bathroom-tms" style="border-top: solid 1px;">
+                    <table id="opening-bathroom-tms" style="border-top: solid 1px;  font-size: xx-small">
                         <tr id="suggested-tm-row"><td onclick="selectText(this, '\n')" class="copyable smallerText" style="font-size: 10px;" id="tm">• TM 1</td><td id="time" class="smallerText">time</td></tr>
                     </table>
                 </div>    
@@ -880,7 +823,7 @@
                 <br>        
                 <div style="margin: 1%; margin-top: 0%; display: inline-block; width: 23%;">
                     <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Style - Opening TMs</h1>                    
-                    <table id="style-opening-backups" style="border-top: solid 1px;">
+                    <table id="style-opening-backups" style="border-top: solid 1px; font-size: xx-small">
                         <tr id="suggested-tm-row">
                             <td onclick="selectText(this, '\n')" class="copyable smallerText" style="font-size: 10px;" id="tm">• TM 1</td>
                             <td id="time" class="smallerText">time</td>
@@ -999,6 +942,63 @@
                 <div id="spacing-div" style="display: table;" class="tableResize spacingDivSmall">
                 </div>
             </div>
+
+            <div style="margin: 1%;" class="printHidden" id="common-tasks">
+                <h1 class="normalText" style="margin-bottom: 5px; margin-left: 1%; display: inline-block;">Common Tasks by area (Click to copy, CTRL click to copy mutltiple)</h1>
+                <h1 class="normalText" id="copyMessage" style="font-weight: normal; margin-bottom: 5px; margin-left: 1%; display: inline-block; font-style: italic;"></h1>
+                <br>        
+                <div style="margin: 1%; margin-top: 0%; display: inline-block;">
+                    <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Service Desk</h1>
+                    
+                    <table id="service-tasks" class="normalText" style="border-top: solid 1px; font-size: xx-small;">
+                        <tr><td onclick="selectText(this)" class="copyable">• Move carts and open entrance doors. Setup DU tent (if needed)</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Complete RTS & sort</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Restock drinks cooler with water/gatorade/ice</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Hang / sort style abandons</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Load bulky abandons onto U-boat/flat</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Empty hold bin and sort</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Log Paid & Left items and sort</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Log and process Lost & Found items (Toss/Donate)</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Audit SodaStream bottles and box up empties</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Audit all hold spaces in SD</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Audit all hold spaces in MC</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Audit all hold spaces in CLR / FRZ</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Wipe down counter, screens, & card readers</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Clean and organize counter drawers</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Box / bag and sort all defective items, and prep to go back</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Take  defective items (CRC, Salvage, ESIM) to receiving</td></tr>
+                    </table>
+                </div>    
+        
+                <div style="margin: 1%; margin-top: 0%; display: inline-block;">
+                    <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Front of Store Attendant</h1>
+                    
+                    <table id="fos-tasks" class="normalText" style="border-top: solid 1px;  font-size: xx-small">
+                        <tr><td onclick="selectText(this)" class="copyable">• Fill all spill stations</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Audit cleaning supplies</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Take back bulky defective items & trash</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Clean and organize cleaning closet</td></tr>
+                    </table>
+                </div>   
+        
+                <div style="margin: 1%; margin-top: 0%; display: inline-block;">
+                    <h1 class="normalText" style="display: inline-block; margin-bottom: 0px;">Checkout</h1>
+                    
+                    <table id="checkout-tasks" class="normalText" style="border-top: solid 1px;  font-size: xx-small">       
+                        <tr><td onclick="selectText(this)" class="copyable">• Restock & zone front lanes endcaps</td></tr>  
+                        <tr><td onclick="selectText(this)" class="copyable">• Restock candy and snacks on all registers</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Wipe down belts, card readers, and screens</td></tr>       
+                        <tr><td onclick="selectText(this)" class="copyable">• Restock receipt paper on all registers</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Restock bags on all registers</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Restock Target Giftcards on all registers</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Restock 3rd Party Giftcards on all registers</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Sweep/vacuum the entrance way carpet/floor</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Zone drink coolers and inline candy/snacks</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Collect and sort abandons from all registers</td></tr>
+                        <tr><td onclick="selectText(this)" class="copyable">• Collect security tags from all registers</td></tr>
+                    </table>
+                </div>  
+            </div> 
             
             <table id="service-desk-title-table" style="width: 100%;border: 1px solid; border-bottom: none;">
                 <tr>
