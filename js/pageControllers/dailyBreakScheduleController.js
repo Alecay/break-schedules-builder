@@ -398,7 +398,7 @@ function loadUsersDefaultFilters()
         district : leaderInfo["district"],
         store : leaderInfo["store"],
         startDate : (index >= 0) ? dates[index] : dates[0],
-        endDate :  (index >= 0) ? dates[index] : dates[0],//dates[dates.length - 1],
+        endDate :  (index >= 0) ? dates[dates.length - 1] : dates[dates.length - 1],//dates[dates.length - 1],
         areas : leaderInfo["areas"],
         autoFillBreaks : true,
         break1 : 4.0,
